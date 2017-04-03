@@ -1,0 +1,10 @@
+<ul>
+	<% @years.each do |year|  %>
+		<li>
+
+			<%= link_to ( year == nil ? 'без даты' : year), polymorphic_url( [ @parent, 'photos' ] , :year=> year ), 
+															:class => 'remote-link',
+															:data => { background: '#2b2b2b' }  %>
+		</li>
+	<% end %>
+</ul>	

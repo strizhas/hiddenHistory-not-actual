@@ -1,0 +1,23 @@
+<div class="white-article-background">
+    <div id="content-inner-wrap" class="inner-wrap post-wrapper">
+        <% flash.each do |name, msg| -%>
+            <%= content_tag :div, msg[0], class: name %>
+        <% end -%>
+
+        <%= form_for [ @building, @schema ], html: { class: "shema-upload", id: "shema-upload-form" } do |f| %>
+          
+            <%= f.label :title, "название схемы" %><br>
+            <p class="help-text">должно отражать содержание схемы. К примеру если на ней изображен первый этаж, то схему следует назвать "первый этаж"</p>
+            <%= f.text_field :title, class: 'post-intro' %>
+
+            <%= f.label :schema, "файл со схемой" %><br>
+            <p class="help-text">схема должна быть в формате *.svg</p>
+
+            <%= f.file_field :schema, id: 'shema-input-field' %>
+
+            <div class="confirm-green-button">
+            <%= f.submit "опубликовать схему" %>
+            </div>
+        <% end %>
+    </div>
+</div>

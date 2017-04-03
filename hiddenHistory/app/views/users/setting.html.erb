@@ -1,0 +1,57 @@
+<div class="inner-wrap">
+	<h2>редактирование профиля</h2>
+	<%= form_for @user, html: { :class => 'form-wrapper' }, :url => url_for(:controller => 'user', :action => 'update') do |f| %>
+ 
+	<% if @user.errors.any? %>
+		<div id="error_explanation">
+			<h2>
+				<%= pluralize(@article.errors.count, "error") %> изменения не были сохранены:
+			</h2>
+			<ul>
+				<% @user.errors.full_messages.each do |msg| %>
+				<li><%= msg %></li>
+				<% end %>
+      		</ul>
+    	</div>
+	<% end %>
+
+	<p>
+		<%= f.label :username, "имя пользователя", :class => 'form-label' %><br>
+		<%= f.text_field :username, class: 'form-input' %>
+	</p>
+	<p>
+		<%= f.label :email, "электронная почта", :class => 'form-label' %><br>
+		<%= f.text_field :email, class: 'form-input' %>
+	</p>
+	<div class="form-label">дата рождения</div>
+	<label class="select-label">
+		<%= date_field :user, :birthdate, :class => 'rounded-input' %>
+	</label>
+
+
+	 <div class="field">
+    	<%= f.label :image, "изображение", :class => 'form-label' %><br>
+    	<p class="help-text">Старайтесь, чтобы превью изоражения имело размер не менее 300 пикселей</p>
+
+    	<div id="image-upload-main">
+    		<div id="image-editor-area">
+    		</div>
+	  		<div id="image_upload-area">
+	    		<%= f.file_field :image, id: 'image-input-field', :data => { :edit => true, 
+	    																	 :default_size => '300x300',
+	    																	 :keep_aspect => true
+	    																	} %>
+	    	</div>
+  	</div>
+		
+	<div class="confirm-green-button">
+		<%= f.submit 'сохранить изменения', :class => 'confirm-green-button-input' %>
+	</div>
+
+	<% end %>
+</div>
+
+
+<script type="text/javascript">
+	$(window).trigger('image-uploader-start')
+</script>

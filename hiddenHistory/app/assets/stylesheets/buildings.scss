@@ -1,0 +1,81 @@
+// Place all the styles related to the buildings controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.building-sidebar-image {
+	width: 300px;
+	display: block;
+	height: auto;
+	margin: 0;
+	padding: 0;
+	opacity: 0.3;
+	-webkit-filter: grayscale(100%);
+	filter: grayscale(100%);
+}
+
+#building-basic-info {
+	position: absolute;
+	display: block;
+	font-size: 0.75em;
+	height: 220px;
+	width: 240px;
+	padding-left: 30px;
+	padding-top: 80px;
+	z-index: 25;
+	
+}
+
+#building-basic-info {
+	p {
+		color: #d0d2d3;
+	}
+
+	span {
+		float: right;
+	}
+
+}
+
+#schema-main-container {
+	max-width: 100%;
+	max-height: 100%;
+	overflow: hidden;
+}
+
+#schema-main-object,
+#schema-main-object svg {
+	width: 100%;
+	height: auto;
+}
+
+.sidebar-icon {
+	width: 22px;
+	height: 20px;
+	position: absolute;
+	margin-left: 10px;
+	margin-top: 5px;
+}
+
+.icon-info {
+	background: url( '/assets/build-icons-set.png') no-repeat;
+}
+
+.icon-photo {
+	background: url( '/assets/build-icons-set.png') no-repeat;
+	background-position: -20px 0px;
+}
+
+.icon-schemas {
+	background: url( '/assets/build-icons-set.png') no-repeat;
+	background-position: -42px 0px;
+}
+
+#photo-year-navigation-container {
+	border-bottom: 1px solid #adadad;
+	margin-bottom: 20px; 
+}
+
+#photo-year-navigation-container #current-year {
+	font-size: 1.75em;
+	font-family: 'PTSansBold';
+}

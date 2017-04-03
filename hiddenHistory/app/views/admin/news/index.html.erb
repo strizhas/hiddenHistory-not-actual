@@ -1,0 +1,22 @@
+<h2>все новости</h2>
+
+<%= link_to 'добавить новость', new_news_path  %>
+
+<ul class="articles-list">
+ 
+    <% @news.each do |news| %>
+    <li>
+      <div class="admin-preview-content">
+        <h3><%= news.title %></h3>
+        <p><%= news.text %></p>
+      </div>  
+
+      <div class="admin-edit-links">
+          <%= link_to 'редактировать', edit_admin_news_path(news)  %>
+          <%= link_to 'удалить', admin_news_path(news),
+                    method: :delete,
+                    data: { confirm: 'вы уверены?' } %>
+      </div>
+    </li>
+  <% end %>
+</ul>

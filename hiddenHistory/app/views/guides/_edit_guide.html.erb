@@ -1,0 +1,39 @@
+	
+	<div class="schema-photo-header">
+		<h3>РЕДАКТИРОВАНИЕ</h3>
+	  	<div id="close-show-photo-button"></div>	
+	</div>
+
+	<%= form_for [ @schema, @guide ],  html: { class: "schema-guide-editor" }, :remote => true do |f| %>
+
+		<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+
+		<div id="popup-tint" class="popup-white-tint"></div>
+
+		<div id="photo-load-section" class="progress-bar-area">
+			<%= image_tag@guide.image.url, :name => 'photo[image]', :id => 'photo-big-preview' if @guide.image.present?  %>
+			<div id="image-upload-input-area">
+
+            	<button type="button" class="add-photo-gray-circle"></button>
+         		 <%= f.file_field :image, id: 'image-input-field' %>
+    		</div>
+		</div>
+
+	 	<div class="text-section">
+	 		<%= f.label :title, 'название' %><br>
+	 		<%= f.text_field :title, data: { 'validate' => true} %><br>
+	 	</div>
+	 	<div class="text-section">
+	 		<%= f.label :url, 'ссылка (url)' %><br>
+	 		<%= f.text_field :url  %>
+	 	</div>		 		
+	 	
+
+	 	<div class="editor-footer">
+			<div class="confirm-green-button">
+		    	<%= f.submit 'сохранить', :class => 'confirm-green-button-input' %>
+			</div>
+
+		</div>
+	 
+	<% end %>

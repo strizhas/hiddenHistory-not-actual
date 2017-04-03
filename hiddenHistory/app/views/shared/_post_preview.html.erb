@@ -1,0 +1,16 @@
+
+<li class="post-preview-content">
+  <%= image_tag post.image.thumb.url, class: "rounded-preview-img" if post.image.thumb.present? %>
+    <div class="post-preview-body">
+      <span class="creation-date"><%= post.created_at.strftime("%d %B %Y") %></span>
+      <%=  link_to polymorphic_path(post), class: 'header-link', data: { no_turbolink: true } do %>
+        <%= post.title %>
+      <% end %>
+    
+      <p><%= post.intro %></p>
+                    
+    </div>
+
+    <%= render partial: 'shared/object_category', object: post, :as => 'post' if post.has_attribute?('category_id') %>   
+               
+</li>    

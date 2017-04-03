@@ -1,0 +1,8 @@
+
+	<h1>Панель администрирования</h1>
+	<% if @comments.count > 0 %>
+		<h4>комментарии ожидают модерации:</h4>
+		<ul id="comment-list" class="comments-waiting-moderation">
+			<%= render @comments %>
+		</ul>
+	<% end %>

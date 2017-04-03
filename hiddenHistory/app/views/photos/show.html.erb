@@ -1,0 +1,22 @@
+<div id="image-slider-background">
+	<div id="image-slider-inner-wrap">
+		<div id="main_slider_section">
+			<div id="slider-main-button-left" class="slider_button_left"></div>
+			<div id="slider_main_img_frame">
+				
+				<%= render  partial: 'photos/partials/slider_item_fullsize', 
+							:object => @photo , :as => 'photo', 
+							:locals => { :owner => @owner, :likes => @likes } 
+							%>	
+				
+			</div>
+			<div id="slider-main-button-right" class="slider_button_right"></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $(window).trigger('photo-slider-start')
+    });
+</script>

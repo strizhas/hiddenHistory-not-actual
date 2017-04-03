@@ -1,0 +1,46 @@
+<div id="popup-image-editor-main">
+	<%= form_for @photo,  html: { class: "popup-image-editor" }, :remote => true do |f| %>
+		<div id="popup-tint" class="popup-white-tint"></div>
+		<div id="popup-image-editor-img" class="progress-bar-area">
+
+			<% if current_user.is? "admin" %>
+				<%= link_to '', @photo, :class=> "remove-image-button", :id => 'remove-image-button', :remote => true, 
+		             	method: :delete, 
+		             	data: { confirm: 'Вы уверены?' } %>
+			<% end %>
+
+			<button id="call-image-editor" class="crop-image-button" type="button"></button>
+			<%= image_tag @photo.image.url, :name => 'photo[image]' %>
+		</div>
+
+	 	<div id="popup-image-editor-form">
+	 		<div class="left-section">
+	 			<%= f.label :author, 'источник фотографии' %><br>
+	 			<%= f.text_field :author, :class => 'rounded-input' %><br>
+
+	 			<%= f.label :year, 'когда сделано (год)' %><br>
+	 			<%= f.text_field :year, :class => 'rounded-input' %><br>
+
+	 		</div>
+	 		<div class="right-section">
+	 			<%= f.label :text, 'описание' %><br>
+	 			<%= f.text_area :text, :class => 'rounded-input' %>
+	 		</div>
+	 		<div class="clear"></div>
+	 		<div class="help-text">
+	 			иногда изменения могут вступить в силу только через некоторое время
+	 		</div>
+	 			 		
+	 	</div>
+	 	<div id="popup-image-editor-footer">
+			<div class="confirm-green-button">
+		    	<%= f.submit 'сохранить', :class => 'confirm-green-button-input' %>
+			</div>
+			<%= f.check_box :published %>
+			<%= f.label :published, 'опубликована' %>
+			<%= link_to 'почему не стоит публиковать некоторые фотографии?',
+						{ :controller => :pages, :action => :show, :page => 'terms' }, :class => 'help-text' %>
+		</div>
+	 
+	<% end %>
+</div>

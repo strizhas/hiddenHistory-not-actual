@@ -1,0 +1,33 @@
+<%= render 'shared/login_menu' %>
+
+<main class="login-main">
+  <div id= "registration-form">
+
+    <div class= "sign-form">
+      <%= form_for(:user, :url => {:controller => 'users', :action => 'create'}) do |f| %>
+        <%= f.text_field :username, placeholder: 'имя пользователя'%>
+        <%= f.text_field :email, placeholder: 'электронная почта'%>
+        <%= f.password_field :password, placeholder: 'пароль'%>
+
+        <%= f.submit 'регистрация', class: "submit-button" %>
+      <% end %>
+    
+   <% flash.each do |name, msg| -%>
+      <%= content_tag :div, msg, class: name %>
+    <% end -%>
+
+  <% if @user.errors.any? %>
+	<ul class="Signup_Errors">
+		<% for message_error in @user.errors.full_messages %>
+			<li>* <%= message_error %></li>
+	  	<% end %>
+	</ul>
+  <% end %>
+
+</div>
+
+</div>
+<div id="coockie-info">
+      для нормальной работы сайта у вас должны быть активированы coockie и javascript
+</div>
+</main>

@@ -1,0 +1,10 @@
+
+	<figure class="photo-gallery-figure">
+	  <% if edit == true %>
+	      <%= link_to '', { :controller => 'photos' , :action => 'photo_editor', :id => photo.id }, 
+	                        class: 'image-edit-button' , :remote => true %>
+	  <% end %>
+	  
+	  <%= create_image_url( photo , params[:year] ) %>
+
+	</figure>

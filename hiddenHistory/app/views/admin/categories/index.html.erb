@@ -1,0 +1,16 @@
+<h2>Категории</h2>
+
+    <% flash.each do |name, msg| -%>
+        <%= content_tag :div, msg, class: name %>
+    <% end -%>
+     
+    
+    <% if @categories.size > 0 %>
+      <ul class="admin-categories-list">
+         <%= render(partial: 'admin/categories/category_body', collection: @categories, :as => "category" ) %> 
+      </ul>
+    <% else %>
+      <h3>в этой рубрике нет ни одной категории</h3>  
+    <% end %>  
+   
+<%= link_to 'добавить категорию', {:controller => :categories, :action => :new, :parent_category_type => params[:parent_resourse]}  %>

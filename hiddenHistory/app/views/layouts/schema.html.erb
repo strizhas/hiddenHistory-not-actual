@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= yield :head %>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+	
+	<%= render partial: 'shared/login_menu' %>
+	<%= render partial: 'schemas/partials/sidebar' %>
+	<div id="main-wrapper">
+		<%= render partial: 'shared/top_menu' %>
+
+		<main id="content-main" class="content-main">	
+			<%= yield %>
+		</main>
+	</div>
+</body>
+</html>

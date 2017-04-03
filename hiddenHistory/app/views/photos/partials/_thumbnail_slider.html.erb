@@ -1,0 +1,16 @@
+<div id="thumb_button_left" class="slider_button_left"></div>
+
+<div id="slider_thumb_frame">
+	<div id="slider_thumb_slider">
+
+		<div id="slider_thumb_wrapper">
+			<% @photos.each do |photo| %>
+				<%= render partial: 'photos/partials/figure', :object => photo, :as => 'photo', :locals => { :edit => edit} %>
+			<% end %>
+		</div>
+
+	</div>
+
+</div>
+
+<div id="thumb_button_right" class="slider_button_right"></div>

@@ -1,0 +1,53 @@
+<%= form_for @news, :html => { :class => 'form-wrapper' } do |f| %>
+ 
+  <%= render partial: 'shared/errors', object: @news, :as => 'post' %>
+
+  <%= f.label :title, "заголовок статьи", :class => 'form-label' %><br>
+  <%= f.text_field :title, class: 'form-input' %>
+
+  <%= f.label :intro, "введение", :class => 'form-label' %>
+  <p class="help-text">этот текст выводится в качестве аннотации к новости и должен вкратце описывать ее содержимое</p>
+  <%= f.text_field :intro, class: 'form-input' %>
+ 
+  <%= f.label :text, "содержание", :class => 'form-label' %><br>
+  <p class="help-text">Краткое описание новости. Пока мы не сделали графического текстового редактора HTML теги нужно добавлять вручную</p>
+  <%= f.text_area :text, class: 'form-input form-text' %>
+
+  <%= f.label :parent, "ссылка на родительский материал", :class => 'form-label' %><br>
+  <p class="help-text">если новость касается какой-то записи, то здесь добавляем ссылку на эту запись</p>
+  <%= f.text_field :parent, class: 'form-input' %>
+
+
+  <div class="field">
+    <%= f.label :image, "изображение", :class => 'form-label' %><br>
+    <p class="help-text">изображение является обложкой данной записи.<br>Старайтесь, чтобы превью изоражения имело размер не менее 300 пикселей</p>
+  <% if f.object.image? %>
+      <%= image_tag f.object.image.url, id: "old-image-preview" %>
+  <% end %>  
+  <div id="image_upload">
+      <%= f.file_field :image, id: 'image-input-field' %>
+    </div>
+  </div>
+
+  <div>
+  <div class="form-label">эпоха</div>
+    <p class="help-text">если новость не относится к конкретной эпохе, оставляем поле нетронутым</p>
+    <label class="select-label">
+          <%= select_tag "article[era]", options_for_select([ "1900", "1910", "1920", "1930", "1940", "1950", "1960", "1970", "1980", "1990" ], @news.era ), :prompt => "выберите эпоху" %>
+    </label>
+    <br>
+  </div>
+
+  <% if can? :publish , News %>
+    <%= f.label "опубликована", :class => 'form-label' %>
+    <%= f.check_box :published %><br>
+  <% end %>
+
+
+  <div class="confirm-green-button">
+    <%= f.submit "опубликовать статью" %>
+  </div>
+
+    <%= link_to 'вернуться на главную', root_path, class: "abort-operation-button" %>
+ 
+<% end %>

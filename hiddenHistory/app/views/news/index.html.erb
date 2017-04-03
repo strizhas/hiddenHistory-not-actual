@@ -1,0 +1,12 @@
+<div class="index-inner-wrap">
+	<% flash.each do |name, msg| -%>
+		<%= content_tag :div, msg, class: name %>
+	<% end -%>
+
+		<%= content_tag :h1, 'Последние обновления', class: 'index-post-header' if defined? @header %>
+
+		<ul class="articles-list">
+        	<%= render(:partial => 'shared/post_preview', :collection => @content, :as => 'post') || 'Нет ни одной записи' %>
+    	</ul>
+
+</div>

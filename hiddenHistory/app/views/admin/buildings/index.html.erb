@@ -1,0 +1,26 @@
+<h2>все статьи</h2>
+   
+<ul class="articles-list">
+ 
+    <% @buildings.each do |building| %>
+    <li>
+      <div class="admin-preview-content">
+        <%= link_to admin_building_path(building), class: 'header-link' do %>
+                <h3><%= building.title %></h3>
+              <% end %>
+        <p><%= building.intro %></p>
+       
+
+      </div>  
+
+      <div class="admin-edit-links">
+          <%= link_to 'просмотреть', admin_building_path(building) %>
+          <%= link_to 'редактировать', edit_building_path(building)  %>
+          <%= link_to 'удалить', admin_building_path(building),
+                    method: :delete,
+                    data: { confirm: 'вы уверены?' } %>
+      </div>
+
+    </li>
+    <% end %>
+</ul>

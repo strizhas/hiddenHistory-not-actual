@@ -1,0 +1,19 @@
+<%= form_for @category, :url => "/admin/categories/#{@category.id}" , :id => @category.id do |f| %>
+
+  <%= hidden_field_tag 'category[parent_category_type]', params[:parent_category_type] if params[:parent_category_type] != nil %>
+  
+  <p>
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </p>
+ 
+  <p>
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </p>
+ 
+  <p>
+    <%= f.submit %>
+  </p>
+ 
+<% end %>

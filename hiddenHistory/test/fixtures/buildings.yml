@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  intro: MyText
+  text: MyText
+  image: MyString
+  owner: 1
+  era: 1
+  category_id: 1
+  latitude: 9.99
+  longitude: 9.99
+  status: 1
+  published: false
+
+two:
+  title: MyString
+  intro: MyText
+  text: MyText
+  image: MyString
+  owner: 1
+  era: 1
+  category_id: 1
+  latitude: 9.99
+  longitude: 9.99
+  status: 1
+  published: false

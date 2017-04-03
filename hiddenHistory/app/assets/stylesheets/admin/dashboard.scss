@@ -1,0 +1,52 @@
+// Place all the styles related to the admin/dashboard controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+#admin-sidebar {
+	width: 300px;
+	background-color: #d0d2d3;
+	float:left;
+	height: 100vh;
+}
+
+#admin-sidebar  nav a {
+	display: block;
+	line-height: 2em;
+	padding-left: 20px;
+	color: #6d6e70;
+	text-decoration: none;
+	border-bottom: 1px solid #bbbdbf;
+}
+
+#admin-sidebar  nav a:first-child {
+	border-top: 1px solid #bbbdbf;
+}
+
+.content-main h1 {
+	padding-bottom: 30px;
+}
+
+.admin-users-list {
+	border-collapse: collapse;
+	margin-top: 20px;
+} 
+
+.admin-users-list TH {
+	text-align: left;
+	padding: 10px 10px;
+}
+
+.admin-users-list TD {
+	padding: 10px 10px;
+}
+
+.admin-users-list TH,
+.admin-users-list TD {
+	border: 1px solid #808184;
+}
+
+.admin-preview-content {
+	padding-bottom: 10px;
+	border-bottom: 1px solid #d0d2d3;
+}

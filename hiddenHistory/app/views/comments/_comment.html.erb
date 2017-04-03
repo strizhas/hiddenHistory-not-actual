@@ -1,0 +1,43 @@
+<li><div class="comment-body">
+
+    <div class="comment-author">
+   		<% if comment.user != nil && comment.user.image.icon.url != nil %>
+   			<%= image_tag comment.user.image.icon.url, class: 'comment-author-img'  %>
+   		<% else %>
+   			<%= image_tag "default-user-icon.png", class: 'comment-author-img' %>
+   		<% end %>
+
+	    <% if comment.user != nil %>
+
+			<%= comment.user.username %>
+		<% else %>
+			<%= comment.commenter %>
+		<% end %>
+    </div>
+
+    <%=  user_role_indication(comment) %>
+
+ 	<p><%= comment.body %></p>
+
+ 	<div class="comment-footer">
+ 		<% if ( can? :manage, Comment ) || 
+ 			  ( signed_in? && comment.user != nil && comment.user.id == current_user.id ) %>	
+
+	 			<div class="remove-comment-link">
+					<%= link_to 'удалить комментарий', [comment.commentable, comment],
+		             	method: :delete,
+		             	data: { confirm: 'Are you sure?' } %>
+				</div>
+			<% end %>	
+
+			<div class="comment-date">
+	 			<%= comment.created_at.strftime("%d %B %Y") %>
+	 		</div>
+	 		<%= link_to 'ответить', comment_reply_path(:comment_id => comment.id), :remote => true, class: 'comment-reply-link' %>	
+		</div>
+	</div>
+
+	<ul class="comment-reply-list">
+	  <%= render(partial: 'comments/comment', collection: comment.comments.select { |c| c[:published] == true } ) %>
+</ul>
+</li>

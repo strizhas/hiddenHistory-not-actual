@@ -1,0 +1,9 @@
+<div id="content-inner-wrap" class="inner-wrap"> 
+    <ul class="articles-list">
+      
+      <%= render(:partial => 'schemas/partials/schema_preview', :collection => @schemas, :as => 'schema') || 'пока не добавлено ни одной схемы' %>
+
+    </ul>
+
+    <%= link_to 'добавить схему', new_building_schema_path(@building, Schema.new) , :rel => 'nofollow', class: "add-post-button"  if can? :create, Building %>
+  </div>

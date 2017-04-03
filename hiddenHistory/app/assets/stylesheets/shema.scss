@@ -1,0 +1,395 @@
+// Place all the styles related to the Shema controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#schema-svg-section {
+	position: relative;
+	height: 90vh;
+}
+
+#schema-menu-section {
+	height: 100%;
+	width: 100%;
+}
+
+#schema-menu-main-conteiner  {
+	height: 180px;
+}
+
+#schema-menu-main-conteiner > div{
+	padding: 20px 30px;
+
+}
+
+#schema-photos-conteiner { 
+	figure {
+		width: 100px;
+		height: 100px;
+		margin: 0 0px 20px 0px;
+	}
+
+
+	figure:nth-child(even) {
+		float: right;
+
+	}
+
+	img {
+		width: 100px;
+		height: 100px;
+	}
+
+}
+
+#schema-guides-container {
+	display: none;
+}
+
+#schema-menu-section #slider_thumb_container {
+	margin-left: 30px;
+}
+
+.schema-content-index {
+	min-height: 100vh;
+	background-color: rgb(43, 43, 43);
+}
+
+#shema-input-field {
+	display: block;
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+
+#schema-main-container {
+	height: 100%;
+	position: relative;
+}
+
+#schema-main-object svg {
+	height: 100%;
+	width: 100%;
+}
+
+#scale-up-button,
+#scale-down-button {
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	left: 20px;
+	background-color: rgba(0,0,0,0);
+	cursor: pointer;
+	border: none;
+	box-shadow: none;
+}
+
+#scale-up-button {
+	bottom: 8%;
+}
+
+#scale-down-button {
+	bottom: 14%;
+	bottom: calc( 8% + 35px );
+
+}
+
+#scale-up-button:focus,
+#scale-down-button:focus {
+	outline: none;
+}  
+
+#scale-up-button {
+	background-image: url( "/assets/scale-up.png");
+}
+
+#scale-down-button {
+	background-image: url( "/assets/scale-down.png");
+}
+
+#schema-settings-button {
+	width: 22px;
+	height: 22px;
+	display: block;
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	background: url('/assets/schema-settings-button.png');
+}
+
+
+#schema-settings-button:focus {
+	outline: none;
+}
+
+#schema-svg-section {
+
+	#schema-year-menu {
+		position: absolute;
+		top: 30px;
+		right: 30px;
+		font-size: 12px;
+		color: #777;
+	}
+
+
+	#schema-year-menu li {
+		cursor: pointer;
+		transition: opacity 0.2s;
+
+	}
+
+
+	#schema-edit-button,
+	#schema-ready-button,
+	#schema-delete-marker-button,
+	#schema-add-photo-container,
+	#schema-add-guide-button  {
+		width: 36px;
+		height: 36px;
+		position: absolute;
+		border: none;
+		cursor: pointer;
+		right: 30px;
+		bottom: 8%;
+	}
+
+	#schema-edit-button {
+		background: url( '/assets/schema-edit-button.png') no-repeat;
+		z-index: 1813;
+	}
+
+	#schema-edit-button:focus,
+	#schema-add-guide-button:focus,
+	#schema-delete-marker-button:focus {
+		outline: none;
+	}
+
+
+	#schema-ready-button {
+		background: url('/assets/schema-ready-button.png');
+		z-index: 5417;
+	}
+
+	#schema-add-guide-button {
+		background: url( '/assets/schema-edit-button.png') no-repeat;
+		z-index: 981;
+	}
+
+
+	#schema-delete-marker-button {
+		background: url( '/assets/schema-edit-button.png') no-repeat;
+		z-index: 1745;
+	}
+
+	.schema-update-promt {
+		height: 2em;
+		min-width: 100px;
+		padding: 0 10px;
+		vertical-align: middle;
+		position: absolute;
+		top: 20px;
+		left: 100px;
+		background-color: #b7b7b7;
+		color: #666;
+		font-size: 0.75em;
+		border-radius: 3px;
+		
+	}
+
+	#schema-add-photo-container {
+		display: none;
+		overflow: hidden;
+	}
+
+	.schema-add-photo-button {
+		width: 36px;
+		height: 36px;
+		background: url('/assets/schema-add-photo-button.png');
+		z-index: 17;
+	}
+
+	.add-schema-photo-input {
+		z-index: 5000;
+		position: absolute;
+		top: 0;
+		left: 0;
+		cursor: pointer;
+		opacity: 0;
+		transform: scale(2);
+	    letter-spacing: 3em;     /* IE 9 fix */
+	    -ms-transform: scale(2); /* IE 9 fix */
+	}
+
+}
+
+#schema-menu-titles {
+	font-size:0;
+	height: 30px;
+	background-color: #666;
+	color: #333;
+	position: relative;
+	overflow: hidden;
+}
+
+#schema-menu-titles {
+
+	.active {
+		background-color: #404041;
+		color:  #c4c4c4;
+	 	-webkit-box-shadow: -1px 0px 9px 6px rgba(0,0,0,0.75);
+		-moz-box-shadow: -1px 0px 9px 6px rgba(0,0,0,0.75);
+		box-shadow: -1px 0px 9px 6px rgba(0,0,0,0.75);	
+	}
+	
+}
+
+#schema-menu-titles > div {
+	font-size: 14px;
+	display: inline-block;
+	width: 50%;
+	text-align: center;
+	cursor: pointer;
+	height: 30px;
+}
+
+
+
+.schema-image-small-preview {
+	width: 80px;
+	height: 80px;
+	position: absolute;
+	border: 3px solid #999;
+	background-color: #999;
+}
+
+.schema-image-small-preview img {
+	width: 80px;
+	height: 80px;
+}
+
+#schema-photo-show-container {
+	position: absolute;
+	top: 5%;
+	right: 5%;
+	width: 340px;
+	height: 90%;
+	background: #e8e8e8;
+	overflow: scroll;
+	z-index: 7131;
+	-webkit-box-shadow: 0px 0px 6px 2px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 6px 2px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 6px 2px rgba(0,0,0,0.75);	
+}
+
+#popup-guide-editor-main {
+	display: block;
+	position: absolute;
+	width: 500px;
+	height: 300px;
+}
+
+#schema-photo-show-container p {
+	font-size: 14px;
+}
+
+	#close-show-photo-button {
+		float: right;
+		border: 1px solid #999;
+		cursor: pointer;
+		width: 18px;
+		height: 18px;
+	}
+
+	#close-show-photo-button:before{
+		content: "\00d7";
+		color: #999;
+		font-size: 18px;
+		line-height: 18px;
+		vertical-align: top;
+		width: 18px;
+		text-align: center;
+		display: inline-block;
+	}
+
+
+#schema-photo-show-container {
+
+	.schema-photo-header {
+
+		height: 20px;
+		width: calc( 100% - 40px );
+		padding: 10px 20px;
+		color: #777;
+	
+	}
+
+	.schema-photo-header {
+
+		a {
+			color: #777;
+		}
+
+		.separator {
+			padding: 5px;
+		}
+
+		h3 {
+			float:left;
+		}
+	}
+
+	form {
+		position:relative;
+		height: 90%;
+		height: calc(100% - 40px)
+	}
+
+
+	#photo-section {
+		width: 100%;
+		max-height: 300px;
+		text-align: center;
+		font-size: 0;
+	}
+
+	.title-section {
+		padding: 10px 20px;
+		color: #777;
+	}
+
+	.text-section {
+		padding: 0 10px;
+		color: #777;
+	}
+
+	#comments-section {
+		padding: 10px 20px;
+	}
+
+	#text-section {
+		color: #b5b5b5;
+		font-size: 0.75em;
+		background-color: #4a4a4a;
+
+	}
+
+
+
+}
+
+
+.schema_guides_list {
+	position: relative;
+	height: 180px;
+	padding: 20px 20px;
+}
+
+.schema_guides_list {
+
+	ul {
+		list-style: none;
+	}
+
+	a {
+		color: #c4c4c4;
+	}
+}

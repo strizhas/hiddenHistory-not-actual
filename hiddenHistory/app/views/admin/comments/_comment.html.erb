@@ -1,0 +1,25 @@
+<li><div class="comment-body">
+
+    <div class="comment-author">
+	   <%= comment.commenter %>
+    </div>
+
+ 	<p><%= comment.body %></p>
+ 	<div class="comment-footer">
+ 		<% if ( can? :manage, Comment ) || 
+ 			  ( signed_in? && comment.user != nil && comment.user.id == current_user.id ) %>	
+
+	 			<div class="remove-comment-link">
+					<%= link_to 'удалить комментарий', [comment.commentable, comment],
+		             	method: :delete,
+		             	data: { confirm: 'Are you sure?' } %>
+				</div>
+			<% end %>	
+
+			<div class="comment-date">
+	 			<%= comment.created_at.strftime("%d %B %Y") %>
+	 		</div>
+	 		<%= link_to "опубликовать", {:controller => "dashboard", :action => "publish_comment", :id => comment.id} %>	
+		</div>
+	</div>
+</li>

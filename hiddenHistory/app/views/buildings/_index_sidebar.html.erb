@@ -1,0 +1,13 @@
+<div id="main-sidebar">
+	<div class="page-title">
+		<div id="sidebar-menu-toggle" class="sidebar-menu-toggle"></div>
+		<div id="sidebar-title">
+			<%= link_to Building::RU_NAME, :action => :index %>
+		</div>
+	</div>
+	<div id="sidebar-content">
+		<nav id="sidebar-main-navigation">
+			<%= build_category_tree %>
+		</nav>
+	</div>
+</div>

@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  image: MyString
+  text: MyText
+  alt: MyText
+  owner: 1
+  author: MyString
+  parent_id: 1
+  published: false
+  date: 2016-07-13
+
+two:
+  image: MyString
+  text: MyText
+  alt: MyText
+  owner: 1
+  author: MyString
+  parent_id: 1
+  published: false
+  date: 2016-07-13

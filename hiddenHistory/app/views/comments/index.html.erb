@@ -1,0 +1,12 @@
+<div class="inner-wrap">
+	<h2>оставленные комментарии</h2>
+	<ul id="comment-list" class="user-profile-comment ">
+		<%= render partial: 'author_comment', collection: @comments, as: 'comment' %>
+	</ul>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $(window).trigger('change_content_area')
+    });
+</script>

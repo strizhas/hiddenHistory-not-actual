@@ -1,0 +1,11 @@
+<%= form_for [comment, Comment.new], :format => :html, remote: true, html: { class: "comment-form" } do |f| %>
+	<% if !signed_in? -%>
+		<p>
+			<%= f.text_field :commenter, placeholder: "ваше имя" %>
+			<%= f.invisible_captcha :title %>
+		</p>
+	<% end -%>
+	
+      <%= f.text_area :body, placeholder: "добавить ответ" %><br/>
+      <%= f.submit "отправить", class: "comment-submit"  %>
+<% end %>

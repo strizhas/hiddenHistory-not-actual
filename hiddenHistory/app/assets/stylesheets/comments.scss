@@ -1,0 +1,158 @@
+// Place all the styles related to the Comments controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+/* 
+7.0 Comments
+*/
+
+#comment-list LI {
+	list-style: none;
+}
+
+#comment-list > LI {
+	border-bottom: 1px solid #d0d2d3;
+	padding-top: 2em;
+}
+
+.comment-body {
+	position: relative;
+	padding: 0 20px 0 40px;
+	margin-bottom: 30px;
+}
+
+.user-profile-comment .comment-body {
+	padding: 0 20px 0 0px;
+}
+
+.admin-main .comment-body {
+	padding: 0 20px 0 0;
+}
+
+
+
+
+.comment-body {
+
+	.content-editor {
+		display: inline-block;
+		background-color: #a7bf6d;
+		color: #f1f1f2;
+		font-size: 0.75em;
+		padding: 0 5px;
+		border-radius: 5px;
+	}
+
+	.guest-comment {
+		display: inline-block;
+		color: #bcbcbc;
+		font-size: 0.75em;
+	}
+
+	.comment-author {
+		color: #404041;
+		font-size: 14px;
+		font-family: 'PTSansBold';
+		padding-bottom: 10px;
+		position: relative;
+		display: inline-block;
+	}
+
+	.comment-author img {
+		max-width: 28px;
+		max-height: 28px;
+	}
+
+
+	.comment-footer > * {
+		display: inline-block;
+		font-size: 12px;
+	}
+
+	.comment-footer .comment-reply-link {
+		color: #dba065;
+	}
+
+	.comment-footer .comment-date {
+		color: #a6a8ab;
+	}
+
+	.remove-comment-link {
+		float: right;
+	}
+
+	.remove-comment-link a {
+		color: #808184;
+	}
+
+
+}
+
+
+.call-to-comment {
+	padding: 10px 0;
+	margin: 40px 0;
+	border-top: 1px solid #d0d2d3;
+	border-bottom: 1px solid #d0d2d3;
+}
+
+
+
+.comment-form #comment_commenter,
+.comment-form #comment_body {
+	padding: 10px;
+	margin-top: 10px;
+	background-color: #fff;
+	border: 1px solid #d0d2d3;
+	border-radius: 3px;
+	margin-bottom: 30px;
+	width: 100%;
+	width: calc( 100% - 20px);
+}
+
+.comment-author-img {
+	position: absolute;
+	left: -40px;
+	border-radius: 50%;
+}
+
+.comment-form #comment_body {
+	height: 100px;
+}
+
+.comment-reply-list {
+	padding-left: 30px;
+}
+
+.comment-edit-link {
+	font-size: 12px;
+	color: #6d6e70;
+}
+
+.comment-parent {
+	font-size: 14px;
+}
+
+.comment-parent .quote {
+	font-style: italic;
+}
+
+/* 
+7.1 unpublished comments
+*/
+
+.unpublished-comment > p {
+	padding-left: 30px;
+	padding-top: 30px;
+	padding-bottom: 10px;
+}
+
+.unpublished-comment .comment-author,
+.unpublished-comment .comment-body p,
+.unpublished-comment .comment-date {
+	opacity: 0.4;
+}
+
+.unpublished-comment .comment-body a {
+	display: none;
+}

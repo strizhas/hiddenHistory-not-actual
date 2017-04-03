@@ -1,0 +1,27 @@
+<li><div class="comment-body">
+
+
+ 	<p><%= comment.body %></p>
+
+ 	<div class="comment-footer">
+
+	 		<div class="remove-comment-link">
+					<%= link_to 'удалить комментарий', [comment.commentable, comment],
+		             	method: :delete,
+		             	data: { confirm: 'Are you sure?' } %>
+			</div>
+
+
+
+			<div class="comment-date">
+	 			<%= comment.created_at.strftime("%d %B %Y") %>
+	 		</div>
+
+	 		<div class="comment-parent">
+				<%= get_comment_parent( comment ) %>
+			</div>
+
+		</div>
+	</div>
+
+</li>

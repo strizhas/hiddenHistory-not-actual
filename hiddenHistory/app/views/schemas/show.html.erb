@@ -1,0 +1,36 @@
+<% flash.each do |name, msg| -%>
+	<%= content_tag :div, msg, class: name %>
+<% end -%>
+
+<div id="schema-svg-section">
+	<div id="schema-wrapper">
+		
+		<div id="schema-main-container">
+			<%= inline_svg(@schema.schema) %>
+		</div>
+		<button id="scale-up-button"></button>
+		<button id="scale-down-button"></button>
+
+		<% if can_manage?(@building) %>
+
+			<%= link_to ' ', edit_building_schema_path( @building, @schema ), id: 'schema-settings-button' %> 
+
+			<%= button_tag '' , :id => 'schema-edit-button' %>
+			<%= button_tag '' , :id => 'schema-add-guide-button' %>
+			<%= button_tag '' , :id => 'schema-delete-marker-button' %>
+			<%= render partial: 'schemas/partials/add_photo_button' %> 
+
+
+		<% end %>
+		
+	</div>
+</div>
+
+  <script type="text/javascript">
+    $(function() {
+
+    	console.log(' SCHEMA STAAART')
+      	$(window).trigger('shema-block-start')
+    });
+  </script>
+

@@ -1,0 +1,13 @@
+<ul>
+    <%- @schemas.each do |schema| %>
+        <li>
+            <%= link_to schema.title, building_schema_path( building_id, schema.id ), :class => 'remote-link' %>
+        </li>
+    <% end %>
+    <%- if can? :create, Schema %>
+	    <li>
+	        <%= link_to 'добавить...', new_building_schema_path %>
+	    </li>
+    <% end %>
+    
+</ul>

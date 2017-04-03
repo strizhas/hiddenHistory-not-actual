@@ -1,0 +1,44 @@
+// Place all the styles related to the Welcome controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#news-sidebar-era-select {
+	padding-bottom: 130px;
+  background-color: #404041;
+  height: 800px;
+}
+
+#news-sidebar-era-select li {
+  list-style-type: none;
+  position: relative;
+  width: 2px;
+  margin-left: 25px;
+  background: #555;
+  height: 92px;
+}
+
+#news-sidebar-era-select li::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  bottom: calc( 50% + 5px) ;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: inherit;
+}
+
+
+
+#news-sidebar-era-select > li  a {
+	color: #d0d2d3;
+	text-decoration: none;
+}
+
+#news-sidebar-era-select li div {
+  position: relative;
+  bottom: 0;
+  padding: 10px 25px;
+}

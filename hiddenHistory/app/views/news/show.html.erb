@@ -1,0 +1,24 @@
+<div id="content-inner-wrap" class="inner-wrap">	
+
+	<% flash.each do |name, msg| -%>
+		<%= content_tag :div, msg, class: name %>
+	<% end -%>
+
+		<article id="news-main" class="article-body">
+
+			<header class="article-header">
+				<h1><%= @news.title %></h1>
+					<ul>
+						<li><%= @owner.username %></li> | 
+						<li><%= @news.created_at.strftime("%d %B %Y") %></li>
+					</ul>
+			</header>
+					
+			<%= kramdown @news.text %>
+
+
+
+		</article>
+
+
+</div>

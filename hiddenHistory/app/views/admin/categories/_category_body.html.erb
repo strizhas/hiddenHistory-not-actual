@@ -1,0 +1,18 @@
+<li>
+   <div class="article-preview-content">
+      <h3> <%= category.title %></h3>
+      <p><%= category.description%></p>
+      <div class="admin-edit-links ">
+        <%= link_to 'редактировать', edit_admin_category_path(category)  %>
+        <%= link_to 'удалить категорию', admin_category_path(category),
+                  method: :delete,
+                  data: { confirm: 'вы уверены?' } %>
+      </div>
+      <%= link_to 'добавить подкатегорию', admin_add_subcategory_path(:category_id => category.id),                                                    class: 'add-subcategory-link', :remote => true %>
+  </div>
+  <% if category.categories.count > 0 %>
+    <ul class="subcategory-list">
+    <%= render(partial: '/admin/categories/category_body', collection: category.categories, :as => 'category' ) %>
+    </ul>
+  <% end %>    
+</li>

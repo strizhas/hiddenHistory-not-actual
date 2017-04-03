@@ -1,0 +1,18 @@
+<div class="white-article-background">
+
+	<div id="content-inner-wrap" class="inner-wrap">	
+
+		<h2>редактировать сооружение</h2>
+
+			<div class="form-label">добавить дочернее сооружение</div><br>
+  			<%= link_to 'добавить сооружение', new_building_path( :id => @building.id ) , class: "add-post-button"  %>
+
+		<%= render 'form' %>
+		
+	</div>
+
+</div>
+
+<script type="text/javascript">
+	$(window).trigger('image-uploader-start')
+</script>

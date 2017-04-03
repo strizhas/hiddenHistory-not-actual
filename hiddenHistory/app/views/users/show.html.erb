@@ -1,0 +1,29 @@
+<div class="white-article-background">
+
+  <div id="content-inner-wrap" class="index-inner-wrap"> 
+
+  <% flash.each do |name, msg| -%>
+    <%= content_tag :div, msg, class: name %>
+  <% end -%>
+
+  	<div class="edit-profile-header">
+  		<%= link_to 'редактировать профиль', :controller => 'users', :action => 'setting' if current_user.present? && @user.id == current_user.id %>
+  	</div>
+
+
+<h2 class="index-post-header">Добавленные сооружения</h2>
+
+	<ul class="articles-list">
+        	<%= render(:partial => 'shared/post_preview', :collection => @user.buildings, :as => 'post') || 'You have no messages' %>
+    </ul>
+
+
+<h2 class="index-post-header">Добавленные статьи</h2>
+	<ul class="articles-list">
+    	<%= render(:partial => 'shared/post_preview', :collection => @user.articles, :as => 'post') || 'пользователь не добавил статей' %>
+    </ul>
+
+
+
+</div>
+</div>

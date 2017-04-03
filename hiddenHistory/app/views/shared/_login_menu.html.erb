@@ -1,0 +1,22 @@
+<div id="top-login-menu">
+	<div id="login-section">
+		<% if signed_in? -%>
+			<div><%= link_to 'личный кабинет', user_path( current_user.id ) %></div>
+			<div>
+				<%= 
+				if current_user.image.icon.url
+						image_tag current_user.image.icon.url, class: "login-menu-icon-img" 
+					else
+						image_tag("default-user-icon.png")
+					end
+				%>	
+			</div>
+			<div><%= link_to 'выход', controller: '/session', action: 'logout' %></div>
+		<% else -%>
+			<div><%= link_to 'вход', controller: '/session', action: 'login' %></div>
+			<div><%= link_to 'регистрация', :controller => :pages, :action => :show, :page => 'registration' %></div>
+		<% end -%>
+	</div>
+	<%= image_tag '/assets/hh-logo.png', :width => 16, :height => 25, :class => 'header-hh-logo' %>
+	<%= link_to 'HIDDENHISTORY', { controller: '/news', action: 'index' }, id: "header-home-link" %>
+</div>

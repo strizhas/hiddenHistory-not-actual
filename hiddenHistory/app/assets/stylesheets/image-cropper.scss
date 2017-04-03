@@ -1,0 +1,97 @@
+// styles for image cropper module
+
+
+
+// 1 - general 
+
+#image-editor-area {
+    width: 100%;
+}
+
+#image-editor-area img {
+    height: auto;
+     width: 100%;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#image-upload-main #uploaded-image-big_preview figure {
+    width: auto;
+}
+
+
+// hidden inputs for crop data
+
+#uploaded-image-big_preview input {
+    display: none;
+}
+
+#uploaded-image-big_preview {
+    position: relative;
+    max-width: 720px;
+    display: inline-block;
+}
+
+
+// 2 - crop preview box ( draggable edit box )
+#left_top_corner,
+#right_top_corner,
+#left_bot_corner,
+#right_bot_corner {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #f1f1f2;
+    border-radius: 50%;
+    z-index: 9450;
+}
+
+#left_top_corner {
+    top: -5px;
+    left: -5px;
+    cursor: nw-resize;
+}
+
+#right_top_corner {
+    top: -5px;
+    right: -5px;
+    cursor: ne-resize;
+}
+
+#left_bot_corner {
+    left: -5px;
+    bottom: -5px;
+    cursor: sw-resize;
+}
+
+#right_bot_corner {
+    right: -5px;
+    bottom: -5px;
+    cursor: se-resize; 
+}
+
+#edit_box_main {
+    position: absolute;
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid #f1f1f2;
+}
+
+
+// 3 - crop information section
+#uploaded-image-editor  #uploaded-info {
+    padding: 0;
+    margin: 0;
+    font-size: 0;
+}
+
+#uploaded-image-editor #uploaded-info span {
+    background-color: #2d2d2d;
+    font-size: 12px;
+    padding: 4px;
+    color: #d0d2d3;
+}
+
+

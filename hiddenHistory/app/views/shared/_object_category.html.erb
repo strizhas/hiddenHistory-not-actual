@@ -1,0 +1,15 @@
+<ul class="post-category">
+	<li><%= post.era %></li>
+	<li><%= link_to post.class::RU_NAME, 
+			:controller => ( post.class.to_s.downcase + 's' ),
+			:action => :index
+			%>
+	</li>
+
+	<li><%= link_to title=@categories.find_all { |category| category.id == post.category_id}[0]["title"],
+			:controller => ( post.class.to_s.downcase + 's' ), 
+			:action => :index, 
+			:category_id => post.category_id
+			%>
+	</li>	
+</ul>

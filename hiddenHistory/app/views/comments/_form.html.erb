@@ -1,0 +1,19 @@
+<% flash.each do |name, msg| -%>
+    <%= content_tag :div, msg, class: name %>
+<% end -%>
+<%= form_for [ commentable, Comment.new ], remote: true, html: { class: "comment-form" } do |f| %>
+  <% if !signed_in? -%>
+    <p>
+      <%= f.text_field :commenter, placeholder: "ваше имя" %>
+      <%= f.invisible_captcha :title %>
+    </p>
+ 
+  <% end -%>
+
+  <p>
+    <%= f.text_area :body, placeholder: "текст сообщения" %>
+  </p>
+  <p>
+    <%= f.submit "отправить", class: "comment-submit" %>
+  </p>
+<% end %>

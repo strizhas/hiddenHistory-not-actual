@@ -1,0 +1,10 @@
+<div id="content-inner-wrap" class="inner-wrap post-wrapper">
+	<% flash.each do |name, msg| -%>
+		<%= content_tag :div, msg, class: name %>
+	<% end -%>
+	    
+	<div class="dark-background-input-area">    
+	    <p class="light-gray-text">к сожалению схема для данного сооружения отсутствует</p><br>
+	    <%= link_to 'добавить новую схему', new_building_schema_path( @building ), :class => 'add-photo-gray-button' %>
+	</div>
+</div>

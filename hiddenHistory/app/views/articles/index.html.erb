@@ -1,0 +1,11 @@
+<div id="content-inner-wrap" class="index-inner-wrap"> 
+
+  <ul class="articles-list">
+      
+     <%= render(:partial => 'shared/post_preview', :collection => @articles, :as => 'post') || 'В разделе пока нет ни одной записи' %>
+
+  </ul>
+
+  <%= link_to 'добавить статью', new_article_path , class: "add-post-button"  if can? :create, Article %>
+
+</div>

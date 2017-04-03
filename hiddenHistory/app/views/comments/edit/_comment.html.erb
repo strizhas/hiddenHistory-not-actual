@@ -1,0 +1,7 @@
+<li>
+	<div class="comment-body">
+	<p><%= comment.body %></p>
+	<div class="comment-parent"><%= raw comment.commentable_type %></div>
+	<%= link_to 'редактировать', comment_edit_path(:comment_id => comment.id), :remote => true, class: 'comment-edit-link' %>
+	</div>
+</li>  

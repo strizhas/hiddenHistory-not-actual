@@ -1,0 +1,6 @@
+<%= form_for @comment, method: :patch, remote: true, html: { class: "comment-update-form" } do |f| %>
+
+      <%= f.text_area :body, placeholder: "добавить ответ" %><br/>
+      <%= f.submit "обновить", class: "comment-update"  %>
+
+<% end %>

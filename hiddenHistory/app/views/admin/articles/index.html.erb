@@ -1,0 +1,26 @@
+<h2>все статьи</h2>
+   
+<ul class="articles-list">
+ 
+    <% @articles.each do |article| %>
+    <li>
+      <div class="admin-preview-content">
+        <%= link_to admin_article_path(article), class: 'header-link' do %>
+                <h3><%= article.title %></h3>
+              <% end %>
+        <p><%= article.intro %></p>
+       
+
+      </div>  
+
+      <div class="admin-edit-links">
+          <%= link_to 'просмотреть', admin_article_path(article) %>
+          <%= link_to 'редактировать', edit_article_path(article)  %>
+          <%= link_to 'удалить', admin_article_path(article),
+                    method: :delete,
+                    data: { confirm: 'вы уверены?' } %>
+      </div>
+
+    </li>
+    <% end %>
+</ul>

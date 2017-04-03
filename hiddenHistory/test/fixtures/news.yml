@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  text: MyText
+  owner: 1
+  image: MyString
+  era: 1
+  parent: MyString
+  published: false
+
+two:
+  title: MyString
+  text: MyText
+  owner: 1
+  image: MyString
+  era: 1
+  parent: MyString
+  published: false

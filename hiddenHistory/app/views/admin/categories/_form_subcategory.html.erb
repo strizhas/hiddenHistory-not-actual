@@ -1,0 +1,17 @@
+<%= form_for [ category, Category.new ], :url => "categories/#{category.id}/categories.html", :format => :html, html: { class: "subcategory-form" }  do |f| %>
+
+  <p>
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </p>
+ 
+  <p>
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </p>
+ 
+  <p>
+    <%= f.submit %>
+  </p>
+ 
+<% end %>

@@ -1,0 +1,38 @@
+<div id="content-inner-wrap" class="inner-wrap post-wrapper">
+  <% flash.each do |name, msg| -%>
+  	<%= content_tag :div, msg, class: name %>
+  <% end -%>
+
+
+  <article id="building-photo-main" class="photo-gallery-index">
+
+    <%= render partial: 'photos/partials/year_navigation' %>
+
+    <div id="basic-photo-gallery">
+
+      <% if @photos.count > 0 %>
+    	  <% @photos.each do |photo| %>
+        
+          <%= render partial: 'photos/partials/figure', :object => photo, as: 'photo', locals: { edit: @edit } %>
+
+        <% end %>
+      <% end %>
+
+    </div>
+
+    <h2>добавить фотографии</h2>
+    <% if current_user.present? %>
+      <%= render partial: 'photos/partials/new_photo_form' %>
+    <% else %>
+      <%= render partial: 'photos/partials/photo_please_login' %>
+    <% end %>
+
+  </article>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $(window).trigger('photo-gallery-start')
+        $(window).trigger('change_content_area')
+    });
+</script>

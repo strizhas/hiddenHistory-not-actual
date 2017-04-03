@@ -1,0 +1,51 @@
+<div id="content-inner-wrap" class="inner-wrap">	
+
+	<% flash.each do |name, msg| -%>
+		<%= content_tag :div, msg, class: name %>
+	<% end -%>
+
+				<article id="article-main" class="article-body">
+
+					<header class="article-header">
+						<h1><%= @article.title %></h1>
+						<ul>
+							<li><%= @owner.username %></li> | 
+							<li><%= @article.created_at.strftime("%d %B %Y") %></li>
+						</ul>
+					</header>
+					
+					<%= kramdown @article.text %>
+
+					<% if can_manage?(@article) %>
+	             		 <div class="admin-edit-links">
+	                		<%= link_to 'редактировать', edit_article_path(@article), data: { no_turbolink: true }  %>
+	             	 	</div>
+	            	<% end %>
+
+				</article>
+
+				<p class="call-to-comment">
+				hiddenhistory является открытым проектом, и поэтому если вы можете дополнить эту статью или обнаружили какие-то ошибки или неточности вы можете сообщить об этом в комментариях. Мы будем благодарны за любую помощь!
+				</p>
+
+		<% if @article.comments.count > 0 %>
+			<div class="strong-header">комментарии к статье:</div>	
+		<% end -%>
+
+		<div id="comment-list">
+			<%= render @article.comments.select { |c| c[:published] == true }  %>
+		</div>
+				
+				
+	<br><br>
+	<div class="strong-header">добавить комментарий:</div>
+	
+	<%= render partial: 'comments/form', object: @article, as: 'commentable' %>
+
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $(window).trigger('article-show-start')
+    });
+</script>

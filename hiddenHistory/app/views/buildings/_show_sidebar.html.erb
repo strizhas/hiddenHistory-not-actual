@@ -1,0 +1,35 @@
+<div id="main-sidebar">
+	<div class="page-title">
+		<div id="sidebar-menu-toggle" class="sidebar-menu-toggle"></div>
+		<div id="sidebar-title">
+			<%= @title || @building.title %>
+		</div>
+	</div>
+	<div id="sidebar-content">
+		<% if @building.image.url != nil %>
+			<%= build_basic_info %>
+			<%= image_tag @building.image.thumb.url, id: 'sidebar-post-image', class: "building-sidebar-image" if @building.image != nil %>
+		<% end %>
+		<div id="building-content-navigation">
+			<div id="sidebar-main-navigation">
+				<ul class="sidebar-nav-level-0">
+
+					<li id="sidebar-article-content">
+						<div class="sidebar-icon icon-info"></div>
+						<%= link_to 'описание', building_path(@building), data: { no_turbolink: true } %>
+					</li>
+					<li id="sidebar-photo-content">
+					<div class="sidebar-icon icon-photo"></div>
+					<%= link_to "фотографии", building_photos_path(@building ), :class => 'remote-link'  %>
+																				
+					</li>
+					<li id="sidebar-schema-content">
+					<div class="sidebar-icon icon-schemas"></div>
+					<%= link_to "схемы", building_schemas_path(@building), :class => 'remote-link'   %>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+</div>

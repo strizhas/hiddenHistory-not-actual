@@ -1,19 +1,3 @@
-
-bind_button_appears_on_figure_hover = function(figures) {
-
-    console.log('bind_button_appears_on_figure_hover')
-
-    $(figures).image_editor_window()
-
-    $(figures).hover( function() {
-                $(this).find('a, button').animate( { opacity : 1 }, 100 )
-                return false;
-            }, function() {
-                $(this).find('.image-edit-button').animate( { opacity : 0 }, 100 )
-                return false;
-            })
-};
-
 $(window).on('photo-gallery-start' , function() {
 
     // updating page size paramerts ( look sidebar.coffee )

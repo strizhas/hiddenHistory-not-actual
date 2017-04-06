@@ -36,18 +36,20 @@ Image_uploader = function( options, image_input, callback ) {
             that.params.multiple             =   multiple_attr
             that.params.keep_aspect          =   $(image_input).data('keep-aspect')        || false
 
+
+
         }
 
         var append_to_gallery = function(img) {
 
             if ( that.params.multiple  != true ) {
 
-                $(that.params.gallery).find('img').remove()
+                $(that.params.gallery).find('img').remove();
 
             }
 
-            $(that.params.gallery).append(img)
-            $(that.params.gallery).simple_progress_bar('remove') 
+            $(that.params.gallery).append(img);
+            $(that.params.gallery).simple_progress_bar('remove');
 
         }
 
@@ -139,7 +141,9 @@ Image_uploader = function( options, image_input, callback ) {
 
                 get_input_html_data()
 
-                if ( !this.params.resource_type ) return
+                if ( !this.params.resource_type ) { 
+                    return; 
+                }
 
 
                 var covering_button = $(image_input).parent().find('button')[0]

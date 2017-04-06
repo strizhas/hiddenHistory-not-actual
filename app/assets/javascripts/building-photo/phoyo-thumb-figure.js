@@ -10,7 +10,7 @@ var create_image_figure = function( params, callback ) {
 
         if ( !sessionStorage ) {
 
-            return
+            return;
 
         }
 
@@ -26,9 +26,11 @@ var create_image_figure = function( params, callback ) {
             $(figure).append(edit);
 
             $(edit).on('click', function(e) {
-                e.preventDefault()
+
+                e.preventDefault();
+
                 $.get( href , function(result){
-                    photo_editor_window(result , edit)
+                    photo_editor_window(result , edit);
                 });
             })
         };
@@ -40,19 +42,19 @@ var create_image_figure = function( params, callback ) {
     $(figure).addClass('photo-gallery-figure')
             .attr('id' , 'slider-figure-' + params['id'] )
             .data('id'  , params['id'] )
-            .append( img )
+            .append( img );
 
     $(link).off('click').on( 'click' , function(e) { e.preventDefault() })
 
-    $(img).on(callback)
+    $(img).on(callback);
 
-    add_edit_button_to_figure()
+    add_edit_button_to_figure();
 
-    bind_button_appears_on_figure_hover( figure )
+    bind_button_appears_on_figure_hover( figure );
 
    
 
-    return figure
+    return figure;
 
 };
 

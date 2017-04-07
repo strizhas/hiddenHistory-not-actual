@@ -8,7 +8,7 @@ $(window).on('photo-gallery-start' , function() {
 
     if ( !$(year_menu).is(':visible') ) {
 
-        $(year_menu).show()
+        $(year_menu).show();
 
     }
 
@@ -20,13 +20,18 @@ $(window).on('photo-gallery-start' , function() {
     var image_input     = $('#image-input-field')
     var upload_options  = { 'gallery' : image_gallery }
 
-    var callback = function() {
+    var callback = { 'click' : function(e) {
 
-            var photo_links  = $(image_gallery).find('a')
+        e.preventDefault();
 
-            figures_bind_onclick_slider_ajax_load( photo_links )
+        var target_url = $(this).parent().attr('href');
+                                
 
-    }
+        console.log(target_url)
+
+        load_slider_by_ajax(target_url); 
+
+    }}
 
     if ( $(image_gallery).length != 0 ) { 
 

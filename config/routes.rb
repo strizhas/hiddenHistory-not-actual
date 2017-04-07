@@ -83,7 +83,7 @@ Rails.application.routes.draw do
   	get "/comment_edit" => 'comments#comment_edit', as: 'comment_edit'
 
   	resources :users do
-  		resources :photos do
+  		resources :photos, :controller => "user_photos" do
   			collection do
   				post 'load_fullsize_image/:id',  :to => 'photos#load_fullsize_image'
   				match 'load_photos_menu', :to => 'photos#load_photos_menu',    :via => [:post]
@@ -91,7 +91,7 @@ Rails.application.routes.draw do
   			end
   		end
 
-  		resources :comments
+  		resources :comments, :controller => "user_comments"
 
   		
   	end

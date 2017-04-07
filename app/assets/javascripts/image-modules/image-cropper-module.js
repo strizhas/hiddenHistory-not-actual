@@ -513,7 +513,7 @@
 
         var create_or_update_image_editor = function(editable_img) {
 
-            var image_width = $( editable_img ).width()''
+            var image_width = $( editable_img ).width();
 
             if ( image_width > settings.editor_max_width   )
             {

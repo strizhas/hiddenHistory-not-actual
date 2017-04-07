@@ -25,6 +25,7 @@ class PhotosController < ApplicationController
 
 
 		@edit = can? :edit, Photo
+		
 		render :layout => false if params[:layout] == 'false'
 
 	end

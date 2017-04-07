@@ -16,6 +16,7 @@ bind_likes_button = function() {
                     console.log( 'created' )
 
                     var counter = $(button).parent().find('.slider-likes-counter')
+                    
                     var likes_count = counter.text()
 
                     var new_count = likes_count++

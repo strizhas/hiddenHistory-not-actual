@@ -1,4 +1,23 @@
-figures_bind_onclick_slider_ajax_load = function( photo_links ) {
+function figures_bind_onclick_slider_ajax_load( photo_links ) {
+
+
+    $(photo_links).off('click');
+
+    $(photo_links).on('click', function(e) {
+
+        e.preventDefault();
+
+        var target_url = $(this).attr('href');
+
+        load_slider_by_ajax(target_url);    
+
+    })
+
+};
+
+
+
+function load_slider_by_ajax(target_url) {
 
     var parse_url_get_params = function( url ) {
 
@@ -52,15 +71,8 @@ figures_bind_onclick_slider_ajax_load = function( photo_links ) {
 
     };
 
-    return (function() {
+    return ( function() {
 
-        $(photo_links).off('click')
-
-        $(photo_links).on('click', function(e) {
-
-            e.preventDefault()
-
-            var target_url = $(this).attr('href')
 
             if ( !target_url ) { return false; }
 
@@ -68,6 +80,11 @@ figures_bind_onclick_slider_ajax_load = function( photo_links ) {
             // и GET параметры
             current_photo_id = target_url.replace(/.*\// , '').replace(/\?.*/ , '')
 
+            if ( /^\d+$/.test(current_photo_id) == false ) {
+
+                return;
+
+            }
             // Получаем GET параметры, содержащиеся в url
             // Их мы потом передадим в контроллер для получения 
             // правильной выборки фотографий
@@ -78,6 +95,7 @@ figures_bind_onclick_slider_ajax_load = function( photo_links ) {
             // если фотография открывается напрямую по ссылке
             parsed_url_options = $.extend( { layout: 'false' } , parsed_url_options )
 
+            console.log('loading slider window')
 
             $.ajax({
                 url: target_url,
@@ -87,10 +105,14 @@ figures_bind_onclick_slider_ajax_load = function( photo_links ) {
                 cache: false,
                 beforeSend: function() 
                 {
-
+                    console.log('lbefore ajax')
                 },
                 success: function(data, textStatus, jqXHR) 
                 {
+
+                    console.log('ajax success')
+
+
 
                     $('#content-main').children('#content-inner-wrap').fadeOut('fast', function() {
 
@@ -98,11 +120,17 @@ figures_bind_onclick_slider_ajax_load = function( photo_links ) {
 
                         $('#content-main').append( data )
 
+
+
                         var size_params = calculate_max_slider_size()
+
+
 
                         main_slider = new main_photo_slider(  size_params , parsed_url_options );
 
                         main_slider.initialize()
+
+
 
                         if ( size_params.show_thumb_gallery == true ) {
 
@@ -129,10 +157,8 @@ figures_bind_onclick_slider_ajax_load = function( photo_links ) {
 
                 } 
 
-            })
-
         })
 
     })(jQuery)
 
-};
+}

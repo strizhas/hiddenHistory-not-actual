@@ -1,8 +1,11 @@
 var create_image_figure = function( params, callback ) {
 
     var figure = $('<figure>');
-    var link   = $('<a>');
-    var img = $('<img>').attr('src', params['image']['thumb']['url'] )
+
+    var link   = $('<a>').attr('href', window.location.href + '/' + params['id'] )
+                        .addClass('photo-gallery-image-link');
+
+    var img    = $('<img>').attr('src', params['image']['thumb']['url'] )
                         .data('id'  , params['id'] )
                         .data('year', params['year']);
 
@@ -37,13 +40,14 @@ var create_image_figure = function( params, callback ) {
 
     }
 
-
+    console.log(callback)
 
     $(figure).addClass('photo-gallery-figure')
             .attr('id' , 'slider-figure-' + params['id'] )
             .data('id'  , params['id'] )
-            .append( img );
+            .append( link );
 
+    $(link).append(img)
     $(link).off('click').on( 'click' , function(e) { e.preventDefault() })
 
     $(img).on(callback);

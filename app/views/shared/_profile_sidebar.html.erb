@@ -1,22 +1,24 @@
 <div id="main-sidebar" class="user-profile-sidebar">
-	<div class="page-title">
+	<div id="page-title" class="page-title">
 		<div id="sidebar-menu-toggle" class="sidebar-menu-toggle"></div>
 		<div class="sidebar-title">
 			<%= @user.username %>
 		</div>
 	</div>
-	<%= if @user.image.thumb.url
-			image_tag @user.image.thumb.url, class: "user-profile-big-img" 
-	end %>
-	<nav id="sidebar-main-navigation">
-		<ul class="sidebar-nav-level-0">
-			<li>
-				<%= link_to 'комментарии', user_comments_path( @user.id ) %>
-			</li>
-			<li id="sidebar-photo-content">
-				<%= link_to 'фотографии',  user_photos_path( @user.id ), :class => 'remote-link', 
-																			 :data => { background: '#2b2b2b' } %>
-			</li>
-		</ul>
-	</nav>
+	<div id="sidebar-content">
+		<%= if @user.image.thumb.url
+				image_tag @user.image.thumb.url, class: "user-profile-big-img" 
+		end %>
+		<nav id="sidebar-main-navigation">
+			<ul class="sidebar-nav-level-0">
+				<li>
+					<%= link_to 'комментарии', user_comments_path( @user.id ) %>
+				</li>
+				<li id="sidebar-photo-content">
+					<%= link_to 'фотографии',  user_photos_path( @user.id ), :class => 'remote-link', 
+																				 :data => { background: '#2b2b2b' } %>
+				</li>
+			</ul>
+		</nav>
+	</div>
 </div>

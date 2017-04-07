@@ -57,7 +57,14 @@ body {
 	position: relative;
 	float: left;
 	overflow: scroll;
+	-ms-overflow-style: none;
+	overflow: -moz-scrollbars-none;
+
 }
+
+#main-sidebar::-webkit-scrollbar { width: 0; }
+
+
 
 #sidebar-content {
 	background-color: #404041;

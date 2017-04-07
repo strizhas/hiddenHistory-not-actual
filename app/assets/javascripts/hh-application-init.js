@@ -18,15 +18,12 @@ var aplication_init_functions = function() {
 
     }
 
+    // загрузчик изображений для страницы с 
+    // настройками профиля пользователя
+    if ( $('#users-setting').length != 0  ) {
 
-    
-
-    var input = $('#image-input-field');
-
-    if ( input.length != 0 ) {
-
+        var input = $('#image-input-field');
         $(input ).add_uploaded_files_listener();
-        
 
     }
 
@@ -61,3 +58,4 @@ var aplication_init_functions = function() {
 };
 
 $(document).on('turbolinks:load', aplication_init_functions );
+

@@ -88,11 +88,12 @@
                 return this.corners;
             }
             
-            $(this.edit_box_field).bind('mousedown' , {event}, function() {
+            $(this.edit_box_field).bind('mousedown' , function(e) {
 
-                that.dragging(event);
+                that.dragging(e);
 
             });
+
             $(document).bind('mouseup' , function() { 
 
                 if ( settings.dragging == true ) { 
@@ -152,10 +153,10 @@
                     start_dy        : start_dy
                 };
 
-                $(big_preview).bind('mousemove', {event}, function() { that.resize_edit_box(event, start_offLeft, start_offTop, resize_params ) } );  
+                $(big_preview).bind('mousemove', function(e) { that.resize_edit_box( e, start_offLeft, start_offTop, resize_params ) } );  
             } else {
                 console.log('dragging');
-                $(big_preview).bind('mousemove', {event}, function() { that.move_edit_box(event, start_offLeft, start_offTop ) } );
+                $(big_preview).bind('mousemove', function(e) { that.move_edit_box( e, start_offLeft, start_offTop ) } );
             }     
 
             return;

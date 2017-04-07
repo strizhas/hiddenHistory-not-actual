@@ -40,7 +40,6 @@ var create_image_figure = function( params, callback ) {
 
     }
 
-    console.log(callback)
 
     $(figure).addClass('photo-gallery-figure')
             .attr('id' , 'slider-figure-' + params['id'] )

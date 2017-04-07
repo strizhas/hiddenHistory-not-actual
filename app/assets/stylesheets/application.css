@@ -592,12 +592,7 @@ p {
 
 .post-category > LI > a {
 	position: relative;
-	padding-left: 15px;
 	color: #808184;
-}
-
-.post-category > LI > a:before {
-	content: '▸';
 }
 
 .post-category > LI:first-child > a {
@@ -608,14 +603,17 @@ p {
 	content: none;
 }
 
+.post-category > LI > a:before {
+	text-decoration: underline;
+}
 
 .post-category > LI > a:before {
 	width: 7px;
 	height: 10px;
-	position: absolute;
-	top: 1px;
-	left: 5px;
-
+	content: '▸';
+	display: inline-block;
+	text-decoration: none;
+	padding-right: 5px;
 }
 
 .article-header {

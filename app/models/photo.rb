@@ -59,9 +59,6 @@ class Photo < ActiveRecord::Base
 		else
   			query_obj = query_obj.limit(1).first
   		end
-  		puts 'query_obj'
-
-  		puts query_obj
 
   		# Выполняем запрос
   		query_obj

@@ -43,10 +43,13 @@ class ImageUploader < CarrierWave::Uploader::Base
           w = model.crop_w
           h = model.crop_h
 
+          # по неустановленной причине в params вместо значения w
+          # попадает строка вида wXwXW
+          # Пока я не установил причину используем такой костыль
+          w = w.split('X')[0]
+
           crop_size = w << 'x' << h
           offset = '+' << x << '+' << y 
-
-          puts 'image cropping start'
 
           img.crop("#{crop_size}#{offset}")
         end   
@@ -60,10 +63,8 @@ class ImageUploader < CarrierWave::Uploader::Base
       max_width = model.class::IMAGE_SIZES[size][0]
       max_height = model.class::IMAGE_SIZES[size][0]
 
-      puts 'max_width '
-      puts max_width 
-
       resize_to_fill( max_width , max_height )
+      
   end
 
   def resize_original

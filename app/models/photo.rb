@@ -1,7 +1,7 @@
 class Photo < ActiveRecord::Base
 
 	has_many :comments, :as => :commentable,	:dependent => :destroy
-	has_many :markers, :as => :markerable,		:dependent => :destroy
+	has_many :photo_markers, 					:dependent => :destroy
 
 	has_many :likes, :as => :likeable, 			:dependent => :destroy
 

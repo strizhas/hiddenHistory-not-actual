@@ -33,15 +33,24 @@ Rails.application.routes.draw do
 
 		resources :schemas do
 
-			patch "marker_update/:id", 	:to => 'markers#update'
-			post  "marker_create", 	:to => 'markers#create'
-			post  "marker_destroy/:id", :to => 'markers#destroy'
+			patch "photo_marker_update/:id", 	:to => 'photo_markers#update'
+			post  "photo_marker_create", 		:to => 'photo_markers#create'
+			post  "photo_marker_destroy/:id", 	:to => 'photo_markers#destroy'
+
+			patch "guide_marker_update/:id", 	:to => 'guide_markers#update'
+			post  "guide_marker_create", 		:to => 'guide_markers#create'
+			post  "guide_marker_destroy/:id", 	:to => 'guide_markers#destroy'
+
+			post  'show_guide_marker',		:to => 'guide_markers#show'
+			post  'show_photo_marker',		:to => 'photo_markers#show'
+
 
 			post  'load_fullsize_image/:id', :to => 'photos#load_fullsize_image'
 
-			post  'show_markerable', :to => 'markers#show_markerable'
+			
+			match "load_photo_markers" => 'photo_markers#index',  :via => [:post]
 
-			match "load_markers" => 'markers#index',  :via => [:post]
+			match "load_guide_markers" => 'guide_markers#index',  :via => [:post]
 
 			match "load_guides" => 'guides#index',  :via => [:post]
 

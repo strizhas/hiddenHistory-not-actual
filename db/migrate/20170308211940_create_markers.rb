@@ -1,8 +1,7 @@
 class CreateMarkers < ActiveRecord::Migration
   def change
-    create_table :markers do |t|
-      t.integer :markerable_id
-      t.string  :markerable_type
+    create_table :photo_markers do |t|
+      t.integer :photo_id
       t.integer :coord_x
       t.integer :coord_y
       t.integer :angle
@@ -12,5 +11,18 @@ class CreateMarkers < ActiveRecord::Migration
       
       t.timestamps
     end
+
+    create_table :guide_markers do |t|
+      t.integer :guide_id
+      t.integer :coord_x
+      t.integer :coord_y
+      t.integer :svg
+      t.integer :year
+      t.boolean :published
+      t.integer :schema_id
+      
+      t.timestamps
+    end
+
   end
 end

@@ -1,0 +1,30 @@
+	
+	<div class="schema-photo-header">
+
+		<%= link_to @owner.username, user_path( @owner.id )%>
+
+		<div id="close-show-photo-button"></div>
+
+	</div>
+	<div id="photo-section">
+
+		<%= image_tag @guide.image.url, :name => 'photo[image]', :id => 'photo-big-preview' if @guide.image.present?  %>
+		
+	</div>
+
+	<div class="title-section">
+		<%= @guide.title %>
+	</div>
+
+	<div class="text-section">
+		<%= @guide.text %>
+	</div>
+	<div id="comments-section">
+	
+		<div id="comment-list">
+			<%= render  @guide.comments.select { |c| c[:published] == true }  %>
+		</div>
+		
+		<%= render partial: 'comments/form', object: @guide, as: 'commentable' %>
+
+	</div>

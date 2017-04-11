@@ -67,6 +67,18 @@ ActiveRecord::Schema.define(version: 20170316042616) do
     t.datetime "updated_at",                       null: false
   end
 
+  create_table "guide_markers", force: :cascade do |t|
+    t.integer  "guide_id"
+    t.integer  "coord_x"
+    t.integer  "coord_y"
+    t.integer  "svg"
+    t.integer  "year"
+    t.boolean  "published"
+    t.integer  "schema_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "guides", force: :cascade do |t|
     t.string   "title"
     t.text     "text"
@@ -86,19 +98,6 @@ ActiveRecord::Schema.define(version: 20170316042616) do
     t.datetime "updated_at",                null: false
   end
 
-  create_table "markers", force: :cascade do |t|
-    t.integer  "markerable_id"
-    t.string   "markerable_type"
-    t.integer  "coord_x"
-    t.integer  "coord_y"
-    t.integer  "angle"
-    t.integer  "year"
-    t.boolean  "published"
-    t.integer  "schema_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "news", force: :cascade do |t|
     t.string   "title",                      null: false
     t.text     "intro",                      null: false
@@ -110,6 +109,18 @@ ActiveRecord::Schema.define(version: 20170316042616) do
     t.boolean  "published",  default: false, null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+  end
+
+  create_table "photo_markers", force: :cascade do |t|
+    t.integer  "photo_id"
+    t.integer  "coord_x"
+    t.integer  "coord_y"
+    t.integer  "angle"
+    t.integer  "year"
+    t.boolean  "published"
+    t.integer  "schema_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "photos", force: :cascade do |t|

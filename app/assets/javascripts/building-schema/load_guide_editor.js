@@ -13,15 +13,16 @@ Schema_content_editor = function() {
                 data: params,
                 beforeSend : function() {
 
-                     $(that.container).fadeIn('fast')
-                     $(that.container).simple_progress_bar('create', {progress_bar_type : 'gray-circle-bar'}) 
+                     $(that.container).fadeIn('fast');
+                     $(that.container).simple_progress_bar('create', {progress_bar_type : 'gray-circle-bar'});
+
                 },
                 success: function(data, textStatus, jqXHR) 
                 {
 
-                    console.log('sucess')
+                    console.log('sucess');
 
-                    $(that.container).html(data)
+                    $(that.container).html(data);
 
                     $(that.container).mouseenter(function(event) {
                         $('body').css('overflow', 'hidden');
@@ -29,23 +30,30 @@ Schema_content_editor = function() {
                         $('body').css('overflow', '');
                     });
     
-                    $('#close-show-photo-button').on('click' ,  function() { that.destroy() } )
+                    $('#close-show-photo-button').on('click' ,  function() { that.destroy(); } )
 
                     if (typeof( callback ) === 'function' ) {
 
-                        callback(that)
+                        callback(that);
                     }
 
                 },
                 error: function(data) 
                 {      
 
-                    $(that.container).html('<div class="pop-up-error">произошла какая-то ошибка</div>')
+                    $(that.container).html('<div class="pop-up-error">произошла какая-то ошибка</div>');
 
                     setTimeout( function() {
 
-                        that.destroy()
+                        that.destroy();
+
+                        if ( typeof(active_marker) != 'undefined' ) {
+
+                            active_marker.marker_drop();
+                        }
+
                     }, 1000)
+
                     
                 }
 
@@ -83,53 +91,64 @@ Schema_content_editor = function() {
 
     }
 
-}
-
-
-
-Schema_show_marker = function( id ) {
-
-    Schema_content_editor.call(this); // отнаследовать
-
-    var that = this
-
-
-    this.update = function( params ) {
-
-        var url = window.location.href + '/show_markerable/'
+    this.ajax_update_content_area = function( params ) {
 
         var callback = function() {
 
-            var img = $(that.container).find('#photo-big-preview')
+            var img = $(that.container).find('#photo-big-preview');
                     
-            $(img).resizeImageToContainer( $('#photo-section') )
+            $(img).resizeImageToContainer( $('#photo-section') );
 
-            bind_likes_button()
+            bind_likes_button();
 
             // Реинициализируем или создаем и инициализируем
             // объект комментариев для нормальной работы ajax
             if ( typeof(comment) == 'undefined' ) {
 
-                comment = new Comment_form()
-                comment.init()
+                comment = new Comment_form();
+                comment.init();
                     
             } else {
 
-                comment.init()
+                comment.init();
 
             }
 
         };
 
-        that.ajax_content_load( url, params, callback )
+        that.ajax_content_load( this.SHOW_PATH , params, callback );
 
     }
 
+}
+
+
+
+Schema_show_photo = function( photo_id ) {
+
+    Schema_content_editor.call(this);
+
+    this.SHOW_PATH = window.location.href + '/show_photo_marker/'
+
+    this.init();
+
+    this.ajax_update_content_area( { 'photo_id' : photo_id } );
 
 };
 
 
+Schema_show_guide = function( guide_id ) {
 
+    Schema_content_editor.call(this);
+
+    this.SHOW_PATH = window.location.href + '/show_guide_marker/'
+
+    this.init();
+
+    this.ajax_update_content_area( { 'guide_id' : guide_id } )
+   
+
+};
 
 
 

@@ -124,8 +124,7 @@ Building_schema_interface = function() {
 			}, 150 )
 
 
-			building_schema.hide_all_markers()
-			building_schema.show_marker_by_params({ 'markerable_type' : that.type })
+			building_schema.show_marker_by_type( that.type )
 
 			$(that.button).addClass('active')
 
@@ -391,27 +390,13 @@ Building_schema_interface = function() {
 				},
 				'mouseenter' : function( e ) {
 
-					var id = $(this).data('id');
-
-					var params = { 
-									'markerable_type' : 'Photo',
-									'markerable_id'	  : id
-								};
-
-					building_schema.select_marker_by_params( params );
+					building_schema.select_marker( 'Photo' , $(this).data('id') );
 
 					return;
 				},
 				'mouseout' : function( e ) {
 
-					var id = $(this).data('id');
-
-					var params = { 
-									'markerable_type' : 'Photo',
-									'markerable_id'	  : id
-								};
-
-					building_schema.drop_marker_by_params( params );
+					building_schema.drop_marker( 'Photo', $(this).data('id') );
 
 					return;
 
@@ -427,7 +412,7 @@ Building_schema_interface = function() {
 
 			var img  	= this;
 			var img_id  = $(img).data('id');
-			var figure 	= $(img).parent();
+			var figure 	= $(img).parent().parent();
 
 
 			return (function() {
@@ -461,13 +446,12 @@ Building_schema_interface = function() {
 						if ( marker_created == false ) {
 
 							var marker_params = { 
-													'markerable_id'		: img_id,
-													'markerable_type'	: 'Photo',
+													'photo_id'			: img_id,
 													'year'				: $(img).data('year')
 												} 
 
 
-							marker = building_schema.add_marker( marker_params )
+							marker = building_schema.add_marker( 'Photo' , marker_params )
 							marker.select()
 							marker.move( e.pageX  , e.pageY )
 
@@ -691,42 +675,34 @@ Building_schema_interface = function() {
 
 		var bind_mouse_events_in_item = function(a) {
 
-			var params = { 'markerable_type' : 'Guide',
-							'markerable_id'  : $(a).data('id') 
-							}
 
 			$(a).on('mouseenter' , function() {
 
-				building_schema.select_marker_by_params( params  )
+				building_schema.select_marker( 'Guide' , $(a).data('id') );
 
 			})
 
 			$(a).on('mouseleave' , function() {
 
-				building_schema.drop_marker_by_params( params  )
+				building_schema.drop_marker( 'Guide' , $(a).data('id') );
 
 			})
 
 			$(a).on('click' , function(e) {
 
-				e.preventDefault()
+				e.preventDefault();
 
 				if ( that.edit_mode == true ) {
 
-					var guide_editor = new Guide_edior()
+					var guide_editor = new Guide_edior();
 					
-					guide_editor.edit_guide( $(a).data('id'), after_load_editor_callback  )
+					guide_editor.edit_guide( $(a).data('id'), after_load_editor_callback  );
 
 					return	
 				}
 					
+				schema_show_marker = new Schema_show_guide(  $(a).data('id')  );
 
-				schema_show_marker = new Schema_show_marker();
-				schema_show_marker.init();
-
-
-				// AJAX load content of photo section ( photo, about text and comments )
-				schema_show_marker.update( params );
 
 			})
 
@@ -756,16 +732,16 @@ Building_schema_interface = function() {
 					}
 
 
-					building_schema = new Building_schema()
+					building_schema = new Building_schema();
 
-					building_schema.init()
+					building_schema.init();
 
 
 					// creating new lighbox, in which fullsize images will be showen
 					// created before gallery, because 'placed gallery' callback we be
 					// executed every time, when gallery updates
-					elements.schema_lightbox = new Schema_lightbox()
-					elements.schema_lightbox.init()
+					elements.schema_lightbox = new Schema_lightbox();
+					elements.schema_lightbox.init();
 
 
 

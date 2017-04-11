@@ -16,12 +16,14 @@ var Building_schema = function() {
 
 	schema.schema_svg = d3.select('#schema-main-container').select('svg');
 
+	if ( !schema.schema_svg ) { return; }
+
+
 	var scale_up   = d3.select('#scale-up-button');
 	var scale_down = d3.select('#scale-down-button');
 
-	if ( !schema.schema_svg ) { return; }
-
-	var marker_collection = {}
+	var photo_marker_collection = {}
+	var guide_marker_collection = {}
 
 	var show_markers_by_year = function(year) {
 
@@ -32,14 +34,53 @@ var Building_schema = function() {
 
 		} else {
 
-			var params = { 'markerable_type' : schema.settings.current_type ,
-							'year'	: year }
+			var params = { 'markerable_type' : schema.settings.current_type , 'year'	: year };
 
-			schema.hide_all_markers()
+			schema.hide_all_markers();
 
 		}
 
-		schema.show_marker_by_params( params )
+		schema.show_marker_by_params( params );
+
+	};
+
+	var select_collection = function(type) {
+
+		var collection;
+
+		switch ( type ) {
+			case 'Photo':
+				collection = photo_marker_collection;
+				break;
+			case 'Guide':
+				collection = guide_marker_collection;
+				break;
+
+		}
+
+		return collection;		
+
+
+	};
+
+	var hide_collection = function( collection ) {
+
+		for ( var index in collection ) {
+
+			collection[index].hide()
+
+		}
+
+	};
+
+	var show_collection = function( collection ) {
+
+		for ( var index in collection ) {
+
+			collection[index].show()
+
+		}
+
 
 	};
 
@@ -47,15 +88,17 @@ var Building_schema = function() {
 	// Функция добавляет в массив маркеры, выделенные пользователем
 	var get_selected_markers = function() {
 
+		var collection = select_collection( schema.settings.current_type )
+
 		var selected = []
 
-			for ( var index in marker_collection ) {
+			for ( var index in collection ) {
 
-				if ( 'selected' in marker_collection[index].params && 
-					marker_collection[index].params['selected'] == true ) 
+				if ( 'selected' in collection[index].params && 
+					collection[index].params['selected'] == true ) 
 				{
 						
-					selected.push( marker_collection[index] );
+					selected.push( collection[index] );
 
 				}
 
@@ -66,33 +109,34 @@ var Building_schema = function() {
 
 	};
 
-	var find_marker_by_params = function( params ) {
+	var find_marker_and_action = function( type , id, action ) {
 
-		var selected_markers = []
+		var collection, selected_marker;
 
-		for ( var index in marker_collection ) {
+		switch ( type ) {
+			case 'Photo':
+				collection 	 = photo_marker_collection;
+				parent_param = 'photo_id';
+				break;
+			case 'Guide':
+				collection = guide_marker_collection;
+				parent_param = 'guide_id'
+				break;
 
+		}
 
+		for ( var index in collection ) {
 
-			var checked = true
+			if ( collection[index].params[ parent_param ] == id ) {
 
-			for ( var param in params ) {
+				collection[index][action]();
+				return true;
 
-				if ( marker_collection[index].params[ param ] != params[param] )
-				{
-					checked = false
-				}
-			}
-
-			if ( checked == true )
-			{
-				selected_markers.push( marker_collection[index] );
 			}
 
 		}
 
-		console.log(selected_markers)
-		return selected_markers
+		return false;
 
 	};
 
@@ -132,11 +176,9 @@ var Building_schema = function() {
 
 			data[i]['parent'] = schema.schema_svg;
 
-			var new_marker = new schema_marker(data[i]);
+			var new_marker = new Schema_photo_marker( data[i] );
 
-			new_marker.init();
-
-			marker_collection[ data[i]['id'] ] = new_marker;
+			photo_marker_collection[ data[i]['id'] ] = new_marker;
 
 		}
 
@@ -153,11 +195,9 @@ var Building_schema = function() {
 
 			data[i]['parent'] = schema.schema_svg;
 
-			var new_marker = new schema_marker(data[i]);
+			var new_marker = new Schema_guide_marker(data[i]);
 
-			new_marker.init();
-
-			marker_collection[ data[i]['id'] ] = new_marker;
+			guide_marker_collection[ data[i]['id'] ] = new_marker;
 
 		}
 
@@ -166,7 +206,19 @@ var Building_schema = function() {
 
 	var load_markers_by_ajax = function( type , callback ) {
 
-		var url = window.location.href + '/load_markers'
+		switch( type ) {
+
+	    	case 'Photo':
+	    		var url = window.location.href + '/load_photo_markers'
+	    		break;
+	    	case 'Guide':
+	    		var url = window.location.href + '/load_guide_markers'
+	    		break;
+	    	default:
+	    		return;
+	    }
+
+		
 
 		$.ajax({
 
@@ -174,7 +226,6 @@ var Building_schema = function() {
 			method: 'POST',
 			dataType: 'json',
 			cache: false,
-			data: { 'markerable_type' : type},
 			success: function(data, textStatus, jqXHR) 
 			{
 
@@ -355,16 +406,29 @@ var Building_schema = function() {
 
 
 
-			this.add_marker = function( params ) {
+			this.add_marker = function( type, params ) {
 
-				if ( !params ) { return; }
+				if ( !params || !type ) { return; }
+
+				var new_marker, collection; 
 
 				params['parent'] = schema.schema_svg
 
-				var new_marker = new schema_marker( params )
-					new_marker.init()
+				switch ( type ) {
+					case 'Photo':
+						new_marker = new Schema_photo_marker( params );
+						break;
+					case 'Guide':
+						new_marker = new Schema_guide_marker( params );
+						break
+					default:
+						break;
 
-				marker_collection[ params['id'] ] = new_marker
+				}
+
+				collection = select_collection(type);
+
+				collection[ params['id'] ] = new_marker;
 
 				return new_marker	
 
@@ -374,6 +438,8 @@ var Building_schema = function() {
 
 				var selected_markers = get_selected_markers()
 
+				console.log(selected_markers)
+
 				for ( var index in selected_markers ) {
 
 					selected_markers[index].destroy()
@@ -381,62 +447,40 @@ var Building_schema = function() {
 
 			};
 
-			this.select_marker_by_params = function( params ) {
+			this.select_marker = function( type, id ) {
 
-				console.log( marker_collection )
-				var selected_markers = find_marker_by_params(params)
 
-				for ( var index in selected_markers ) {
-					selected_markers[index].select()
-				}
+				find_marker_and_action(type, id, 'select');
 				
 
 			};
 
-			this.drop_marker_by_params = function( params ) {
+			this.drop_marker = function( type, id ) {
 
-				var selected_markers = find_marker_by_params(params)
-
-				for ( var index in selected_markers ) {
-					selected_markers[index].marker_drop()
-				}
+				find_marker_and_action(type, id, 'marker_drop');
 				
 			};
 
-			this.hide_all_markers = function( ) {
+			this.show_marker_by_type = function( type ) {
 
-				for ( var index in marker_collection ) {
-					marker_collection[index].hide()
-				}
-				
-			};
-
-
-			this.show_marker_by_params = function( params ) {
-
-				var selected_markers = find_marker_by_params(params)
-
-
-				if ( 'markerable_type' in params ) {
-
-					schema.settings.current_type = params['markerable_type'];
+				switch ( type ) {
+					case 'Photo':
+						hide_collection( guide_marker_collection );
+						show_collection( photo_marker_collection );
+						break;
+					case 'Guide':
+						hide_collection( photo_marker_collection );
+						show_collection( guide_marker_collection );
+						break
+					default:
+						return;
+						break;
 
 				}
 
-				for ( var index in selected_markers ) {
-					selected_markers[index].show()
-				}
-				
-			};
+				schema.settings.current_type = type
 
-			this.hide_marker_by_params = function( params ) {
 
-				var selected_markers = find_marker_by_params(params)
-
-				for ( var index in selected_markers ) {
-					selected_markers[index].hide()
-				}
-				
 			};
 
 

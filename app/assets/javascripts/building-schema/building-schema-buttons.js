@@ -129,10 +129,10 @@ Add_guide_button = function() {
 
 		$(this.button).on('click', function( e ) {
 
+			marker_params = { 'coord_x' : 0, 'coord_y' : 0 }
 
-			marker_params = { 'coord_x' : 0, 'coord_y' : 0, 'markerable_type' : 'Guide'}
+			marker = building_schema.add_marker( 'Guide' , marker_params )
 
-			marker = building_schema.add_marker( marker_params )
 			marker.move( e.pageX , e.pageY )
 
 			schema_promt.fadeIn('кликните на схеме чтобы добавить отметку');
@@ -179,7 +179,9 @@ Add_guide_button = function() {
             var callback = { }
             			
             callback['success'] = function( data ) {
-				marker.params['markerable_id'] = data  
+
+            	console.log('form success guide id = ' + data)
+				marker.params['guide_id'] = data  
 				marker.update('create')
 			};
 
@@ -190,7 +192,7 @@ Add_guide_button = function() {
 
             $(window).on('popup_closed' , function() {
 
-            	if ( typeof( marker.params['markerable_id'] ) == 'undefined') {
+            	if ( typeof( marker.params['guide_id'] ) == 'undefined') {
             		marker.destroy()
             	}
 

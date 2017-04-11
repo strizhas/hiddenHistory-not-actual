@@ -1,4 +1,4 @@
-var schema_marker = function( data ) {
+var Schema_marker = function( ) {
 
 		// default params
 		this.params = {
@@ -7,17 +7,10 @@ var schema_marker = function( data ) {
 			coord_y  : 0
 		};
 
-		// merging new params with default params
-		for (var attrname in data ) { 
-
-			this.params[attrname] = data[attrname];
-
-		}
-
 
 };
 
-schema_marker.prototype.move = function( page_x, page_y ) {
+Schema_marker.prototype.move = function( page_x, page_y ) {
 
 	var svg = this.params['parent'].node()
 
@@ -43,7 +36,7 @@ schema_marker.prototype.move = function( page_x, page_y ) {
 
 };
 
-schema_marker.prototype.destroy = function(  ) {
+Schema_marker.prototype.destroy = function(  ) {
 
 	// удаляем маркер из DOM
 	this.marker.remove()
@@ -58,14 +51,14 @@ schema_marker.prototype.destroy = function(  ) {
 
 };
 
-schema_marker.prototype.hide = function(  ) {
+Schema_marker.prototype.hide = function(  ) {
 
 	this.marker.selectAll("circle")
 				.style("opacity", 0)
 
 };
 
-schema_marker.prototype.show = function(  ) {
+Schema_marker.prototype.show = function(  ) {
 
 	this.marker.selectAll("circle")
 				.style("opacity", 1)
@@ -73,7 +66,7 @@ schema_marker.prototype.show = function(  ) {
 
 };
 
-schema_marker.prototype.select = function(  ) {
+Schema_marker.prototype.select = function(  ) {
 
 	this.marker.selectAll("circle")
 					.attr( "fill" , "#302d2a")
@@ -82,7 +75,7 @@ schema_marker.prototype.select = function(  ) {
 
 };
 
-schema_marker.prototype.marker_drop = function(  ) {
+Schema_marker.prototype.marker_drop = function(  ) {
 
 	this.marker.selectAll("circle")
 					.attr( "fill" , this.params.color)
@@ -93,7 +86,7 @@ schema_marker.prototype.marker_drop = function(  ) {
 
 };
 
-schema_marker.prototype.update = function( action) {
+Schema_marker.prototype.update = function( action) {
 
 	if ( typeof(action) == 'undefined' ) {
 		action = 'update'
@@ -107,27 +100,21 @@ schema_marker.prototype.update = function( action) {
     	return; 
     }
 
-        // передаем только необходимые параметры
-    var new_params = { 	
-						'coord_x' 			: this.params.coord_x,
-						'coord_y' 			: this.params.coord_y,
-						'markerable_id' 	: this.params.markerable_id,
-						'markerable_type' 	: this.params.markerable_type
-					}
+
 
     switch( action ) {
 
     	case 'update':
     		var method = 'PATCH'
-    		var url = window.location.href + '/marker_' + action + '/' +  marker_id
+    		var url = window.location.href + '/' + this.model_name + '_' + action + '/' +  marker_id
     		break;
     	case 'create':
     		var method = 'POST'
-    		var url = window.location.href + '/marker_' + action + '/'
+    		var url = window.location.href + '/' + this.model_name + '_' + action + '/'
     		break;
     	case 'destroy':
     		var method = 'POST'
-    		var url = window.location.href + '/marker_' + action + '/' +  marker_id
+    		var url = window.location.href + '/' + this.model_name + '_' + action + '/' +  marker_id
     		break;
     	default:
     		return;
@@ -143,18 +130,19 @@ schema_marker.prototype.update = function( action) {
                 method: method,
                 dataType: 'json',
                 cache: false,
-                data:  new_params, 
+                data: that.return_ajax_params(),
                 beforeSend: function(xhr) 
                 {
                     xhr.setRequestHeader( 'X-CSRF-Token' , token )
+                    console.log('before send')
 
                 },
                 success: function(data, textStatus, jqXHR) 
                 {
 
                     schema_promt.flash('схема обновлена');
-  
-                    // если маркераер был создан, то мы должны узнать его id
+
+                    // если маркер был создан, то мы должны узнать его id
                     // для этого сервер отправляет ответ в виде актуального id
                     if ( action == 'create' ) {
 
@@ -174,7 +162,16 @@ schema_marker.prototype.update = function( action) {
 
 };
 
-schema_marker.prototype.init = function() {
+Schema_marker.prototype.init = function( params	) {
+
+
+	for (var attrname in params ) { 
+
+			this.params[attrname] = params[attrname];
+
+	}
+
+		
 
 		var that = this
 
@@ -205,37 +202,6 @@ schema_marker.prototype.init = function() {
 				
 		this.marker = marker
 
-
-		var load_thumbnail_image = function( marker_node ) {
-
-			if ( building_schema.settings.img_dragging == true  )
-				{ 
-					return; 
-				}
- 				
- 				// if we already have an actual image url in marker params, we use it to create new thumbnail object.
- 				// in other case we use AJAX to get this info from database
- 			if ( typeof( that.params.image ) === 'object' ) 
- 				{
-
- 					schema_thumb = new Schema_thumbnail( marker_node, that.params.image.thumb.url  );
-
- 				} 
- 			else 
- 				{
-
-
- 					// updating marker params
-					schema_load_thumbnail_image(  that.params['markerable_id'] , function( loaded_data ) {
-
-						that.params.image = loaded_data.image;
-						schema_thumb = new Schema_thumbnail( marker_node, that.params.image.thumb.url );
-
-					});
-
-				}
-
-		};
 							
 		marker.on('mousedown' , function(event) {
 
@@ -324,9 +290,6 @@ schema_marker.prototype.init = function() {
 			// if there is no photo section, creating new one
 			if ( typeof( schema_show_marker ) == 'undefined' ) {
 
-				schema_show_marker = new Schema_show_marker();
-				schema_show_marker.init();
-
 				$(window).on('close_popup' , function() {
 
 					if ( typeof(active_marker) != 'undefined') {
@@ -337,18 +300,6 @@ schema_marker.prototype.init = function() {
 
             	})
 			};
-			
-
-			active_marker.select(); 
-
-			params = { 'markerable_type' : that.params.markerable_type,
-							'markerable_id'  : that.params.markerable_id 
-						}
-
-
-			// AJAX load content of photo section ( photo, about text and comments )
-			schema_show_marker.update( params );
-
 
 			// Удаление маленького превью фотографии, если оно есть
 			// removing thumbnail object if it exist
@@ -356,26 +307,18 @@ schema_marker.prototype.init = function() {
                 schema_thumb.destroy()
             }; 
 
+			that.show_full_content();
+
+			active_marker.select(); 
+
+
 		});
 
 		// при наведении курсора на маркер стартутет таймер, по истечению
 		// которого открывается маленькое окошко с превью
 		marker.on('mouseover' , function( e ) {
 
-			var t = 0;
-			var marker_node = this;
-
-			that.timer = setInterval( function() {
-
-				clearInterval( that.timer )
-
-					if ( that.params['markerable_type'] == 'Photo') {
-
-						load_thumbnail_image(  marker_node )
-					};
-
-
-			}, 500 )
+			that.show_preview();
 
 		});
 
@@ -396,4 +339,4 @@ schema_marker.prototype.init = function() {
 
 		});			
 
-}
+};

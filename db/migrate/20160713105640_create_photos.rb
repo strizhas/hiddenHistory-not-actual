@@ -10,7 +10,7 @@ class CreatePhotos < ActiveRecord::Migration
       t.integer  :schema_id
       t.boolean  :published
       t.integer  :year
-      t.integer  :likes, null: false , default: 0
+      t.integer  :rating, default: 3
 
       t.timestamps null: false
     end

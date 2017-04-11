@@ -44,13 +44,7 @@ var aplication_init_functions = function() {
     }
 
 
-    if ( typeof(comment) == 'undefined' ) {
-
-        comment = new Comment_form()
-        comment.init()
-
-    }
-
+    bind_comment_form_ajax_response();
     
 
 

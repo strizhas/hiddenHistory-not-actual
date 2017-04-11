@@ -1,8 +1,4 @@
-;Comment_form = function() {
-
-	var that = this
-
-	var elements = {};
+bind_comment_form_ajax_response = function() {
 
 	var ajax_response = function() {
 
@@ -112,6 +108,7 @@
 				}	
 
 				$(this).addClass('active-form')
+
 				form = $(xhr.responseText)
 				form.hide().insertAfter($(this).parent())
 
@@ -123,29 +120,28 @@
 					form.attr('id','reply-form').show('fast')
 				}
 
-				ajax_response()
+				ajax_response();
 
 		})
 
 	};
 
-	return {
+	return function() {
 
-		init : function() {
+		ajax_response();
 
-			ajax_response()
+		ajax_comment_update();
 
-			ajax_comment_update()
+		bind_comment_reply();
 
-			bind_comment_reply()
+		$('#new_comment').find('textarea').on('focus', function() {
 
-			$('#new_comment').find('textarea').on('focus', function() {
-				slide_away( $('#reply-form') )	
-			})	
+			slide_away( $('#reply-form') );	
 
-		}
+		})	
+	
+	}()
 
-	} 
 
 };
 

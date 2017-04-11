@@ -5,7 +5,7 @@ class Admin::DashboardController < ApplicationController
 	layout 'admin'
 	
 	def index
-		@comments = Comment.all
+		@comments = Comment.where( :published => false )
 	end
 
 	def articles

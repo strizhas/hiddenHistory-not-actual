@@ -74,6 +74,15 @@ class ApplicationController < ActionController::Base
 		controller_path.classify
 	end
 
+	# метод пытается вернуться на предыдущую страницу, 
+	# но, если сталкивается с ошибкой No HTTP_REFERER,
+	# возвращает на главную
+	def redirect_back_or_to_root
+		redirect_to :back
+	rescue ActionController::RedirectBackError
+		redirect_to root_path
+	end
+
 	helper_method :current_user, :can_manage?, :is_admin?, :current_model
 
 	protected 
@@ -86,10 +95,13 @@ class ApplicationController < ActionController::Base
 		@current_user = User.find session[:user_id] 
 		return true	
 	  else
-		redirect_to :back
+		
+		redirect_back_or_to_root
+
 		return false
 	  end
-	  
+	 
+	
   
 	  
 	end

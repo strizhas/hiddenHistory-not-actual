@@ -37,6 +37,8 @@ gem 'remotipart', '~> 1.2'
 # gem tp prevent span, passed throw the comment form
 gem 'invisible_captcha'
 
+gem 'carrierwave-aws'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

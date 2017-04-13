@@ -84,9 +84,11 @@ Schema_content_editor = function() {
     this.destroy = function() {
 
         $('body').css('overflow', '');
-        $(this.container).fadeOut('fast', function() { $(this).empty() })
 
-        $(window).trigger('popup_closed')
+        $(this.container).fadeOut('fast', function() { $(this).empty() });
+
+        $(window).trigger('popup_closed');
+
         delete this
 
     }
@@ -101,18 +103,7 @@ Schema_content_editor = function() {
 
             bind_likes_button();
 
-            // Реинициализируем или создаем и инициализируем
-            // объект комментариев для нормальной работы ajax
-            if ( typeof(comment) == 'undefined' ) {
-
-                comment = new Comment_form();
-                comment.init();
-                    
-            } else {
-
-                comment.init();
-
-            }
+            bind_comment_form_ajax_response();
 
         };
 

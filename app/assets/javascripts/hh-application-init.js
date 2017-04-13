@@ -8,7 +8,7 @@ var aplication_init_functions = function() {
 
     if ( sessionStorage ) {
 
-         var user_id = sessionStorage.getItem("user_id")
+         var user_id = sessionStorage.getItem("user_id");
 
         if ( user_id == null ) {
 
@@ -23,6 +23,7 @@ var aplication_init_functions = function() {
     if ( $('#users-setting').length != 0  ) {
 
         var input = $('#image-input-field');
+
         $(input ).add_uploaded_files_listener();
 
     }
@@ -41,6 +42,18 @@ var aplication_init_functions = function() {
 
         }
 
+    }
+
+    if ( $('#admin-sidebar').length != 0 ) {
+
+        bind_admin_sidebar_functions();
+
+    }
+
+    if ( $('#admin-categories-list').length != 0 ) {
+
+        bind_add_subcategory_form_ajax_load();
+        
     }
 
 

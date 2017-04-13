@@ -20,7 +20,9 @@ class Photo < ActiveRecord::Base
  	after_update :generate_thumbnails
 
 	IMAGE_SIZES = {
-    	:thumb => [150, 150]
+		:big   => [800, 600],
+    	:thumb => [150, 150],
+    	:icon  => [64, 64]
  	}
 
  	def self.photos_before(id,limit=10)

@@ -58,8 +58,6 @@ class ImageUploader < CarrierWave::Uploader::Base
         
       end
 
-
-
       max_width = model.class::IMAGE_SIZES[size][0]
       max_height = model.class::IMAGE_SIZES[size][0]
 
@@ -68,7 +66,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   def resize_original
-    resize_to_limit(1200,1000)
+    resize_to_limit(2048, 2048)
   end
 
   version :big, :if => :has_big_size? do

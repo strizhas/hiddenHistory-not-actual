@@ -18,6 +18,13 @@
 
 	</div>
 
-
-
 </main>
+
+
+<% if params.has_key?(:unset_user_id) %>
+  <script type="text/javascript">
+    $(function() {
+        unset_current_user_id();
+    });
+  </script>
+<% end %>

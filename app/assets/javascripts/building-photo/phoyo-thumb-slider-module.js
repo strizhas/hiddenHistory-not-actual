@@ -112,7 +112,7 @@ thumbnails_slider = function( current_id, parent, options, callback, callback_ev
 
         var append_single_figure = function( params ) {
 
-            var figure = create_image_figure(params, callback )
+            var figure = create_thumb_figure(params, callback )
 
             collection.push( figure )
 

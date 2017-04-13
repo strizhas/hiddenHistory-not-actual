@@ -168,7 +168,7 @@ var photo_editor_window = function(template, caller_link ) {
             $(window).trigger('close_popup')
         };
 
-        $(photo_form).bind_form_ajax_sucess(photo_form , callback)
+        $(photo_form).bind_form_ajax_sucess(callback)
         
 
     };

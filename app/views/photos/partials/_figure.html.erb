@@ -1,5 +1,5 @@
 
-	<figure class="photo-gallery-figure">
+	<figure class="photo-gallery-figure thumb-figure">
 	  <% if edit == true %>
 	      <%= link_to '', { :controller => 'photos' , :action => 'photo_editor', :id => photo.id }, 
 	                        class: 'image-edit-button' , :remote => true %>

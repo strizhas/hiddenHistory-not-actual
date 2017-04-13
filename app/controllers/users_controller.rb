@@ -42,13 +42,18 @@ class UsersController < ApplicationController
 
     def create
     	@user = User.new(user_params)
+
     	if @user.save
+    		
     		flash[:notice] = "Вы успешно зарегестрированы!"
+
     		session[:user_id] = @user.id
-    		redirect_to @user
-      else
-      		render "new"
-      end
+
+    		redirect_to user_path( @user, :set_js_user_id => true )
+
+		else
+      		render action: 'new', layout: 'application' 
+		end
       
     end
 

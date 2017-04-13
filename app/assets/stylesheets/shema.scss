@@ -21,25 +21,6 @@
 
 }
 
-#schema-photos-conteiner { 
-	figure {
-		width: 100px;
-		height: 100px;
-		margin: 0 0px 20px 0px;
-	}
-
-
-	figure:nth-child(even) {
-		float: right;
-
-	}
-
-	img {
-		width: 100px;
-		height: 100px;
-	}
-
-}
 
 #schema-guides-container {
 	display: none;

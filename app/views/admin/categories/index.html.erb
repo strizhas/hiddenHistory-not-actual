@@ -6,7 +6,7 @@
      
     
     <% if @categories.size > 0 %>
-      <ul class="admin-categories-list">
+      <ul id="admin-categories-list" class="admin-categories-list">
          <%= render(partial: 'admin/categories/category_body', collection: @categories, :as => "category" ) %> 
       </ul>
     <% else %>

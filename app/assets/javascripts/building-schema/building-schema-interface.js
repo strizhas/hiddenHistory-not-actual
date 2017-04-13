@@ -9,7 +9,8 @@ var Building_schema = function() {
 		img_dragging 		  : false, // img marker dragging status
 		token 				  : '',    // authenticity token
 		edit_mode 			  : false,
-		current_type		  : 'Photo'
+		current_type		  : 'Photo',
+		current_year		  : null
 	};
 
 	var schema = this
@@ -27,20 +28,39 @@ var Building_schema = function() {
 
 	var show_markers_by_year = function(year) {
 
+		var collection = select_collection( schema.settings.current_type );
 
-		if ( typeof(year) == 'undefined'  ) {
 
-			var params = { 'markerable_type' : schema.settings.current_type };
+		if ( schema.settings.current_year == year ) {
 
-		} else {
+			for ( var index in collection ) {
 
-			var params = { 'markerable_type' : schema.settings.current_type , 'year'	: year };
+				collection[index].show();
 
-			schema.hide_all_markers();
+			}
+
+			schema.settings.current_year = null;
+
+			return;
 
 		}
 
-		schema.show_marker_by_params( params );
+
+		schema.settings.current_year = year;
+
+
+		for ( var index in collection ) {
+
+			if ( collection[index].params['year'] == year ) {
+
+				collection[index].show();
+
+			} else {
+
+				collection[index].hide();
+			}
+
+		}
 
 	};
 

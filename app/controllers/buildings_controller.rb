@@ -50,7 +50,8 @@ class BuildingsController < ApplicationController
 			@building = Building.new
 		end
 
-		@categories = category_select('Building')
+		@categories = Category.all
+		
 		@users = User.select([:id, :username]).all
 
 	end
@@ -61,7 +62,7 @@ class BuildingsController < ApplicationController
 		if @building.save
 			redirect_to @building
 		else
-			render 'new'
+			render action: 'new'
 		end
 	end
 

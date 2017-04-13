@@ -11,19 +11,26 @@
   	</div>
 
 
-<h2 class="index-post-header">Добавленные сооружения</h2>
+  <h2 class="index-post-header">Добавленные сооружения</h2>
 
-	<ul class="articles-list">
-        	<%= render(:partial => 'shared/post_preview', :collection => @user.buildings, :as => 'post') || 'You have no messages' %>
-    </ul>
-
-
-<h2 class="index-post-header">Добавленные статьи</h2>
-	<ul class="articles-list">
-    	<%= render(:partial => 'shared/post_preview', :collection => @user.articles, :as => 'post') || 'пользователь не добавил статей' %>
-    </ul>
+  	<ul class="articles-list">
+          	<%= render(:partial => 'shared/post_preview', :collection => @user.buildings, :as => 'post') || 'пользователь не добавил сооружений' %>
+      </ul>
 
 
+  <h2 class="index-post-header">Добавленные статьи</h2>
+  	<ul class="articles-list">
+      	<%= render(:partial => 'shared/post_preview', :collection => @user.articles, :as => 'post') || 'пользователь не добавил статей' %>
+      </ul>
 
+  </div>
 </div>
-</div>
+
+
+<% if params.has_key?(:set_js_user_id) %>
+  <script type="text/javascript">
+    $(function() {
+        get_current_user_id()
+    });
+  </script>
+<% end %>

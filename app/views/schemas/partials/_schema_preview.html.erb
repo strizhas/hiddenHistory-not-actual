@@ -1,9 +1,9 @@
 
 <li class="schema-preview-content">
 
-      <span class="creation-date"><%= schema.created_at.strftime("%d %B %Y") %></span>
-      <%=  link_to building_schema_path( @building, schema ), class: 'header-link', data: { no_turbolink: true }, :rel => 'nofollow' do %>
-        <h3><%= schema.title %></h3>
-      <% end %>
+	<span class="creation-date"><%= schema.created_at.strftime("%d %B %Y") %></span>
+	<%=  link_to building_schema_path( @building, schema ), class: 'header-link', data: { no_turbolink: true }, :rel => 'nofollow' do %>
+		<h3><%= schema.title %></h3>
+	<% end %>
    
 </li>    

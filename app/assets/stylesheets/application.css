@@ -759,15 +759,25 @@ p {
 
 .photo-gallery-figure,
 .loading-image-thumbnail {
-	width: 150px;
-	height: 150px;
 	display: inline-block;
-	margin: 10px 18px 10px 0;
 	padding: 0;
 	position: relative;
 	font-size: 0;
 	transform: translateY( 0 );
 }
+
+.thumb-figure {
+	width: 150px;
+	height: 150px;
+	margin: 10px 18px 10px 0;
+}
+
+.icon-figure {
+	width: 64px;
+	height: 64px;
+	margin: 0 0px 20px 15px;
+}
+
 
 
 .image-edit-button {

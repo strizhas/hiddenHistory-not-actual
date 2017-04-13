@@ -27,9 +27,10 @@ class SessionsController < ApplicationController
 		if authorized_user
 		
 			session[:user_id] = authorized_user.id
-			flash[:notice] = "Wow Welcome again, you logged in as #{authorized_user.username}"
+
 			authenticate_user
-			redirect_to user_path( authorized_user.id )
+
+			redirect_to user_path( authorized_user, :set_js_user_id => true )
 
 		else
 			flash[:error] = "Invalid Username or Password"
@@ -39,7 +40,7 @@ class SessionsController < ApplicationController
 
 	def logout
 		session[:user_id] = nil
-		redirect_to :action => 'login'
+		redirect_to :action => 'login', :unset_user_id => true
 	end
 
 end

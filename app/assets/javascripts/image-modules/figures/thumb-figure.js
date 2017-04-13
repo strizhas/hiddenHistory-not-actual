@@ -1,4 +1,4 @@
-var create_image_figure = function( params, callback ) {
+var create_thumb_figure = function( params, callback ) {
 
     var figure = $('<figure>');
 
@@ -17,7 +17,8 @@ var create_image_figure = function( params, callback ) {
 
         }
 
-        var user_id = sessionStorage.getItem("user_id")
+
+        var user_id = sessionStorage.getItem("user_id");
 
         if ( user_id == params['user_id'] ) {
             
@@ -42,6 +43,7 @@ var create_image_figure = function( params, callback ) {
 
 
     $(figure).addClass('photo-gallery-figure')
+            .addClass( 'thumb-figure' )
             .attr('id' , 'slider-figure-' + params['id'] )
             .data('id'  , params['id'] )
             .append( link );
@@ -60,5 +62,3 @@ var create_image_figure = function( params, callback ) {
     return figure;
 
 };
-
-

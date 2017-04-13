@@ -138,7 +138,7 @@ class PhotosController < ApplicationController
 
 		if params[:photo].key?('year')
 
-			markers = @photo.markers
+			markers = @photo.photo_markers
 			
 			markers.each do |m|
 			  m.update_attribute(:year, params[:photo][:year])

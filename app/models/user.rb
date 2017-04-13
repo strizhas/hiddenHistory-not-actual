@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   # The available roles
   Roles = [ :admin , :member, :article_editor, :buildings_editor ]
 
+
   attr_accessor :password, :crop_x, :crop_y, :crop_w, :crop_h 
 
   before_save :encrypt_password
@@ -26,6 +27,7 @@ class User < ActiveRecord::Base
   after_update :generate_thumbnails
 
   EMAIL_REGEX = /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/i
+  
   validates :username, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
   validates :email, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
   validates :password, :confirmation => true

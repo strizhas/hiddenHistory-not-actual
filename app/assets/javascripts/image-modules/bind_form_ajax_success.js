@@ -3,7 +3,6 @@ $.fn.bind_form_ajax_sucess = function( callback ) {
     var form = this
 
     console.log('bind_form_ajax_sucess')
-    console.log(this)
 
     progress_area = $(form).find('.progress-bar-area').eq(0)
 
@@ -61,7 +60,9 @@ $.fn.bind_form_ajax_sucess = function( callback ) {
         params['text'] = 'произошла какая-то ошибка'
 
         if ( typeof(callback) != 'undefined' && typeof(callback['error'] ) === 'function' ) {
-                    params['callback'] = callback['error']
+
+                params['callback'] = callback['error'];
+
             }
 
 

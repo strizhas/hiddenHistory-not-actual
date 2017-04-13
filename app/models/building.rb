@@ -10,6 +10,9 @@ class Building < ActiveRecord::Base
 
 	mount_uploader :image, ThumbUploader
 
+	validates :title, :presence => true, :length => { :in => 3..20 }
+
+
 	attr_accessor :crop_x, :crop_y, :crop_w, :crop_h 
 
  	after_update :generate_thumbnails

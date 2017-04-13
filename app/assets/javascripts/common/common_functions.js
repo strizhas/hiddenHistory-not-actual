@@ -80,9 +80,19 @@ function create_background_black_tint () {
  * отправляет запрос на получение id текущего пользователя
  */
 function get_current_user_id () {
+
     $.get('/get_current_user_id', function(result){
         sessionStorage.setItem("user_id", result.id );
     });
+};
+
+function unset_current_user_id() {
+
+    if ( sessionStorage ) {
+
+        sessionStorage.setItem("user_id", null );
+
+    }
 };
 
 

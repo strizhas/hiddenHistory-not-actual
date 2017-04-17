@@ -187,7 +187,7 @@ var Remote_image_uploader = function( options, image_input, callback ) {
 
             for ( var index in data ) {
 
-                var figure = create_image_figure( data[index], callback )
+                var figure = create_thumb_figure( data[index], callback )
 
                 $( that.params.gallery ).append( figure )
 

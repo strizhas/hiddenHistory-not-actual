@@ -2,6 +2,14 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+
+#schemas-show::-webkit-scrollbar { width: 0; }
+
+#schemas-show{
+    -ms-overflow-style: none;
+    overflow: auto;
+}
+
 #schema-svg-section {
 	position: relative;
 	height: 90vh;

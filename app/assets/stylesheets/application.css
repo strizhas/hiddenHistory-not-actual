@@ -128,13 +128,13 @@ textarea {
 	padding: 50px 0;
 	margin: 0 auto;
 	position: relative;
-	max-width: 840px;
+	max-width: 800px;
 }
 
 .index-inner-wrap {
 	padding: 50px 50px 50px 250px;
 	position: relative;
-	max-width: 840px;
+	max-width: 800px;
 }
 
 .error {
@@ -416,7 +416,7 @@ p {
 
 .top-nav-inner-wrap {
 	width: 90%;
-	max-width: 840px;
+	max-width: 800px;
 	margin: 0 auto;
 }
 
@@ -767,9 +767,19 @@ p {
 }
 
 .thumb-figure {
-	width: 150px;
-	height: 150px;
-	margin: 10px 18px 10px 0;
+	width: 128px;
+	height: 128px;
+	border: 3px solid #fff;
+	margin: 12px 18px 10px 0;
+	-webkit-box-shadow: -2px 2px 5px 0px rgba(0,0,0,0.51);
+-moz-box-shadow: -2px 2px 5px 0px rgba(0,0,0,0.51);
+box-shadow: -2px 2px 5px 0px rgba(0,0,0,0.51);
+}
+
+.thumb-figure img {
+	width: 128px;
+	height: 128px;
+
 }
 
 .icon-figure {
@@ -777,7 +787,6 @@ p {
 	height: 64px;
 	margin: 0 0px 20px 15px;
 }
-
 
 
 .image-edit-button {

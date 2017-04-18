@@ -6,11 +6,15 @@
 
         <%= form_for [ @building, @schema ], html: { class: "shema-upload", id: "shema-upload-form" } do |f| %>
           
-            <%= f.label :title, "название схемы" %><br>
+            <%= f.label :title, "название схемы", :class => 'form-label' %><br>
             <p class="help-text">должно отражать содержание схемы. К примеру если на ней изображен первый этаж, то схему следует назвать "первый этаж"</p>
-            <%= f.text_field :title, class: 'post-intro' %>
+            <%= f.text_field :title, class: 'form-input' %>
 
-            <%= f.label :schema, "файл со схемой" %><br>
+            <%= f.label :text, "описание", :class => 'form-label' %>
+            <p class="help-text">краткое описание для схемы ( необязательно )</p>
+            <%= f.text_field :text, class: 'form-input' %>
+
+            <%= f.label :schema, "файл со схемой", :class => 'form-label' %><br>
             <p class="help-text">схема должна быть в формате *.svg</p>
 
             <%= f.file_field :schema, id: 'shema-input-field' %>
@@ -18,6 +22,7 @@
             <div class="confirm-green-button">
             <%= f.submit "опубликовать схему" %>
             </div>
+
         <% end %>
     </div>
 </div>

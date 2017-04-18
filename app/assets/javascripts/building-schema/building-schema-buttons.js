@@ -131,7 +131,7 @@ Add_guide_button = function() {
 
 			marker_params = { 'coord_x' : 0, 'coord_y' : 0 }
 
-			marker = building_schema.add_marker( 'Guide' , marker_params )
+			marker = document.building_schema.add_marker( 'Guide' , marker_params )
 
 			marker.move( e.pageX , e.pageY )
 
@@ -228,8 +228,7 @@ Delete_marker_button = function() {
 				var confirmation = confirm("Вы уверены что хотите удлить выделенные маркеры?");
 
 				if ( confirmation == true ) {
-					console.log('delete')
-					building_schema.delete_selected_markers()
+					document.building_schema.delete_selected_markers()
 				}
 			
 

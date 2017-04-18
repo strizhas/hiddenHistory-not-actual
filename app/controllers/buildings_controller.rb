@@ -51,7 +51,7 @@ class BuildingsController < ApplicationController
 		end
 
 		@categories = Category.all
-		
+
 		@users = User.select([:id, :username]).all
 
 	end

@@ -2,7 +2,7 @@ var Schema_marker = function( ) {
 
 		// default params
 		this.params = {
-			radius   : 4,
+			radius   : 10,
 			coord_x  : 0,
 			coord_y  : 0
 		};
@@ -12,19 +12,22 @@ var Schema_marker = function( ) {
 
 Schema_marker.prototype.move = function( page_x, page_y ) {
 
+	console.log(this.params['parent'])
+
 	var svg = this.params['parent'].node()
 
-					function svgPoint(element, x, y) {
-  
-					  var pt = svg.createSVGPoint();
-					  pt.x = x;
-					  pt.y = y;
-					  return pt.matrixTransform(element.getScreenCTM().inverse());
+	function svgPoint(element, x, y) {
+  			  
+		var pt = svg.createSVGPoint();
+		pt.x = x;
+		pt.y = y;
+
+		return pt.matrixTransform(element.getScreenCTM().inverse());
 					  
-					}
+	}
 
 
-		svgP = svgPoint( svg , page_x, page_y - $(window).scrollTop() ),
+	svgP = svgPoint( svg , page_x, page_y - $(window).scrollTop() )
 
 
 	// обновляем параметры маркера
@@ -93,7 +96,7 @@ Schema_marker.prototype.update = function( action) {
 	}
 
 	var marker_id = this.params.id
-	var token = building_schema.settings.token
+	var token = document.building_schema.settings.token
 
     if ( typeof( token ) == 'undefined' || token == '' ) 
     { 
@@ -188,15 +191,17 @@ Schema_marker.prototype.init = function( params	) {
 				this.params.color = '#949494'
 			}
 
+
+		var radius = Math.floor( this.params.radius * document.building_schema.settings.size_delta  )
+
 		var marker = schema_svg.append('g')
 						.attr('transform' , 'translate( ' + this.params.coord_x + ' ' + this.params.coord_y +  ')')
 						.style( "cursor", "pointer" )
 
-			marker.append("svg:circle" )
-						
-						.attr( "fill" , this.params.color )
-						.attr("stroke-width" , 2)
-						.attr( "r", this.params.radius + 1 )
+		marker.append("svg:circle" )	
+					.attr( "fill" , this.params.color )
+					.attr("stroke-width" , 2)
+					.attr( "r", radius )
 
 	
 				
@@ -205,7 +210,7 @@ Schema_marker.prototype.init = function( params	) {
 							
 		marker.on('mousedown' , function(event) {
 
-			if ( building_schema.settings.edit_mode == false ) { return; }
+			if ( document.building_schema.settings.edit_mode == false ) { return; }
 
 				
 				if ( typeof(active_marker) != 'undefined' ) {
@@ -224,7 +229,7 @@ Schema_marker.prototype.init = function( params	) {
 				active_marker = that;
 				active_marker.select();
 
-				building_schema.settings.img_dragging = true;
+				document.building_schema.settings.img_dragging = true;
 			
 				var start_dx = that.params.coord_x;
 				var start_dy = that.params.coord_y;
@@ -238,7 +243,7 @@ Schema_marker.prototype.init = function( params	) {
 
 				schema_svg.on('mouseup' , function() {
 
-					building_schema.settings.img_dragging = false
+					document.building_schema.settings.img_dragging = false
 
 					// unbind all avent functions
 					schema_svg.on('mousemove mouseup' , ''  );
@@ -260,7 +265,7 @@ Schema_marker.prototype.init = function( params	) {
 		// в файле schema-ajax-functions. 
 		marker.on('click' , function(event) {
 
-			if ( building_schema.settings.edit_mode == true ) { return; }
+			if ( document.building_schema.settings.edit_mode == true ) { return; }
 
 			// Если пользователь ткнул на активный маркер,
 			// то загрываем окно и снимаем выделение с маркера
@@ -337,6 +342,18 @@ Schema_marker.prototype.init = function( params	) {
 
 			
 
-		});			
+		});
+
+		$(document).on('shema_zoom', function() {
+
+
+
+			var radius = Math.floor( that.params.radius * document.building_schema.settings.size_delta  )
+			
+			console.log( that.marker )
+			console.log( document.building_schema.settings.size_delta )
+
+			that.marker.selectAll("circle").attr( "r", radius )
+		})			
 
 };

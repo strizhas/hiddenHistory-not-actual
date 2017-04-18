@@ -1,11 +1,11 @@
 var Building_schema = function() {
 
 	this.settings = {
-		viewBox_itit_params   : [ -100, 0, 800, 354 ],
+		viewBox_itit_params   : [],
 		viewBox_actual_params : [],
 		scale_delta		      : 150,
 		zoom_level 			  : 0,
-		zoom_level_max 		  : 3,
+		zoom_level_max 		  : 10,
 		img_dragging 		  : false, // img marker dragging status
 		token 				  : '',    // authenticity token
 		edit_mode 			  : false,
@@ -167,6 +167,7 @@ var Building_schema = function() {
 		var marker_dates = [];	
 		var null_year_added = false;
 
+
 		for ( var i=0 ; i < data.length ; i++ ) {
 
 			// если задан год, то проверяем, есть ли он уже в объекте marker_dates
@@ -261,19 +262,53 @@ var Building_schema = function() {
 	};
 
 
+	var get_svg_scale_delta = function() {
+
+		var pt, real_w
+
+		pt = schema.schema_svg.append('circle')
+					.attr( "fill" , 'rgba(0,0,0,0)' )
+					.attr( "r", 100 );
+
+		real_w = pt.node().getBoundingClientRect().width;
+
+		schema.settings.size_delta = 100 / real_w;
+
+		$(document).trigger('shema_zoom');
+
+	}
+
+
 
 		this.init = function( ) {
 			console.log('schema init')
-			console.log( schema.schema_svg)
+			console.log( schema.schema_svg.attr('viewBox').split(' '))
 
 			var container = document.getElementById('schema-main-container')
 			var container_width = container.offsetWidth
 			var container_height = container.offsetHeight
 
-			console.log( container_width  )
+
+			schema.settings.viewBox_itit_params = schema.schema_svg.attr('viewBox').split(' ')
+
+
+			// определяем изначальный размер viewbox'а
+			for ( var i=0; i<4; i++) {
+
+				var item = schema.settings.viewBox_itit_params[i];
+
+				schema.settings.viewBox_itit_params[i] = parseInt(item);
+
+			}
+
+			schema.settings.scale_delta = schema.settings.viewBox_itit_params[2]/5
+
+			console.log(schema.settings.viewBox_itit_params)
 
 			schema.schema_svg.node().style.width = container_width + 'px'
 			schema.schema_svg.node().style.height = container_height + 'px'
+
+			
 
 
 					schema.settings.viewBox_actual_params = schema.settings.viewBox_itit_params 
@@ -330,7 +365,9 @@ var Building_schema = function() {
 
 					schema.svg_container = d3.select('#schema-main-container')
 
-					console.log(schema.svg_container)
+
+					get_svg_scale_delta()
+
 
 
 					schema.svg_container.on('mousedown', function(event) {
@@ -339,6 +376,7 @@ var Building_schema = function() {
 							return false;
 						}
 
+						// var svgP = svgPoint( svg , page_x, page_y - $(window).scrollTop() )
 
 						var start_offset_x = d3.event.pageX
 						var start_offset_y = d3.event.pageY
@@ -346,11 +384,13 @@ var Building_schema = function() {
 						var start_dx = schema.settings.viewBox_actual_params[0]
 						var start_dy = schema.settings.viewBox_actual_params[1]
 
-						schema.svg_container.on('mousemove' , function(event) { 
 
+
+						schema.svg_container.on('mousemove' , function(event) {
 
 							schema.settings.viewBox_actual_params[0] = start_dx + start_offset_x - d3.event.pageX // delta x
 							schema.settings.viewBox_actual_params[1] = start_dy + start_offset_y - d3.event.pageY // delta y
+
 
 							schema.schema_svg.attr('viewBox' , schema.settings.viewBox_actual_params.join(' '))
 
@@ -369,6 +409,7 @@ var Building_schema = function() {
 
 						var viewBox_new_params = []
 
+						console.log('scale up')
 						console.log(schema.settings.viewBox_actual_params)
 
 						viewBox_new_params[0] = schema.settings.viewBox_actual_params[0] + schema.settings.scale_delta / 2
@@ -376,7 +417,21 @@ var Building_schema = function() {
 						viewBox_new_params[2] = schema.settings.viewBox_actual_params[2] - schema.settings.scale_delta
 						viewBox_new_params[3] = schema.settings.viewBox_actual_params[3] - schema.settings.scale_delta
 
-						console.log(viewBox_new_params)
+						
+						// проверка чтобы значения viewBox 
+						// не ушли в отрицательный диапазон
+
+						if ( viewBox_new_params[2] <= 0 ) {
+
+							viewBox_new_params[2] = 10;
+
+						}
+
+						if ( viewBox_new_params[3] <= 0 ) {
+
+							viewBox_new_params[3] = 10;
+
+						}
 
 						schema.schema_svg
 							.attr( 'viewBox', schema.settings.viewBox_actual_params.join(' ') )
@@ -387,26 +442,35 @@ var Building_schema = function() {
 						schema.settings.viewBox_actual_params = viewBox_new_params
 						schema.settings.zoom_level++
 
+						setTimeout( function() {
+							get_svg_scale_delta();
+						}, 1000 )
+
 					});
 
 					scale_down.on('click', function() {
 
 
-						var viewBox_new_params = []
+						var viewBox_new_params = [];
 
-						viewBox_new_params[0] = schema.settings.viewBox_actual_params[0] - schema.settings.scale_delta / 2
-						viewBox_new_params[1] = schema.settings.viewBox_actual_params[1] - schema.settings.scale_delta / 2
-						viewBox_new_params[2] = schema.settings.viewBox_actual_params[2] + schema.settings.scale_delta
-						viewBox_new_params[3] = schema.settings.viewBox_actual_params[3] + schema.settings.scale_delta
+						viewBox_new_params[0] = schema.settings.viewBox_actual_params[0] - schema.settings.scale_delta / 2;
+						viewBox_new_params[1] = schema.settings.viewBox_actual_params[1] - schema.settings.scale_delta / 2;
+						viewBox_new_params[2] = schema.settings.viewBox_actual_params[2] + schema.settings.scale_delta;
+						viewBox_new_params[3] = schema.settings.viewBox_actual_params[3] + schema.settings.scale_delta;
 
 						schema.schema_svg
 							.attr( 'viewBox', schema.settings.viewBox_actual_params.join(' ') )
 							.transition()
 							.duration(1000)
-							.attr( 'viewBox', viewBox_new_params.join(' ') )
+							.attr( 'viewBox', viewBox_new_params.join(' ') );
 
-						schema.settings.viewBox_actual_params = viewBox_new_params
-						schema.settings.zoom_level--
+						schema.settings.viewBox_actual_params = viewBox_new_params;
+						schema.settings.zoom_level--;
+
+						setTimeout( function() {
+							get_svg_scale_delta();
+						}, 1000 )
+						
 						
 					});
 

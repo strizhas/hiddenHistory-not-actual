@@ -21,17 +21,10 @@ class Photo < ActiveRecord::Base
 
 	IMAGE_SIZES = {
 		:big   => [800, 600],
-    	:thumb => [150, 150],
+    	:thumb => [128, 128],
     	:icon  => [64, 64]
  	}
 
- 	def self.photos_before(id,limit=10)
- 		self.where("id < ?", id).order("id DESC").limit(limit)
- 	end
-
- 	def self.photos_after(id,limit=10)
- 		self.where("id > ?", id).order("id ASC").limit(limit)
- 	end
 
  	def self.search( params )
 

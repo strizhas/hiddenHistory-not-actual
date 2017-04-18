@@ -36,7 +36,7 @@ Building_schema_interface = function() {
 				elements.ready_button.bind_click()
 
 
-				building_schema.edit_mode(true)
+				document.building_schema.edit_mode(true)
 					
 
 			});
@@ -71,7 +71,7 @@ Building_schema_interface = function() {
 
 				$(this).replaceWith( elements.edit_button.button )
 
-					building_schema.edit_mode(false)
+					document.building_schema.edit_mode(false)
 
 					elements.edit_button.bind_click()
 
@@ -124,7 +124,7 @@ Building_schema_interface = function() {
 			}, 150 )
 
 
-			building_schema.show_marker_by_type( that.type )
+			document.building_schema.show_marker_by_type( that.type )
 
 			$(that.button).addClass('active')
 
@@ -390,13 +390,13 @@ Building_schema_interface = function() {
 				},
 				'mouseenter' : function( e ) {
 
-					building_schema.select_marker( 'Photo' , $(this).data('id') );
+					document.building_schema.select_marker( 'Photo' , $(this).data('id') );
 
 					return;
 				},
 				'mouseout' : function( e ) {
 
-					building_schema.drop_marker( 'Photo', $(this).data('id') );
+					document.building_schema.drop_marker( 'Photo', $(this).data('id') );
 
 					return;
 
@@ -451,7 +451,7 @@ Building_schema_interface = function() {
 												} 
 
 
-							marker = building_schema.add_marker( 'Photo' , marker_params )
+							marker = document.building_schema.add_marker( 'Photo' , marker_params )
 							marker.select()
 							marker.move( e.pageX  , e.pageY )
 
@@ -497,7 +497,7 @@ Building_schema_interface = function() {
 						})
 
 
-						building_schema.year_menu.add_year( $(img).data('year') )
+						document.building_schema.year_menu.add_year( $(img).data('year') )
 						
 					} else {
 
@@ -543,7 +543,7 @@ Building_schema_interface = function() {
 
 				if ( markers_loaded == false ) {
 
-					building_schema.load_guide_markers()
+					document.building_schema.load_guide_markers()
 
 					markers_loaded = true
 				
@@ -678,13 +678,13 @@ Building_schema_interface = function() {
 
 			$(a).on('mouseenter' , function() {
 
-				building_schema.select_marker( 'Guide' , $(a).data('id') );
+				document.building_schema.select_marker( 'Guide' , $(a).data('id') );
 
 			})
 
 			$(a).on('mouseleave' , function() {
 
-				building_schema.drop_marker( 'Guide' , $(a).data('id') );
+				document.building_schema.drop_marker( 'Guide' , $(a).data('id') );
 
 			})
 
@@ -732,9 +732,9 @@ Building_schema_interface = function() {
 					}
 
 
-					building_schema = new Building_schema();
+					document.building_schema = new Building_schema();
 
-					building_schema.init();
+					document.building_schema.init();
 
 
 					// creating new lighbox, in which fullsize images will be showen
@@ -785,8 +785,8 @@ Building_schema_interface = function() {
 
 $( window ).on('shema-block-start', function() { 
 	
-	building_schema_interface = new Building_schema_interface();
+	document.building_schema_interface = new Building_schema_interface();
 
-	building_schema_interface.initialize(); 
+	document.building_schema_interface.initialize(); 
 
 });

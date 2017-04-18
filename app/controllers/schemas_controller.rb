@@ -48,38 +48,28 @@ class SchemasController < ApplicationController
 
 		@schema = Schema.find(params[:id])
 
-		puts params
+		new_params = Hash.new
 
-		if params[:schema][:schema].blank?
-		 	flash[:error] = "файл схемы не был загружен"
-			return render 'edit'
+		new_params[:title] = params[:schema][:title]
+		new_params[:text] = params[:schema][:text]
+
+		if !params[:schema][:schema].blank?
+
+		 	new_params[:schema] = params[:schema][:schema]
+
 		end
 
-		new_file = params[:schema][:schema].read
-		title    = params[:schema][:title]
-
-		if @schema.update( title: title , schema: new_file )
+		if @schema.update( new_params )
 			flash[:success] = "запись обновлена"
+			redirect_to building_schema_path( @building, @schema )
 		else
 			flash[:error] 	= "произошла ошибка"
+			redirect_to edit_building_schema_path( @building, @schema )
 		end
 
-		redirect_to building_schema_path( @building, @schema )
+		
 
 	end
-
-
-	def photo_position_update
-
-		@photo = Photo.find(params[:id])
-
-		if @photo.update( params.permit( :coord_x, :coord_y, :schema_id )  )
-			head 200
-		else
-			head 500 	
-		end
-	end
-
 
 
 	def load_placed_photos 
@@ -97,7 +87,7 @@ class SchemasController < ApplicationController
 
 
 		def schema_params
-			params.require(:schema).permit( :title, :user_id, :schema )
+			params.require(:schema).permit( :title, :user_id, :text, :schema )
 		end
 
 		def parent_object

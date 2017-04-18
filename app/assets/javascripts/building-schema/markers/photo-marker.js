@@ -42,7 +42,7 @@ Schema_photo_marker.prototype.show_preview = function() {
 
 		node = that.marker.node()
 
-		if ( building_schema.settings.img_dragging == true  ) { 
+		if ( document.building_schema.settings.img_dragging == true  ) { 
 			return; 
 		}
  				

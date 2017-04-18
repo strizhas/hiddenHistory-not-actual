@@ -5,5 +5,7 @@
 	<%=  link_to building_schema_path( @building, schema ), class: 'header-link', data: { no_turbolink: true }, :rel => 'nofollow' do %>
 		<h3><%= schema.title %></h3>
 	<% end %>
+	
+	<p><%= schema.text %></p>
    
 </li>    

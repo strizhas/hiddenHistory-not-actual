@@ -63,13 +63,6 @@
     <br>
   </div>
 
-  <% if current_user.is? "admin" %>
-      <div class="form-label">владелец<br>
-        <label class="select-label">
-          <%= select_tag "building[user_id]", options_from_collection_for_select(@users, "id", "username", :selected=>@building.user_id)%>
-        </label>
-  </div>
-  <% end %>
   <br>
 
   <div class="confirm-green-button">

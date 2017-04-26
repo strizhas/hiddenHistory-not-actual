@@ -1,7 +1,7 @@
 class PhotosController < ApplicationController
 
 	before_filter :authenticate_user, :only => [:new, :create, :edit]
-	before_filter :parent_object, :only => [ :index, :show, :create, :load_slider_photos, :load_photos_menu  ]
+	before_filter :parent_object, :only => [ :index, :new, :show, :create, :load_slider_photos, :load_photos_menu  ]
 	before_filter :get_category,  :only => [ :index, :show  ]
 
 	before_filter :ajax_image_load_params, :only => [:load_slider_photos ]
@@ -14,25 +14,30 @@ class PhotosController < ApplicationController
 
 		if params.key?( 'year')
 			if params[:year] == 'undefined'
-				@photos = @parent.photos.where( year: nil )
+				@photos = @parent.photos.where( year: nil ).paginate(:page => params[:page])
 			else
-				@photos = @parent.photos.where( year: params[:year] )
+				@photos = @parent.photos.where( year: params[:year] ).paginate(:page => params[:page])
 				@current_year = params[:year]
 			end
 		else
-			@photos = @parent.photos
+			@photos = @parent.photos.paginate(:page => params[:page])
 		end
 
 
 		@edit = can? :edit, Photo
-		
-		render :layout => false if params[:layout] == 'false'
+
+		if params[:layout] == 'false' && !params.key?('page')
+			render :layout => false 
+		end
+
+	end
+
+	def new
 
 	end
 
 	def show
 
-		puts 'loading fullsize image'
 		@photo = Photo.select([ :id, :image, :user_id, :author, :likes ]).find(params[:id])
 		@owner = User.select([ :id, :username ]).find( @photo.user_id )
 		@likes = @photo.likes.count
@@ -45,11 +50,29 @@ class PhotosController < ApplicationController
 	end
 
 	def create
+
 		ids = Array.new
+
+		if !params.has_key?(:post_photos)
+			flash[:error] = "вы не указали ни одной фотографии"    
+			redirect_to action: 'new'
+			return
+		end
+
 
 		params[:post_photos].each do |a|
 
-			@photo = @parent.photos.new( user_id: current_user.id , image: a )
+			new_params = { user_id: current_user.id , image: a }
+
+			if !params[:photo][:year].blank?
+		 		new_params[:year] = params[:photo][:year]
+			end
+
+			if !params[:photo][:author].blank?
+		 		new_params[:author] = params[:photo][:author]
+			end
+
+			@photo = @parent.photos.new( new_params )
 
 			@photo.save!
 
@@ -60,7 +83,7 @@ class PhotosController < ApplicationController
 		if params[:render_nothing] == 'true' 
 
 			@photos = Photo.where( id: ids )
-			render :json => @photos.to_json
+			render :partial => "photos/partials/figure", :collection => @photos, :as => 'photo' ,:locals => { :edit => true }
 			
 		else 
 			
@@ -83,7 +106,8 @@ class PhotosController < ApplicationController
 
 	def load_photos_menu
 
-		@years  = @parent.photos.pluck( :year ).uniq.rotate(1)
+		@years = @parent.photos.pluck( :year ).uniq
+
 		render :partial => "photos/partials/sidebar_menu", :locals => { :years => @years, :parent => @parent }, 
 														   :layout => false, :status => :created
 	end

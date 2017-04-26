@@ -25,6 +25,8 @@ class Photo < ActiveRecord::Base
     	:icon  => [64, 64]
  	}
 
+ 	self.per_page = 20
+
 
  	def self.search( params )
 

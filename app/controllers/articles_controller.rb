@@ -13,7 +13,9 @@ class ArticlesController < ApplicationController
 			@articles = Article.select(index_params).where( :category_id => ids )
 			render :layout => false if params[:layout] == 'false'
 		else
-			@articles = Article.select(index_params).all
+
+			@articles = Article.select(index_params).where( :published => true ).paginate(:page => params[:page])
+
 		end
 
 	end

@@ -9,5 +9,6 @@
 		<nav id="sidebar-main-navigation">
 			<%= build_category_tree %>
 		</nav>
+		<%= link_to 'добавить сооружение', new_building_path, :rel => 'nofollow', class: "add-post-button"  if can? :create, Building %>
 	</div>
 </div>

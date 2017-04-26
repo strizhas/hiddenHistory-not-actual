@@ -17,21 +17,7 @@ $(window).on('photo-gallery-start' , function() {
 
     
     var image_gallery   = $('#basic-photo-gallery')
-    var image_input     = $('#image-input-field')
-    var upload_options  = { 'gallery' : image_gallery }
 
-    var callback = { 'click' : function(e) {
-
-        e.preventDefault();
-
-        var target_url = $(this).parent().attr('href');
-                                
-
-        console.log(target_url)
-
-        load_slider_by_ajax(target_url); 
-
-    }}
 
     if ( $(image_gallery).length != 0 ) { 
 
@@ -43,7 +29,4 @@ $(window).on('photo-gallery-start' , function() {
 
     }
 
-    if ( $(image_input).length != 0 ) {
-        $('#image-input-field').add_uploaded_files_listener( upload_options , callback )
-    }
 })

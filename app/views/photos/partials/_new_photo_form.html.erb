@@ -1,16 +1,1 @@
-<%= form_for [ @building , Photo.new ], html: { class: "multiple-image-upload" } do |f| %>
- 
-  <div id="image-upload-main" class="dark-background-input-area">
-
-  <p class="help-text light-gray-text">Перед тем как загружать новые изображения, удостоверьтесь что эти изображения уже не были загружены кем-то раньше. Если вы сможете отметить положение на схеме объекта, то это можно будет сделать либо, загрузив изображения здесь и потом перейдя в раздел "схемы", либо сразу загружая изображения в разделе "схемы"</p>
-
-    <div id="image-upload-input-area">
-            <button type="button" class="add-photo-gray-button">добавить фотографии</button>
-          <%= f.file_field :images, id: 'image-input-field', name: "post_photos[]", :multiple => true,  
-                                                                                   :data => {  :edit => false,
-                                                                                              :remote => true
-                                                                                            }%>
-    </div>
-
- 
-<% end %>
+<%= link_to 'добавить фотографии', new_building_photo_path( @building ) %>

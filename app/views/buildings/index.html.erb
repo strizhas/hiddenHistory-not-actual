@@ -1,9 +1,15 @@
 <div id="content-inner-wrap" class="index-inner-wrap"> 
+
+
     <ul class="articles-list">
       
       <%= render(:partial => 'shared/post_preview', :collection => @buildings, :as => 'post') || 'В разделе пока нет ни одной записи' %>
 
     </ul>
+    
+    <hr>
+    
+    <%= will_paginate @buildings %>
 
-    <%= link_to 'добавить сооружение', new_building_path, :rel => 'nofollow', class: "add-post-button"  if can? :create, Article %>
+   
   </div>

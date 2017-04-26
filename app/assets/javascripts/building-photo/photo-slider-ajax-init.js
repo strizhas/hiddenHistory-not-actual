@@ -1,4 +1,4 @@
-function figures_bind_onclick_slider_ajax_load( photo_links ) {
+function figures_bind_onclick_slider_ajax_load( photo_links, options ) {
 
 
     $(photo_links).off('click');
@@ -9,7 +9,7 @@ function figures_bind_onclick_slider_ajax_load( photo_links ) {
 
         var target_url = $(this).attr('href');
 
-        load_slider_by_ajax(target_url);    
+        load_slider_by_ajax(target_url, options);    
 
     })
 
@@ -17,7 +17,13 @@ function figures_bind_onclick_slider_ajax_load( photo_links ) {
 
 
 
-function load_slider_by_ajax(target_url) {
+function load_slider_by_ajax(target_url, options) {
+
+
+    var params = $.extend({
+            thumb_slider : true // показывать сладйер с превью фотографий
+        }, options);
+
 
     var parse_url_get_params = function( url ) {
 
@@ -38,18 +44,19 @@ function load_slider_by_ajax(target_url) {
 
     var calculate_max_slider_size = function() {
 
-        var size_params = {}
         var max_height = $(window).height() - 250 // 150 - thumbnail container height + 100px padding
 
         if ( max_height < 300 ) {
-            size_params.max_height = Math.round( $(window).height() * 0.9 )
-            size_params.show_thumb_gallery = false
-        } else {
-            size_params.max_height = max_height
-            size_params.show_thumb_gallery = true
-        }
 
-        return size_params
+            params.max_height = Math.round( $(window).height() * 0.9 );
+            params.show_thumb_gallery = false;
+
+        } else {
+
+            params.max_height = max_height;
+            params.show_thumb_gallery = true;
+
+        }
 
     };
 
@@ -122,17 +129,16 @@ function load_slider_by_ajax(target_url) {
 
 
 
-                        var size_params = calculate_max_slider_size()
+                        calculate_max_slider_size()
 
 
-
-                        main_slider = new main_photo_slider(  size_params , parsed_url_options );
+                        main_slider = new main_photo_slider(  params , parsed_url_options );
 
                         main_slider.initialize()
 
 
 
-                        if ( size_params.show_thumb_gallery == true ) {
+                        if ( params.show_thumb_gallery == true && params.thumb_slider == true) {
 
                             load_thumbnail_gallery(current_photo_id, parsed_url_options)
 

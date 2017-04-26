@@ -19,8 +19,13 @@
       <% end %>
 
     </div>
-
+    <hr>
+    <%= will_paginate @photos %>
+    <br>
     <h2>добавить фотографии</h2>
+
+    
+
     <% if current_user.present? %>
       <%= render partial: 'photos/partials/new_photo_form' %>
     <% else %>
@@ -33,6 +38,5 @@
 <script type="text/javascript">
     $(function() {
         $(window).trigger('photo-gallery-start')
-        $(window).trigger('change_content_area')
     });
 </script>

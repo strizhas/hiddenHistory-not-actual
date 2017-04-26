@@ -179,19 +179,17 @@ var Remote_image_uploader = function( options, image_input, callback ) {
 
         var url = $(image_input).closest('form').attr('action')
 
-        ajax_file_upload(event.target.files, url, this.params.gallery, add_thumbnail_to_gallery )
+        ajax_file_upload(event.target.files, url, this.params.gallery, add_images_to_gallery )
 
     };
 
-    var add_thumbnail_to_gallery = function( data ) {
+    var add_images_to_gallery = function( data ) {
 
-            for ( var index in data ) {
+        $( that.params.gallery ).append( data )
 
-                var figure = create_image_figure( data[index], callback )
-
-                $( that.params.gallery ).append( figure )
-
-            }
+        if ( typeof(callback) === 'function' ) {
+            callback()
+        }
         
             
     };

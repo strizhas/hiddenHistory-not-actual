@@ -10,14 +10,22 @@ class BuildingsController < ApplicationController
 		@categories = Category.all
 		@title = 'здания и сооружения'
 
-		if params[:category_id]		
+
+		if params[:category_id]
+
 			ids = get_children_categories_ids(params[:category_id])
-			@buildings = Building.select(index_params).where( :category_id => ids ).where( 'building_id is NULL' )
-			if params[:layout] == 'false'
+
+			@buildings = Building.select(index_params)
+									.where( :category_id => ids )
+									.where( 'building_id is NULL' )
+									.paginate(:page => params[:page])
+			
+			if params[:layout] == 'false' && !params.key?('page')
 				render :layout => false 
 			end
+
 		else
-			@buildings = Building.select(index_params).where( 'building_id is NULL' )
+			@buildings = Building.select(index_params).where( 'building_id is NULL' ).paginate(:page => params[:page])
 		end
 
 	end
@@ -52,16 +60,21 @@ class BuildingsController < ApplicationController
 
 		@categories = Category.all
 
-		@users = User.select([:id, :username]).all
-
 	end
 
 	def create
 		@building = Building.new(building_params)
  
 		if @building.save
+
+			flash[:success] = 'изменения успешно сохранены'
+
 			redirect_to @building
 		else
+			flash[:error] = @building.errors.full_messages
+
+			@categories = Category.all
+
 			render action: 'new'
 		end
 	end

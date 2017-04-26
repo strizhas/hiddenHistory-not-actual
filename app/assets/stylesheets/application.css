@@ -55,6 +55,7 @@ body {
 	width: 300px;
 	height: 100vh;
 	position: relative;
+	background-color: #404041;
 	float: left;
 	overflow: scroll;
 	-ms-overflow-style: none;
@@ -70,6 +71,7 @@ body {
 	background-color: #404041;
 	color: #d0d2d3;
 	min-height: 100vh;
+	min-height: calc(100vh - 60px);
 }
 
 
@@ -261,12 +263,15 @@ p {
 
 .add-post-button,
 .confirm-green-button,
-.abort-operation-button,
-.add-photo-gray-button {
+.abort-operation-button {
 	position: relative;
 	text-decoration: none;
 	cursor: pointer;
 	margin-right: 10px;
+}
+
+.confirm-green-button,
+.abort-operation-button {
 	border-radius: 5px;
 }
 
@@ -276,28 +281,6 @@ p {
 	font-size: 14px;
 }
 
-.add-photo-gray-button {
-	background-color: #333333;
-	color: #a6a8ab;
-	border: 2px solid #262626;
-	border-top: 2px solid #404041;
-	margin-left: 2px;
-	margin-top: 2px;
-	margin-bottom: 10px;
-	font-size: 16px;
-	padding: 5px 10px 5px 5px;
-	min-height: 1em;
-	vertical-align: middle;
-	display: inline-block;
-}
-
-.add-photo-gray-button:before {
-	content: '✚';
-	height: 10px;
-	padding: 0 10px;
-	border-right: 1px solid #a6a8ab;
-	margin-right: 10px;
-}
 
 .confirm-green-button {
 	background-color: #a7bf6d;
@@ -320,16 +303,15 @@ p {
 }
 
 .add-post-button {
-	border: 1px solid #e08b36;
-	color: #e08b36;
-	background: none;
+	color: #a5a5a5;
+	background: #595959;
 }
 
 .add-post-button:before {
 	content: "+";
 	padding: 11px 16px 10px 13px;
-	margin-right: 10px;
-	border-right: 1px solid #e08b36;
+	margin-right: 14px;
+	border-right: 6px solid #404041;
 }
 
 .confirm-green-button:before {
@@ -337,6 +319,13 @@ p {
 	height: 10px;
 	padding: 0 10px;
 	border-right: 2px solid #f1f1f2;
+}
+
+#main-sidebar .add-post-button {
+	position: absolute;
+	bottom: 40px;
+	margin-left: 20px;
+
 }
 
 /* 
@@ -873,13 +862,3 @@ box-shadow: -4px 5px 5px -2px rgba(0,0,0,0.3);
     height: 12px;
     right: -5px;
 } 
-
-
-@media screen and (max-width: 1050px) {
-
-#top-navigation-menu nav {
-	margin-left: 350px;
-}
-
-
-}

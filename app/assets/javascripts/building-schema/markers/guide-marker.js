@@ -17,6 +17,24 @@ Schema_guide_marker.prototype = Object.create(Schema_marker.prototype);
 
 Schema_guide_marker.prototype.constructor = Schema_guide_marker;
 
+Schema_guide_marker.prototype.create_marker = function() {
+
+	var schema_svg = document.building_schema.schema_svg
+
+	var radius = Math.floor( this.params.radius * document.building_schema.settings.size_delta  )
+
+	var marker = schema_svg.append('g')
+						.attr('transform' , 'translate( ' + this.params.coord_x + ' ' + this.params.coord_y +  ')')
+						.style( "cursor", "pointer" );
+
+	marker.append("svg:circle" )	
+			.attr( "fill" , this.params.color )
+			.attr("stroke-width" , 2)
+			.attr( "r", radius );
+
+	this.marker = marker;
+
+}
 
 
 Schema_guide_marker.prototype.return_ajax_params = function() {

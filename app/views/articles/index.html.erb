@@ -6,6 +6,6 @@
 
   </ul>
 
-  <%= link_to 'добавить статью', new_article_path , class: "add-post-button"  if can? :create, Article %>
+  <%= will_paginate @articles %>
 
 </div>

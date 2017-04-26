@@ -10,7 +10,8 @@ class Building < ActiveRecord::Base
 
 	mount_uploader :image, ThumbUploader
 
-	validates :title, :presence => true, :length => { :in => 3..20 }
+	validates :title, :presence => true, :length => { :in => 3..100 }
+
 
 
 	attr_accessor :crop_x, :crop_y, :crop_w, :crop_h 
@@ -27,6 +28,8 @@ class Building < ActiveRecord::Base
 
 	RU_NAME = 'здания и сооружения'
 
+
+	self.per_page = 10
 
 	def generate_thumbnails
    		image.recreate_versions! if image.present?

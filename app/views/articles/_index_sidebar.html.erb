@@ -9,5 +9,7 @@
 		<nav id="sidebar-main-navigation">
 			<%= build_category_tree %>
 		</nav>
+
+		<%= link_to 'добавить статью', new_article_path, :rel => 'nofollow', class: "add-post-button"  if can? :create, Article %>
 	</div>
 </div>

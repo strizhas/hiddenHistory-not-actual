@@ -14,11 +14,13 @@ class Article < ActiveRecord::Base
 
 	belongs_to :category
 	has_many :comments, as: :commentable, dependent: :destroy
-  has_many :likes, as: :likeable, dependent: :destroy
+  	has_many :likes, as: :likeable, dependent: :destroy
 
 	validates :title, presence: true,
                     length: { minimum: 5 }
              
+
+  self.per_page = 10
 
   def generate_thumbnails
     image.recreate_versions! if image.present?

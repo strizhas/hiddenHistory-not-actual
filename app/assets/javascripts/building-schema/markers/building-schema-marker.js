@@ -85,7 +85,7 @@ Schema_marker.prototype.marker_drop = function(  ) {
 
 	this.params['selected'] = false
 
-	console.log('marker drop')
+	$(document).off( 'keydown keyup' )
 
 };
 
@@ -192,23 +192,10 @@ Schema_marker.prototype.init = function( params	) {
 			}
 
 
-		var radius = Math.floor( this.params.radius * document.building_schema.settings.size_delta  )
-
-		var marker = schema_svg.append('g')
-						.attr('transform' , 'translate( ' + this.params.coord_x + ' ' + this.params.coord_y +  ')')
-						.style( "cursor", "pointer" )
-
-		marker.append("svg:circle" )	
-					.attr( "fill" , this.params.color )
-					.attr("stroke-width" , 2)
-					.attr( "r", radius )
-
-	
-				
-		this.marker = marker
+		this.create_marker()
 
 							
-		marker.on('mousedown' , function(event) {
+		this.marker.on('mousedown' , function(event) {
 
 			if ( document.building_schema.settings.edit_mode == false ) { return; }
 
@@ -263,7 +250,7 @@ Schema_marker.prototype.init = function( params	) {
 		// открытие окна с фотографией и формой комментариев при нажатии 
 		// на маркер. Используется класс schema_show_marker, расположенный 
 		// в файле schema-ajax-functions. 
-		marker.on('click' , function(event) {
+		this.marker.on('click' , function(event) {
 
 			if ( document.building_schema.settings.edit_mode == true ) { return; }
 
@@ -321,7 +308,7 @@ Schema_marker.prototype.init = function( params	) {
 
 		// при наведении курсора на маркер стартутет таймер, по истечению
 		// которого открывается маленькое окошко с превью
-		marker.on('mouseover' , function( e ) {
+		this.marker.on('mouseover' , function( e ) {
 
 			that.show_preview();
 
@@ -329,7 +316,7 @@ Schema_marker.prototype.init = function( params	) {
 
 		// Очистка таймера и удаление окна с превью после того,
 		// как курсор покинул маркер
-		marker.on('mouseout' , function(event) {
+		this.marker.on('mouseout' , function(event) {
 
 			clearInterval( that.timer );
 

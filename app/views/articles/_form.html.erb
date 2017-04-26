@@ -52,16 +52,7 @@
     </label>
     <br>
   </div>
-
-  <% if current_user.is? "admin" %>
-      <div>
-        <div class="form-label">владелец</div>
-        <label class="select-label">
-          <%= select_tag "article[owner]", options_from_collection_for_select(@users, "id", "username", :selected=>@article.user_id)%>
-        </label>
-  </div>
-  <% end %>
-
+  
   <br>
 
   <div class="confirm-green-button">

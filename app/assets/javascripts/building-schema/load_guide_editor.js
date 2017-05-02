@@ -151,7 +151,32 @@ Guide_edior = function( id ) {
 
     that.init()
 
+    var handle_image_to_gallery = function() {
+
+        var input = $('#image-input-field');
+
+        $(input).off('change');
+
+        $(input).on('change', function(event) {
+
+
+
+            handleFileSelect( event.target.files , after_load_action );
+
+        }) 
+
+        var after_load_action = function(img) {
+
+            $('#photo-load-section').find('img').remove();
+            $('#photo-load-section').append(img);
+
+        }
+
+    }
+
     var basic_callback = function(editor) {
+
+
 
         var form = $(editor.container).find('form')
 
@@ -159,9 +184,13 @@ Guide_edior = function( id ) {
 
         if ( form.length != 0 ) {
 
+
+
             $(form).bind_form_ajax_sucess();
 
-            $('#image-input-field').add_uploaded_files_listener(uploader_options);
+            handle_image_to_gallery()
+
+
 
         }
 
@@ -180,7 +209,7 @@ Guide_edior = function( id ) {
 
         var url = window.location.href + '/edit_guide/' + id;
 
-        that.ajax_content_load( url, {}, callback );
+        that.ajax_content_load( url, {}, basic_callback );
 
     }
 

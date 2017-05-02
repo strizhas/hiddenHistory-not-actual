@@ -2,7 +2,7 @@ class PhotosController < ApplicationController
 
 	before_filter :authenticate_user, :only => [:new, :create, :edit]
 	before_filter :parent_object, :only => [ :index, :new, :show, :create, :load_slider_photos, :load_photos_menu  ]
-	before_filter :get_category,  :only => [ :index, :show  ]
+	before_filter :get_category,  :only => [ :index, :show, :new ]
 
 	before_filter :ajax_image_load_params, :only => [:load_slider_photos ]
 	before_filter :is_admin?, :only => [:destroy ]
@@ -59,16 +59,15 @@ class PhotosController < ApplicationController
 			return
 		end
 
-
 		params[:post_photos].each do |a|
 
 			new_params = { user_id: current_user.id , image: a }
 
-			if !params[:photo][:year].blank?
+			if params.key?('photo') && !params[:photo][:year].blank?
 		 		new_params[:year] = params[:photo][:year]
 			end
 
-			if !params[:photo][:author].blank?
+			if params.key?('photo') && !params[:photo][:author].blank?
 		 		new_params[:author] = params[:photo][:author]
 			end
 
@@ -83,7 +82,7 @@ class PhotosController < ApplicationController
 		if params[:render_nothing] == 'true' 
 
 			@photos = Photo.where( id: ids )
-			render :partial => "photos/partials/figure", :collection => @photos, :as => 'photo' ,:locals => { :edit => true }
+			render :partial => "photos/partials/figure", :collection => @photos, :as => 'photo' ,:locals => { :edit => true }, :status => :created
 			
 		else 
 			
@@ -204,7 +203,7 @@ class PhotosController < ApplicationController
 
 		def get_category
 			if params[:building_id]	
-				@category = category_select('Building').find_all { |category| category.id == @building.category_id}[0]
+				@category = Category.find( @parent.category_id )
 			end
 		end
 

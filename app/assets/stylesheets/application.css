@@ -139,21 +139,6 @@ textarea {
 	max-width: 800px;
 }
 
-.error {
-	background-color: #d8563d;
-	padding: 10px 20px;
-	color: #fff;
-	margin-bottom: 20px;
-}
-
-.success {
-	background-color: #a7bf6d;
-	padding: 10px 20px;
-	color: #fff;
-	margin-bottom: 20px;
-}
-
-
 
 .header-hh-logo {
 	float: left;
@@ -638,96 +623,6 @@ p {
 	padding: 30px 0;
 }
 
-.form-wrapper input, 
-.form-wrapper textarea {
-	
-}
-
-.form-label {
-	display: block;
-	margin-top: 40px;
-}
-
-.form-input,
-.form-wrapper select {
-	padding: 10px;
-	margin-top: 10px;
-	background-color: #fff;
-	border: 1px solid #d0d2d3;
-	border-radius: 3px;
-}
-
-.form-wrapper select {
-	min-width: 240px;
-	padding-right: 50px;
-	border-radius: 0;
-	-webkit-border-radius:0;
-    -moz-border-radius:0;
-    -webkit-appearance:none;
-    -moz-appearance:none;
-    appearance:none;
-}
-
-.select-label {
-	position: relative;
-}
-
-.select-label:before {
-	content:'<>';
-	color: #d0d2d3;
-	-webkit-transform:rotate(90deg);
-    -moz-transform:rotate(90deg);
-    -ms-transform:rotate(90deg);
-    transform:rotate(90deg);
-    right:8px; top:2px;
-    position:absolute;
-    pointer-events:none;
-}
-
-.select-label input::-webkit-inner-spin-button,
-.select-label input::-webkit-outer-spin-button,
-.select-label input::-webkit-calendar-picker-indicator {
-	-webkit-appearance:none;
-    -moz-appearance:none;
-    appearance:none;
-    color: transparent;
-    background: none;
-}
-
-.form-input {
-	width: 100%;
-	width: calc(100% - 20px);
-}
-
-.form-text {
-	height: 500px;
-}
-
-.form-wrapper .post-title:focus,
-.form-wrapper .post-text:focus,
-.form-wrapper .post-intro:focus,
-.form-wrapper select:focus {
-	outline: none;
-	border: 1px solid #e08b36;
-}
-
-#article-content-nav {
-	position: relative;
-}
-
-.scroll-indicator:before {
-	content: ' ';
-	height: 100%;
-	width: 5px;
-	position: absolute;
-	background-color: #232323;
-}
-
-#old-image-preview {
-	margin-top: 30px;
-	max-width: 400px;
-	height: auto;
-}
 
 /*
 	building-photo-gallery
@@ -744,6 +639,7 @@ p {
 
 #basic-photo-gallery {
 	padding-bottom: 40px;
+	position: relative;
 }
 
 .photo-gallery-figure,

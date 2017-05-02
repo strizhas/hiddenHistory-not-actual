@@ -62,7 +62,7 @@ class PhotoMarkersController < ApplicationController
 	private 
 
 		def marker_params
-	 		params.permit(:id, :coord_x, :coord_y, :schema_id, :photo_id )
+	 		params.permit(:id, :coord_x, :coord_y, :angle, :schema_id, :photo_id )
 		end
 
 		def parent_photo 

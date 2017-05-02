@@ -18,13 +18,10 @@ var aplication_init_functions = function() {
 
     }
 
-    // загрузчик изображений для страницы с 
-    // настройками профиля пользователя
-    if ( $('#users-setting').length != 0 || $('#post-image-upload').length != 0  ) {
 
-        var input = $('#image-input-field');
+    if ( $('#post-image-upload').length != 0 ) {
 
-        $(input ).add_uploaded_files_listener();
+        handle_image_to_editor();
 
     }
 

@@ -66,18 +66,20 @@ Building_schema_interface = function() {
 
 				for ( var menu in menus ) {
 
-					menus[menu].turn_off_edit_mode()
+					menus[menu].turn_off_edit_mode();
 				}
 
-				$(this).replaceWith( elements.edit_button.button )
+				schema_promt.fadeOut();
 
-					document.building_schema.edit_mode(false)
+				$(this).replaceWith( elements.edit_button.button );
 
-					elements.edit_button.bind_click()
+				document.building_schema.edit_mode(false);
+
+				elements.edit_button.bind_click();
 
 					
-					menus.guides.add_content_button.animateOut();
-					elements.delete_marker_button.animateOut();
+				menus.guides.add_content_button.animateOut();
+				elements.delete_marker_button.animateOut();
 					
 
 
@@ -237,9 +239,7 @@ Building_schema_interface = function() {
 
 		this.add_content_button = new Add_photo_button()
 
-		this.show_slider = ''
-
-		this.edit_slider = ''
+		this.others_hidden = false;
 
 		var that = this
 
@@ -299,6 +299,7 @@ Building_schema_interface = function() {
 
 		};
 
+
 		this.add_figures_to_edit_area = function(data) {
 
 			var container = that.edit_area
@@ -338,7 +339,23 @@ Building_schema_interface = function() {
 		var fadeIn_edit_area = function() {
 
 			$(that.show_area).fadeOut('fast', function() {
-				$(that.edit_area).fadeIn('fast')
+
+				$(that.edit_area).fadeIn('fast');
+
+
+				// когда пользователь загружает новые фотографии
+				// все имеющиеся в edit-разделе скрываются
+				// Если пользователь переключает в режим просмотра,
+				// а потом опять в режим редактирования, то все 
+				// фотографии появляются
+				if ( that.others_hidden == true ) {
+
+					$(that.edit_area).find('figure').fadeIn('fast');
+
+					that.others_hidden = false;
+
+				}
+
 			})
 
 		}
@@ -466,6 +483,7 @@ Building_schema_interface = function() {
 
 					} else {
 
+						console.log( 'ready_to_drop = false ')
 						ready_to_drop = false
 
 					}
@@ -660,18 +678,29 @@ Building_schema_interface = function() {
 
 		};
 
-		var after_load_editor_callback = function(guide_editor) {
+		var schema_remote_file_upload = function() {
 
-			var uploader_options = { 'gallery' : $('#photo-load-section')};
-			var form = $(guide_editor.container).find('form').eq(0);
-			console.log('after_load_editor_callback')
-			console.log(form)
-			
-			$(form).bind_form_ajax_sucess(  );
-							
-	       	$('#image-input-field').add_uploaded_files_listener(uploader_options);
+		    var input = $('#image-input-field');
+		    var gallery = $('#photo-load-section');
 
-		} 
+		    $(input).off('change');
+
+		    $(input).on('change', function(event) {
+
+		        var url = $(input).closest('form').attr('action')
+
+		        ajax_file_upload(event.target.files, url, gallery, add_images_to_gallery )
+
+		    });
+
+		    var add_images_to_gallery = function( data ) {
+
+		        $( that.params.gallery ).append( data )
+		        
+		            
+		    }; 
+
+		};
 
 		var bind_mouse_events_in_item = function(a) {
 
@@ -696,7 +725,7 @@ Building_schema_interface = function() {
 
 					var guide_editor = new Guide_edior();
 					
-					guide_editor.edit_guide( $(a).data('id'), after_load_editor_callback  );
+					guide_editor.edit_guide( $(a).data('id') );
 
 					return	
 				}

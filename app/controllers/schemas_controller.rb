@@ -71,6 +71,30 @@ class SchemasController < ApplicationController
 
 	end
 
+	def upload_photo
+		ids = Array.new
+
+		if !params.has_key?(:post_photos)
+			return
+		end
+
+		params[:post_photos].each do |a|
+
+			new_params = { user_id: current_user.id , image: a, building_id: params[:building_id] }
+
+			@photo = @building.photos.new( new_params )
+
+			@photo.save!
+
+			ids.push @photo.id
+		end
+
+		@photos = Photo.where( id: ids )
+		
+		render :json => @photos
+
+	end
+
 
 	def load_placed_photos 
 		photos = Schema.find(params[:schema_id]).photos

@@ -6,7 +6,7 @@
 
 	<div id="basic-photo-gallery"></div>
 
-	<%= form_for [ @building , Photo.new ], html: { class: "multiple-image-upload" } do |f| %>
+	<%= form_for [ @building , Photo.new ], html: { :multipart => true, id: "building-photo-upload" }, remote: true, :data => { :type => :html } do |f| %>
 
 		<p class="help-text light-gray-text">Перед тем как загружать новые изображения, удостоверьтесь что эти изображения уже не были загружены кем-то раньше. Если вы сможете отметить положение на схеме объекта, то это можно будет сделать либо, загрузив изображения здесь и потом перейдя в раздел "схемы", либо сразу загружая изображения в разделе "схемы"</p>
 
@@ -21,11 +21,12 @@
 		
 	  	<div id="image-upload-main">
 
-	  
-	  	<br><br> 
-
+	  	<%= f.label :images, "фотографии", :class => 'form-label' %>
+	  	<p class="help-text">Максимальный размер загружаемых фотографий 100 мегабайт</p>
 	    <%= f.file_field  :images, id: 'image-input-field', name: "post_photos[]", :multiple => true %>
 
+	    <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+	    <br><br>  
 	    <div class="confirm-green-button">
 		    <%= f.submit "опубликовать фотографии" %>
 		</div>
@@ -38,6 +39,6 @@
 
 <script type="text/javascript">
     $(function() {
-        $(window).trigger('photo-upload-start')
+    	building_photo_uploader();
     });
 </script>

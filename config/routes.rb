@@ -15,7 +15,6 @@ Rails.application.routes.draw do
   	resources :photos do
   		resources :comments
   	end
-
   	
 
 	resources :buildings do
@@ -46,6 +45,8 @@ Rails.application.routes.draw do
 
 
 			post  'load_fullsize_image/:id', :to => 'photos#load_fullsize_image'
+
+			post  'upload_photo',		 	:to => 'schemas#upload_photo'
 
 			
 			match "load_photo_markers" => 'photo_markers#index',  :via => [:post]

@@ -170,6 +170,7 @@ var Building_schema = function() {
 
 		for ( var i=0 ; i < data.length ; i++ ) {
 
+	
 			// если задан год, то проверяем, есть ли он уже в объекте marker_dates
 			if (  data[i]['year']  != null ) {
 													
@@ -203,7 +204,7 @@ var Building_schema = function() {
 
 		}
 
-						
+							
 		schema.year_menu = new Schema_year_menu( marker_dates, show_markers_by_year )
 
 		schema.svg_container.node().appendChild( schema.year_menu.container )
@@ -281,8 +282,7 @@ var Building_schema = function() {
 
 
 		this.init = function( ) {
-			console.log('schema init')
-			console.log( schema.schema_svg.attr('viewBox').split(' '))
+
 
 			var container = document.getElementById('schema-main-container')
 			var container_width = container.offsetWidth
@@ -302,8 +302,6 @@ var Building_schema = function() {
 			}
 
 			schema.settings.scale_delta = schema.settings.viewBox_itit_params[2]/5
-
-			console.log(schema.settings.viewBox_itit_params)
 
 			schema.schema_svg.node().style.width = container_width + 'px'
 			schema.schema_svg.node().style.height = container_height + 'px'
@@ -326,7 +324,38 @@ var Building_schema = function() {
 						.attr("width" , 140 )
 						.attr("height" , 140 )
 						.attr( "fill-opacity" , 0 )
-						.attr("patternUnits", "userSpaceOnUse")
+						.attr("patternUnits", "userSpaceOnUse");
+
+					var filter = defs.append("filter")
+						.attr("id", "drop-shadow")	
+						.attr('filterUnits', "userSpaceOnUse")
+						.attr('width', '150%')
+						.attr('height', '150%');
+
+
+					filter.append("feGaussianBlur")
+    						.attr("in", "SourceAlpha")
+   							.attr("stdDeviation", 2)
+    						.attr("result", "blur-out");
+
+					filter.append('svg:feColorMatrix')
+							.attr('in', 'blur-out')
+							.attr('type', 'hueRotate')
+							.attr('values', 180)
+							.attr('result', 'color-out');
+
+					filter.append("feOffset")
+    						.attr("in", "color-out")
+    						.attr("dx", -5)
+    						.attr("dy", 5)
+    						.attr("result", "the-shadow");
+
+    				filter.append('svg:feBlend')
+							.attr('in', 'SourceGraphic')
+							.attr('in2', 'the-shadow')
+							.attr('mode', 'normal');
+
+
 
 					var cell_group = pattern.append("g")
 
@@ -376,7 +405,6 @@ var Building_schema = function() {
 							return false;
 						}
 
-						// var svgP = svgPoint( svg , page_x, page_y - $(window).scrollTop() )
 
 						var start_offset_x = d3.event.pageX
 						var start_offset_y = d3.event.pageY
@@ -409,8 +437,6 @@ var Building_schema = function() {
 
 						var viewBox_new_params = []
 
-						console.log('scale up')
-						console.log(schema.settings.viewBox_actual_params)
 
 						viewBox_new_params[0] = schema.settings.viewBox_actual_params[0] + schema.settings.scale_delta / 2
 						viewBox_new_params[1] = schema.settings.viewBox_actual_params[1] + schema.settings.scale_delta / 2
@@ -521,8 +547,6 @@ var Building_schema = function() {
 			this.delete_selected_markers = function( id ) {
 
 				var selected_markers = get_selected_markers()
-
-				console.log(selected_markers)
 
 				for ( var index in selected_markers ) {
 

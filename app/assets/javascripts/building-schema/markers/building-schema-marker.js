@@ -39,6 +39,9 @@ Schema_marker.prototype.move = function( page_x, page_y ) {
 
 };
 
+
+
+
 Schema_marker.prototype.destroy = function(  ) {
 
 	// удаляем маркер из DOM
@@ -56,14 +59,14 @@ Schema_marker.prototype.destroy = function(  ) {
 
 Schema_marker.prototype.hide = function(  ) {
 
-	this.marker.selectAll("circle")
+	this.marker.selectAll("*")
 				.style("opacity", 0)
 
 };
 
 Schema_marker.prototype.show = function(  ) {
 
-	this.marker.selectAll("circle")
+	this.marker.selectAll("*")
 				.style("opacity", 1)
 
 

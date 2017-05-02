@@ -77,13 +77,22 @@ Add_photo_button = function() {
 
 		this.init = function( parent ) {
 
-			var url = $(input).closest('form').attr('action')
+			var url = window.location.href + '/upload_photo'
 			var container = parent.edit_area
 
 			$(input).bind('change', function(event) {
 
 				var files    = event.target.files
 				var callback = parent.add_figures_to_edit_area
+
+				if ( parent.others_hidden != true ) {
+
+					$(parent.edit_area).find('figure').fadeOut('fast')
+
+					parent.others_hidden = true
+
+				}
+				
 
 				ajax_file_upload( files, url, container, callback )
 

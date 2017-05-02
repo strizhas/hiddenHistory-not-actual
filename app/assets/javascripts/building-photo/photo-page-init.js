@@ -1,4 +1,4 @@
-$(window).on('photo-gallery-start' , function() {
+function bind_actions_on_photo_gallery() {
 
     // updating page size paramerts ( look sidebar.coffee )
     $(window).trigger('change_content_area')
@@ -29,4 +29,4 @@ $(window).on('photo-gallery-start' , function() {
 
     }
 
-})
+}

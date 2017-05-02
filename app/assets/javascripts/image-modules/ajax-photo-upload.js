@@ -34,7 +34,7 @@
         type: 'POST',
         data: data,
         cache: false,
-        dataType: 'html',
+        dataType: 'json',
         processData: false,
         contentType: false,
         beforeSend: function() {

@@ -48,7 +48,7 @@ Schema_lightbox = function() {
 
             if ( !img_id ) { return false; }
 
-            var url = window.location.href + '/load_fullsize_image/' + img_id
+            var url = '/load_fullsize_image/' + img_id
                 
             $.ajax({
                 url: url,

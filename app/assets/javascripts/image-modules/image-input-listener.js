@@ -90,8 +90,6 @@ function building_photo_uploader( ) {
     var form    = $('#building-photo-upload');
     var gallery = $('#basic-photo-gallery');
 
-
-
     $(form).validate({
         rules:{
             'photo[year]':{
@@ -123,26 +121,52 @@ function building_photo_uploader( ) {
     $(form).append('<input name="render_nothing" value="true" type="hidden">')
 
 
-    $(form).on( 'ajax:beforeSend', function(e, xhr) { 
+    // убираем ранее загруженные изображения
+    // и добавляем progress-bar
+    $(form).on( 'ajax:beforeSend', function(e, xhr) {
 
-        $(gallery).animate({'height' : '150px'}, 300 , function() {
+        var gallery_height = $(gallery).height();
 
-            $(gallery).simple_progress_bar('create', {progress_bar_type : 'gray-gears-bar'});
+        $(gallery).children().fadeOut('fast' , function() {
 
-        })
+            $(gallery).css('height', gallery_height + 'px').empty();
+
+        });
+
+        
+        setTimeout( function() {
+
+            $(gallery).animate({'height' : '150px'}, 300 , function() {
+
+                $(gallery).simple_progress_bar('create', {progress_bar_type : 'gray-gears-bar'});
+
+            });
+
+        }, 200 )
+        
 
     });
 
     $(form).on( 'ajax:success', function( evt, data, status, xhr ) { 
 
         var html = $(xhr.responseText);
+        var ids = [];
 
         // обнулим значение инпута
         $('#image-input-field').replaceWith($('#image-input-field').val('').clone(true));
 
-       $(gallery).empty().append( html ).css('height','auto')
+        $(gallery).empty().append( html ).css('height','auto');
 
-       bind_actions_on_photo_gallery()
+        // получаем id всех загруженных изображений
+        // для того, чтобы отправить их в слайдер
+        $(gallery).find('img').each( function( index ) {
+
+            ids.push( $(this).attr('id').replace( /[^0-9]/g , '' ) )
+
+        });
+
+
+        bind_actions_on_photo_gallery( { ids : ids} );
 
     });
 

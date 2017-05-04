@@ -1,14 +1,16 @@
 // Объект основного слайдера
 // Возвращает только метод инициализации
-main_photo_slider = function( options, parsed_url_options ) {
+main_photo_slider = function( options ) {
 
-    var settings = $.extend( {  },  options)
+    var params = $.extend( {  },  options)
 
     var main_button_left  = $('#slider-main-button-left')
     var main_button_right = $('#slider-main-button-right')
     var main_img_frame    = $('#slider_main_img_frame')
 
 
+    console.log('main_photo_slider')
+    console.log( params)
 
 
     var load_image_to_main_container = function( current_id, direction ) {
@@ -25,11 +27,11 @@ main_photo_slider = function( options, parsed_url_options ) {
                 // удаляем соотвествующий ключ во избежание проблем
                 if ( typeof( direction ) != 'undefined' ) {
 
-                    parsed_url_options[ 'direction' ] = direction
+                    params[ 'direction' ] = direction
 
                 } else {
 
-                    delete parsed_url_options[ 'direction' ]
+                    delete params[ 'direction' ]
                 }
 
                 if ( !current_id ) { 
@@ -38,15 +40,14 @@ main_photo_slider = function( options, parsed_url_options ) {
 
                 };
 
-
-                var url = window.location.pathname + '/load_fullsize_image/' + current_id
+                var url = '/load_fullsize_image/' + current_id
 
                 $.ajax({
                 url: url,
                 method: 'POST',
                 dataType: 'html',
                 cache: true,
-                data: parsed_url_options, 
+                data: params, 
                 beforeSend: function() 
                 {
                     $(main_img_frame).children().fadeOut('fast' , function() {
@@ -143,7 +144,7 @@ main_photo_slider = function( options, parsed_url_options ) {
 
                 initialize : function() {
 
-                    $('#main_slider_section').css('height' , settings.max_height )
+                    $('#main_slider_section').css('height' , params.max_height )
 
                     recalculate_image_size( )
 

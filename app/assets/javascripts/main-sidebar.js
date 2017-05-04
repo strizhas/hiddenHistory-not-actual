@@ -237,7 +237,7 @@
 	var bind_click_on_links = function( selected_link ) {
 
 			var selected_link = $(selected_link);
-			var content = $('#content-main');	 	
+				 	
 			var parent_li = selected_link.parent(); 
 
 			if ( !$(this).hasClass('active-link') ) 
@@ -267,51 +267,8 @@
 
 			url = selected_link.attr('href');
 				
-			if ( !url ) { return }
+			ajax_page_content_update( url );
 
-			$(content).children().fadeOut('fast');
-
-					setTimeout( function() {
-
-						$(this).empty()
-						$.ajax({
-							url: url,
-							data: { layout : false }, // this parametr provides no layout rendering	
-							method: 'GET',
-							dataType: 'html',
-							cache: false,
-							beforeSend: function() 
-							{
-
-								$(window).trigger('close_popup promt-destroy'); // removing pop-up windows and hint messages
-					
-								$('#content-main').simple_progress_bar();
-
-							},
-							success: function(data, textStatus, jqXHR) 
-							{
-		
-								setTimeout( function() 
-								{
-									history.replaceState( 'data', '', url ) //replacing current url to link url
-									setTimeout( function() {
-										$(content).html( data )
-									} , 200 )		
-									
-								}, 1000 )
-							},
-							error: function(data) {
-
-								$('#content-main').simple_progress_bar('remove', { callback : function() {
-									$(content).children().fadeIn('fast');
-								}})
-
-
-							} 
-
-						})  
-
-			} , 200 )	
 
 	};
 

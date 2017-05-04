@@ -20,13 +20,16 @@
 
     </div>
     <hr>
-    <%= will_paginate @photos %>
+    <div id="pagination-section">
+      <%= will_paginate @photos %>
+    </div>
     <br>
-    <h2>добавить фотографии</h2>
+    
 
     
 
-    <% if current_user.present? %>
+    <% if current_user.present? && defined? @building %>
+      <h2>добавить фотографии</h2>
       <%= render partial: 'photos/partials/new_photo_form' %>
     <% else %>
       <%= render partial: 'photos/partials/photo_please_login' %>

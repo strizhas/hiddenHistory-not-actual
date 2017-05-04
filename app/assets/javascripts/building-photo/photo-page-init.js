@@ -1,4 +1,4 @@
-function bind_actions_on_photo_gallery() {
+function bind_actions_on_photo_gallery( options ) {
 
     // updating page size paramerts ( look sidebar.coffee )
     $(window).trigger('change_content_area')
@@ -24,9 +24,23 @@ function bind_actions_on_photo_gallery() {
         var figures      = $(image_gallery).find('figure')
         var photo_links  = $(figures).find('.photo-gallery-image-link')
 
-        bind_button_appears_on_figure_hover( figures )
-        figures_bind_onclick_slider_ajax_load( photo_links )
+        bind_button_appears_on_figure_hover( figures );
+        figures_bind_onclick_slider_ajax_load( photo_links , options );
+        
 
     }
+
+    var pagination_links = $('#pagination-section').find('a');
+
+    $(pagination_links).on('click' , function(e) {
+
+        e.preventDefault();
+
+        var url = $(this).attr('href');
+
+        ajax_page_content_update(url);
+
+    })
+    
 
 }

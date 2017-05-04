@@ -45,9 +45,6 @@ class Photo < ActiveRecord::Base
 			query_obj = query_obj.where("id = ?", params[:id])
 		end
 
-		if params.key?('placed') and params[:placed] == 'false'
-			query_obj = query_obj.where("schema_id is NULL")
-		end
 
 		# устанавливаем количество загружаемых фотографии
 		# если количество не задано, то грузим 1 и выбираем первую из выборки

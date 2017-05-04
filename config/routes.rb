@@ -17,15 +17,18 @@ Rails.application.routes.draw do
   	end
   	
 
+  	post 'load_fullsize_image/:id',  :to => 'photos#load_fullsize_image'
+
 	resources :buildings do
 		resources :comments
 		resources :categories
 		resources :photos do 
 
 			collection do
-				post 'load_fullsize_image/:id',  :to => 'photos#load_fullsize_image'
-				match 'load_photos_menu', :to => 'photos#load_photos_menu',    :via => [:post]
-				match 'load_slider_photos',  :to => 'photos#load_slider_photos', :via => [:post]	
+				
+				match 'load_photos_menu', 		 :to => 'photos#load_photos_menu',   :via => [:post]
+				match 'load_slider_photos',  	 :to => 'photos#load_slider_photos', :via => [:post]
+				match 'new/load_slider_photos',  :to => 'photos#load_slider_photos', :via => [:post]	
 			end
 
 		end
@@ -42,9 +45,6 @@ Rails.application.routes.draw do
 
 			post  'show_guide_marker',		:to => 'guide_markers#show'
 			post  'show_photo_marker',		:to => 'photo_markers#show'
-
-
-			post  'load_fullsize_image/:id', :to => 'photos#load_fullsize_image'
 
 			post  'upload_photo',		 	:to => 'schemas#upload_photo'
 
@@ -95,7 +95,6 @@ Rails.application.routes.draw do
   	resources :users do
   		resources :photos, :controller => "user_photos" do
   			collection do
-  				post 'load_fullsize_image/:id',  :to => 'photos#load_fullsize_image'
   				match 'load_photos_menu', :to => 'photos#load_photos_menu',    :via => [:post]
   				match 'load_slider_photos', :to => 'photos#load_slider_photos', :via => [:post] 
   			end

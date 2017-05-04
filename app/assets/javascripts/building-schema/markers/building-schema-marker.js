@@ -12,9 +12,7 @@ var Schema_marker = function( ) {
 
 Schema_marker.prototype.move = function( page_x, page_y ) {
 
-	console.log(this.params['parent'])
-
-	var svg = this.params['parent'].node()
+	var svg = this.params['parent'].node();
 
 	function svgPoint(element, x, y) {
   			  
@@ -27,15 +25,15 @@ Schema_marker.prototype.move = function( page_x, page_y ) {
 	}
 
 
-	svgP = svgPoint( svg , page_x, page_y - $(window).scrollTop() )
+	svgP = svgPoint( svg , page_x, page_y - $(window).scrollTop() );
 
 
 	// обновляем параметры маркера
-	this.params.coord_x = svgP['x']
-	this.params.coord_y = svgP['y']
+	this.params.coord_x = svgP['x'];
+	this.params.coord_y = svgP['y'];
 
 	// выполняем перемещение с помощью transform translate
-	this.marker.attr('transform' , 'translate( ' + svgP['x'] + ' ' + svgP['y'] +  ')')
+	this.marker.attr('transform' , 'translate( ' + svgP['x'] + ' ' + svgP['y'] +  ')');
 
 };
 
@@ -338,12 +336,9 @@ Schema_marker.prototype.init = function( params	) {
 
 
 
-			var radius = Math.floor( that.params.radius * document.building_schema.settings.size_delta  )
-			
-			console.log( that.marker )
-			console.log( document.building_schema.settings.size_delta )
+			var radius = Math.floor( that.params.radius * document.building_schema.settings.size_delta  );
 
-			that.marker.selectAll("circle").attr( "r", radius )
+			that.marker.selectAll("circle").attr( "r", radius );
 		})			
 
 };

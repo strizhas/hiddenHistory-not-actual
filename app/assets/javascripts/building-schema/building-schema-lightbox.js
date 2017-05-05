@@ -84,6 +84,7 @@ Schema_lightbox = function() {
                         $(settings.lightbox).append( data )
 
                             var new_img = $(settings.lightbox).find('img')
+                            var figure  = $(settings.lightbox).find('figure')
 
                             $(new_img).resizeImageToContainer( $(settings.lightbox), function() {
 
@@ -91,7 +92,9 @@ Schema_lightbox = function() {
 
                                 });
 
-                            bind_likes_button()
+                            bind_likes_button();
+
+                            bind_button_appears_on_figure_hover( figure );
 
                             settings.fading = false
 

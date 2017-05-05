@@ -334,11 +334,9 @@ Schema_marker.prototype.init = function( params	) {
 
 		$(document).on('shema_zoom', function() {
 
+			var scale = document.building_schema.settings.size_delta;
 
-
-			var radius = Math.floor( that.params.radius * document.building_schema.settings.size_delta  );
-
-			that.marker.selectAll("circle").attr( "r", radius );
+			that.marker.selectAll("*").attr('transform' , 'scale(' +  scale + ')');
 		})			
 
 };

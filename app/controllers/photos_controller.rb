@@ -44,6 +44,12 @@ class PhotosController < ApplicationController
 
 		@likes = '' if @likes == 0
 
+		if  @photo.user_id == current_user.id
+			@edit = true
+		else
+			@edit = false
+		end
+
 		if params[:layout] == 'false'
 			render :layout => false
 		end
@@ -114,11 +120,7 @@ class PhotosController < ApplicationController
 
 	def load_fullsize_image
 
-		puts params
-
 		@photo = Photo.search( params )
-
-		puts @photo
 
 		head :ok if @photo == nil
 
@@ -126,6 +128,12 @@ class PhotosController < ApplicationController
 
 		likes = @photo.likes.count
 		likes = '' if likes == 0
+
+		if  @photo.user_id == current_user.id
+			@edit = true
+		else
+			@edit = false
+		end
 
 		render :partial => "photos/partials/slider_item_fullsize", :locals => { :photo => @photo, :owner => owner, :likes => likes }, 
 														  :layout => false, 

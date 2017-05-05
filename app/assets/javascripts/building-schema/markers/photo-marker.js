@@ -36,16 +36,16 @@ Schema_photo_marker.prototype.create_marker = function() {
 						.attr('transform' , 'translate( ' + this.params.coord_x + ' ' + this.params.coord_y +  ') rotate(' + this.params.angle + ')')
 						.style( "cursor", "pointer" );
 
-	var coords = [ {x: 80, y: 50},{x: 110, y: 80},{x: 140, y: 90} ]
+	marker.append('svg:path' )	
+			.style("fill", this.params.color)
+			.attr('d' , 'M-50,-50, 0-0,50,-50')
 
 	marker.append("svg:circle" )	
 			.attr( "fill" , this.params.color )
 			.attr("stroke-width" , 2)
 			.attr( "r", radius )
 
-	marker.append('svg:path' )	
-			.style("fill", this.params.color)
-			.attr('d' , 'M-50,-50, 0-0,50,-50')
+	
 			
 
 

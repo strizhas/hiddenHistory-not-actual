@@ -265,15 +265,12 @@ var Building_schema = function() {
 
 	var get_svg_scale_delta = function() {
 
-		var pt, real_w
+		var w_init, w_actual
 
-		pt = schema.schema_svg.append('circle')
-					.attr( "fill" , 'rgba(0,0,0,0)' )
-					.attr( "r", 100 );
+		w_init = schema.settings.viewBox_itit_params[2];
+		w_actual = schema.settings.viewBox_actual_params[2];
 
-		real_w = pt.node().getBoundingClientRect().width;
-
-		schema.settings.size_delta = 100 / real_w;
+		schema.settings.size_delta = w_actual/w_init
 
 		$(document).trigger('shema_zoom');
 
@@ -470,7 +467,7 @@ var Building_schema = function() {
 
 						setTimeout( function() {
 							get_svg_scale_delta();
-						}, 1000 )
+						}, 200 )
 
 					});
 
@@ -495,7 +492,7 @@ var Building_schema = function() {
 
 						setTimeout( function() {
 							get_svg_scale_delta();
-						}, 1000 )
+						}, 200 )
 						
 						
 					});

@@ -64,11 +64,15 @@ main_photo_slider = function( options ) {
 
                     setTimeout( function() {
 
-                        $(main_img_frame).hide().html( data ).fadeIn('fast')
+                        $(main_img_frame).hide().html( data ).fadeIn('fast');
 
-                        recalculate_image_size( ) 
+                        var figure = $(main_img_frame).find('figure')
 
-                        bind_likes_button()
+                        recalculate_image_size( ); 
+
+                        bind_likes_button();
+
+                        bind_button_appears_on_figure_hover( figure );
 
                     }, 500)   
 
@@ -157,6 +161,10 @@ main_photo_slider = function( options ) {
                     $(main_button_right).on('click' , function() { load_image_to_main_container( '', 'next' ) })
 
                     $(window).trigger('change_content_area')
+
+                    var figure = $('#main_slider_section').find('figure')
+
+                    bind_button_appears_on_figure_hover( figure );
 
                     bind_likes_button()
 

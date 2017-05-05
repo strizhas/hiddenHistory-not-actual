@@ -1,5 +1,12 @@
 <figure class="slider-main-img-figure">
+
+	<% if @edit == true %>
+	      <%= link_to '', { :controller => 'photos' , :action => 'photo_editor', :id => photo.id }, 
+	                        class: 'image-edit-button' , :remote => true %>
+	<% end %>
+
   <%= image_tag photo.image.big.url, :id => ( 'slider-fullsize-item-' + photo.id.to_s ) %>
+  
   <div id="slider-main-img-footer" class="slider-main-img-footer">
 	  <div class="slider-likes-section">
 

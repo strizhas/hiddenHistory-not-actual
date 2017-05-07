@@ -44,7 +44,7 @@ class PhotosController < ApplicationController
 
 		@likes = '' if @likes == 0
 
-		if  @photo.user_id == current_user.id
+		if current_user.present? && @photo.user_id == current_user.id
 			@edit = true
 		else
 			@edit = false
@@ -129,7 +129,7 @@ class PhotosController < ApplicationController
 		likes = @photo.likes.count
 		likes = '' if likes == 0
 
-		if  @photo.user_id == current_user.id
+		if current_user.present? && @photo.user_id == current_user.id
 			@edit = true
 		else
 			@edit = false

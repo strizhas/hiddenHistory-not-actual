@@ -25,6 +25,11 @@ var aplication_init_functions = function() {
 
     }
 
+    if ( $('#registration-form').length != 0 ) {
+
+        validate_registration_form();
+    }
+
     if ( $('#main-sidebar').length != 0 ) {
 
         if ( typeof(sidebar_menu) === 'undefined' ) {

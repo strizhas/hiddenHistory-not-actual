@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   has_many :schemas
   has_many :photos
   has_many :guides
+  has_many :photo_markers
+  has_many :guide_markers
 
   IMAGE_SIZES = {
       :thumb => [300,300],

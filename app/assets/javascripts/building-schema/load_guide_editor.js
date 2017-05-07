@@ -149,30 +149,8 @@ Guide_edior = function( id ) {
 
     var that = this
 
-    that.init()
-
-    var handle_image_to_gallery = function() {
-
-        var input = $('#image-input-field');
-
-        $(input).off('change');
-
-        $(input).on('change', function(event) {
-
-
-
-            handleFileSelect( event.target.files , after_load_action );
-
-        }) 
-
-        var after_load_action = function(img) {
-
-            $('#photo-load-section').find('img').remove();
-            $('#photo-load-section').append(img);
-
-        }
-
-    }
+    that.init();
+    
 
     var basic_callback = function(editor) {
 
@@ -188,7 +166,7 @@ Guide_edior = function( id ) {
 
             $(form).bind_form_ajax_sucess();
 
-            handle_image_to_gallery()
+            handle_image_to_guide_gallery();
 
 
 

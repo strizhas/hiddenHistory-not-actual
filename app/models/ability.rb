@@ -18,6 +18,7 @@ class Ability
     elsif user.is? :member
         can :create, :all
         can :read, :all
+        can :manage, Schema
     elsif user.is? :guest   
         can :read, :all, :published => true
     end

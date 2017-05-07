@@ -1,10 +1,10 @@
 <%= render 'shared/login_menu' %>
 
 <main class="login-main">
-  <div id= "registration-form">
+  <div id= "registration-form-main">
 
     <div class= "sign-form">
-      <%= form_for(:user, :url => {:controller => 'users', :action => 'create'}) do |f| %>
+      <%= form_for(:user, :url => {:controller => 'users', :action => 'create'}, :html => { :id => 'registration-form'} ) do |f| %>
         <%= f.text_field :username, placeholder: 'имя пользователя'%>
         <%= f.text_field :email, placeholder: 'электронная почта'%>
         <%= f.password_field :password, placeholder: 'пароль'%>

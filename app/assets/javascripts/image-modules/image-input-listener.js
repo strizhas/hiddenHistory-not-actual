@@ -1,3 +1,26 @@
+function handle_image_to_guide_gallery() {
+
+    var input = $('#image-input-field');
+
+    $(input).off('change');
+
+    $(input).on('change', function(event) {
+
+
+
+        handleFileSelect( event.target.files , after_load_action );
+
+    }) 
+
+    var after_load_action = function(img) {
+
+        $('#photo-load-section').find('img').remove();
+        $('#photo-load-section').append(img);
+
+    }
+
+};
+
 
 function handle_image_to_editor() {
 

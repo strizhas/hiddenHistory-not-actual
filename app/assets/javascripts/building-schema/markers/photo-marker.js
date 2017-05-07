@@ -38,6 +38,7 @@ Schema_photo_marker.prototype.create_marker = function() {
 
 	marker.append('svg:path' )	
 			.style("fill", this.params.color)
+			.attr("opacity", 0.3)
 			.attr('d' , 'M-50,-50, 0-0,50,-50')
 
 	marker.append("svg:circle" )	

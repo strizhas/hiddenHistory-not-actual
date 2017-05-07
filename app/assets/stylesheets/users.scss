@@ -56,7 +56,6 @@
 	width: calc(100% + 10px);
 } 
 
-.sign-form .error,
 .sign-form .Signup_Errors {
 	background-color: #d8563d;
 	width: 100%;
@@ -64,10 +63,6 @@
 	color: #fff;
 	text-align: center;
 	list-style: none;
-}
-
-.sign-form .error {
-	padding: 10px 0;
 }
 
 .sign-form .Signup_Errors {

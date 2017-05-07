@@ -4,10 +4,11 @@ class CreateMarkers < ActiveRecord::Migration
       t.integer :photo_id
       t.integer :coord_x
       t.integer :coord_y
-      t.integer :angle
+      t.integer :angle, default: 0
       t.integer :year
       t.boolean :published
       t.integer :schema_id
+      t.integer :user_id
       
       t.timestamps
     end
@@ -20,6 +21,7 @@ class CreateMarkers < ActiveRecord::Migration
       t.integer :year
       t.boolean :published
       t.integer :schema_id
+      t.integer :user_id
       
       t.timestamps
     end

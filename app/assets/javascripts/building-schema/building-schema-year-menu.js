@@ -6,6 +6,7 @@ Schema_year_menu = function(years , callback) {
 	var container = document.createElement('div');
 	var ul =  document.createElement('ul');
 
+	this.container = container
 
  	$(container )
  		.attr('id','schema-year-menu' )
@@ -92,11 +93,14 @@ Schema_year_menu = function(years , callback) {
 			
 	
 
-	this.container = container
+	
 
 	this.add_year = function( new_year ) {
 		
 		if ( new_year == null ) { new_year = 'null' }
+
+		console.log('add_year')
+		console.log(years)
 
 		if(years.indexOf( new_year ) === -1) {
 			create_link(new_year)

@@ -26,7 +26,11 @@ class PhotoMarkersController < ApplicationController
 
 		@schema = Schema.find(params[:schema_id])
 
-		@marker = @schema.photo_markers.new( marker_params )
+		new_params = marker_params
+
+		new_params[:user_id] = current_user.id
+
+		@marker = @schema.photo_markers.new( new_params )
 
 		@marker.save!
 

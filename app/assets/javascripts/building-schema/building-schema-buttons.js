@@ -181,9 +181,7 @@ Add_guide_button = function() {
 
 			var form = $(guide_editor.container).find('form').eq(0);
 
-	        var uploader_options = { 'gallery' : $('#photo-load-section')}
-
-	        $('#image-input-field').add_uploaded_files_listener(uploader_options)
+	         handle_image_to_guide_gallery();
 
             var callback = { }
             			

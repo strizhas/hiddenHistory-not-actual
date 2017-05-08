@@ -10,7 +10,8 @@ var Building_schema = function() {
 		token 				  : '',    // authenticity token
 		edit_mode 			  : false,
 		current_type		  : 'Photo',
-		current_year		  : null
+		current_year		  : null,
+		can_edit 			  : false
 	};
 
 	var schema = this
@@ -160,6 +161,10 @@ var Building_schema = function() {
 
 	};
 
+	// сюда попадают данные, возвращаемые функцией load_markers_by_ajax
+	// Функция перебарает json и создает новые объекты маркеров
+	// Также попутно выбирает уникальные значения поля year
+	// и на их основе создает меню с выбором года создания фотографий
 	var add_photo_markers_to_schema = function(data) {
 
 		// объект, в котором будут уникальные года. Он необходим
@@ -211,6 +216,9 @@ var Building_schema = function() {
 
 	};
 
+	// сюда попадают данные, возвращаемые функцией 
+	// load_markers_by_ajax. 
+	// Функция перебарает json и создает новые объекты маркеров
 	var add_guide_markers_to_schema = function(data) {
 
 		for ( var i=0 ; i < data.length ; i++ ) {
@@ -221,11 +229,18 @@ var Building_schema = function() {
 
 			guide_marker_collection[ data[i]['id'] ] = new_marker;
 
+			if ( document.building_schema.settings.edit_mode == true ) {
+				new_marker.check_can_edit();
+			}
+
 		}
 
 	};
 
-
+	// загрузка маркеров. 
+	// При старте схемы загружаются только фото-маркеры, а когда
+	// пользователь нажимает кнопку 'экспликация' загружаются и
+	// маркеры с гуайдами
 	var load_markers_by_ajax = function( type , callback ) {
 
 		switch( type ) {
@@ -262,7 +277,9 @@ var Building_schema = function() {
 
 	};
 
-
+	// функция определяет относительное изменение 
+	// масштаба схемы. Это нужно для правильного
+	// изменения масштаба маркеров
 	var get_svg_scale_delta = function() {
 
 		var w_init, w_actual
@@ -273,6 +290,33 @@ var Building_schema = function() {
 		schema.settings.size_delta = w_actual/w_init
 
 		$(document).trigger('shema_zoom');
+
+	};
+
+	// функция проверяет, может ли данный пользователь 
+	// редактировать все маркеры и гуайды
+	var check_if_can_edit_markers = function() {
+
+		console.log('check_if_can_edit_markers');
+
+		var url = window.location.href + '/check_can_edit';
+
+		$.ajax({
+
+			url: url,
+			method: 'POST',
+			dataType: 'json',
+			cache: false,
+			success: function(data, textStatus, jqXHR) 
+			{
+
+				if ( data == true ) {
+					schema.settings.can_edit = true
+				}
+
+			}
+
+		});
 
 	}
 
@@ -382,17 +426,15 @@ var Building_schema = function() {
 						.attr( "y", "-3000" )
 						.attr( "width",  "9999" )
 						.attr( "height", "9999" )
-						.attr( "fill" , "url(#gridpattern)" )
-
-					
+						.attr( "fill" , "url(#gridpattern)" );
 
 
 
 
-					schema.svg_container = d3.select('#schema-main-container')
+					schema.svg_container = d3.select('#schema-main-container');
 
 
-					get_svg_scale_delta()
+					get_svg_scale_delta();
 
 
 
@@ -498,10 +540,10 @@ var Building_schema = function() {
 					});
 
 
-					load_markers_by_ajax( 'Photo' , function(data) { add_photo_markers_to_schema(data) })
+					load_markers_by_ajax( 'Photo' , function(data) { add_photo_markers_to_schema(data) });
 
+					check_if_can_edit_markers();
 
-		
 
 			};
 
@@ -537,17 +579,17 @@ var Building_schema = function() {
 
 				collection[ params['id'] ] = new_marker;
 
-				return new_marker	
+				return new_marker;	
 
 			};
 
 			this.delete_selected_markers = function( id ) {
 
-				var selected_markers = get_selected_markers()
+				var selected_markers = get_selected_markers();
 
 				for ( var index in selected_markers ) {
 
-					selected_markers[index].destroy()
+					selected_markers[index].destroy();
 				}
 
 			};
@@ -595,18 +637,24 @@ var Building_schema = function() {
 
 					case true:
 
-						var token = document.getElementsByName('authenticity_token')[0]
+						var token = document.getElementsByName('authenticity_token')[0];
 	
 						if ( typeof(token) != 'undefined' ) {
-							schema.settings.token = token.value
-							schema.settings.edit_mode = true
+							schema.settings.token = token.value;
+							schema.settings.edit_mode = true;
+
+							$(document).trigger('turn_on_edit_mode');
+
+							schema_promt.fadeIn('нажмите и удерживайте маркер для перемещения');
 						}
 
 						break;
 
 					case false:
 
-						schema.settings.edit_mode = false
+						schema.settings.edit_mode = false;
+						$(document).trigger('turn_off_edit_mode');
+
 						break;
 
 					default:

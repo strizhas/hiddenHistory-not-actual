@@ -24,8 +24,6 @@ var Promt = function() {
 
 		this.fadeIn = function( message ) {
 
-			if ( that.active == true ) { return; }
-
 			that.box.innerHTML = message
 			that.box.style.display = 'block'
 			that.box.style.opacity = 1

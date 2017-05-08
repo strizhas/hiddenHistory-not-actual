@@ -106,6 +106,18 @@ class SchemasController < ApplicationController
 		render :json => photos
 	end
 
+	def check_can_edit
+
+		if can_manage?(@building)
+			response = true
+		else
+			response = false
+		end
+
+		render :json => response
+
+	end
+
 
 	protected
 

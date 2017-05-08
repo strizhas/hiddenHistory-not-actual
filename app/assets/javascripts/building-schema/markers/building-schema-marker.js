@@ -12,6 +12,10 @@ var Schema_marker = function( ) {
 
 Schema_marker.prototype.move = function( page_x, page_y ) {
 
+	if ( this.active == false ) {
+		return;
+	}
+
 	var svg = this.params['parent'].node();
 
 	function svgPoint(element, x, y) {
@@ -42,6 +46,10 @@ Schema_marker.prototype.move = function( page_x, page_y ) {
 
 Schema_marker.prototype.destroy = function(  ) {
 
+	if ( this.active == false ) {
+		return;
+	}
+
 	// удаляем маркер из DOM
 	this.marker.remove()
 
@@ -57,20 +65,22 @@ Schema_marker.prototype.destroy = function(  ) {
 
 Schema_marker.prototype.hide = function(  ) {
 
-	this.marker.selectAll("*")
-				.style("opacity", 0)
+	this.marker.style("display", "none")
 
 };
 
 Schema_marker.prototype.show = function(  ) {
 
-	this.marker.selectAll("*")
-				.style("opacity", 1)
+	this.marker.style("display", "block")
 
 
 };
 
 Schema_marker.prototype.select = function(  ) {
+
+	if ( this.active == false ) {
+		return;
+	}
 
 	this.marker.selectAll("circle")
 					.attr( "fill" , "#302d2a")
@@ -90,7 +100,39 @@ Schema_marker.prototype.marker_drop = function(  ) {
 
 };
 
+Schema_marker.prototype.deactive = function(  ) {
+
+	this.active = false;
+
+	this.marker.attr("opacity", 0.3)
+
+};
+
+Schema_marker.prototype.activate = function(  ) {
+
+	this.active = true;
+
+	this.marker.attr("opacity", 1)
+
+};
+
+Schema_marker.prototype.check_can_edit = function(  ) {
+
+	if ( this.params.user_id != sessionStorage.getItem("user_id") &&
+		document.building_schema.settings.can_edit == false ) {
+
+			this.deactive();
+
+	}
+
+};
+
+
 Schema_marker.prototype.update = function( action) {
+
+	if ( this.active == false ) {
+		return;
+	}
 
 	if ( typeof(action) == 'undefined' ) {
 		action = 'update'
@@ -193,7 +235,7 @@ Schema_marker.prototype.init = function( params	) {
 			}
 
 
-		this.create_marker()
+		this.create_marker();
 
 							
 		this.marker.on('mousedown' , function(event) {
@@ -337,6 +379,18 @@ Schema_marker.prototype.init = function( params	) {
 			var scale = document.building_schema.settings.size_delta;
 
 			that.marker.selectAll("*").attr('transform' , 'scale(' +  scale + ')');
-		})			
+		});
+
+		$(document).on('turn_on_edit_mode' , function() {
+
+			that.check_can_edit();
+
+		});
+
+		$(document).on('turn_off_edit_mode' , function() {
+
+			that.activate();
+
+		});				
 
 };

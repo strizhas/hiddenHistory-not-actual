@@ -76,9 +76,9 @@ Building_schema_interface = function() {
 				document.building_schema.edit_mode(false);
 
 				elements.edit_button.bind_click();
-
 					
 				menus.guides.add_content_button.animateOut();
+
 				elements.delete_marker_button.animateOut();
 					
 
@@ -160,11 +160,7 @@ Building_schema_interface = function() {
 
 				if ( menus[menu].active == true ) {
 
-					console.log(' show button for menu ' + menu)
-
 					if ( that.add_content_button.active == false ) {
-
-						console.log( that.add_content_button.active )
 
 						that.add_content_button.animateIn();
 
@@ -177,7 +173,6 @@ Building_schema_interface = function() {
 
 				}
 
-				console.log( 'hding button ' + menu )
 				var button = menus[menu].add_content_button.button
 
 				$(button).hide()

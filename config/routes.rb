@@ -48,6 +48,8 @@ Rails.application.routes.draw do
 
 			post  'upload_photo',		 	:to => 'schemas#upload_photo'
 
+			post 'check_can_edit',			:to => 'schemas#check_can_edit'
+
 			
 			match "load_photo_markers" => 'photo_markers#index',  :via => [:post]
 

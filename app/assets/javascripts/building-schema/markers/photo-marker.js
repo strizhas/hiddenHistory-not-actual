@@ -58,7 +58,8 @@ Schema_photo_marker.prototype.create_marker = function() {
 
 Schema_photo_marker.prototype.rotate = function( ) {
 
-	if ( this.params['rotating'] == true ) {
+	if ( this.params['rotating'] == true || 
+		 document.building_schema.settings.edit_mode != true) {
 
 		return
 
@@ -103,6 +104,10 @@ Schema_photo_marker.prototype.rotate = function( ) {
 
 Schema_photo_marker.prototype.select = function(  ) {
 
+	if ( this.active == false ) {
+		return;
+	}
+
 	var that = this
 
 	this.marker.selectAll("circle")
@@ -111,8 +116,8 @@ Schema_photo_marker.prototype.select = function(  ) {
 	this.params['selected'] = true;
 
 	if ( document.building_schema.settings.edit_mode == true ) {
-
-			('удерживайте клавишу R для вращения');
+			
+			schema_promt.fadeIn('удерживайте клавишу R для вращения');
 
 	}
 	
@@ -139,6 +144,12 @@ Schema_photo_marker.prototype.select = function(  ) {
 	})
 
 	$(document).on( 'keyup', function() {
+
+		if ( document.building_schema.settings.edit_mode != true ) {
+
+			return
+
+		}
 
 		$(document).off('mousemove');
 

@@ -9,8 +9,26 @@
 
             var message_div = document.createElement('div');
 
-            var pos_x = $(parent_element).offset().left
-            var pos_y = $(parent_element).offset().top
+
+            if ( $(parent_element).is(":visible") == false ) {
+
+                $(parent_element).css({'display' : 'block', 'opacity' : '0'})
+
+                var pos_x = $(parent_element).offset().left
+                var pos_y = $(parent_element).offset().top
+
+                $(parent_element).css({'display' : 'none', 'opacity' : '1'})
+
+            } else {
+
+                var pos_x = $(parent_element).offset().left
+                var pos_y = $(parent_element).offset().top
+
+            }
+
+            
+
+
 
             var window_width = $(window).width()
 

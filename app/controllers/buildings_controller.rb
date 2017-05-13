@@ -61,7 +61,7 @@ class BuildingsController < ApplicationController
 			@building = Building.new
 		end
 
-		@categories = Category.all
+		@categories = category_select('Building')
 
 	end
 
@@ -86,7 +86,7 @@ class BuildingsController < ApplicationController
   		@building = Building.find(params[:id])
   		if can_manage? (@building)
 
-  			@category = category_select('Building').find_all { |category| category.id == @building.category_id}[0]
+  			@categories = category_select('Building')
 
   			@users = User.select([:id, :username]).all
 
@@ -98,7 +98,7 @@ class BuildingsController < ApplicationController
 	def update
 
 		@building = Building.find(params[:id])
-		@categories = category_select('Building')
+		
 		
 		if @building.update(building_params)
 			flash[:success] = "запись обновлена"

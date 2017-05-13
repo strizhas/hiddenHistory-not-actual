@@ -6,6 +6,14 @@
 
   <article id="building-photo-main" class="photo-gallery-index">
 
+  <% if defined? @building %>
+    <h3>фотографии "<%= @building.title %>"</h3>
+  <% end %>
+
+  <% if defined? @user %>
+    <h3>фотографии пользователя <%= @user.username %></h3>
+  <% end %>
+
     <%= render partial: 'photos/partials/year_navigation' %>
 
     <div id="basic-photo-gallery">

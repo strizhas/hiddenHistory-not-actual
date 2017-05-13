@@ -38,7 +38,7 @@ class PhotosController < ApplicationController
 
 	def show
 
-		@photo = Photo.select([ :id, :image, :user_id, :author, :likes ]).find(params[:id])
+		@photo = Photo.select([ :id, :image, :user_id, :author, :likes, :alt ]).find(params[:id])
 		@owner = User.select([ :id, :username ]).find( @photo.user_id )
 		@likes = @photo.likes.count
 
@@ -51,7 +51,7 @@ class PhotosController < ApplicationController
 		end
 
 		if params[:layout] == 'false'
-			render :layout => false
+			render :partial => "photos/partials/slider", :layout => false
 		end
 	end
 
@@ -216,7 +216,7 @@ class PhotosController < ApplicationController
 		end
 
 		def photos_params
-	 		params.require(:photo).permit(:title, :image, {images: []}, :user_id, :text, :year, :author, :published, :crop_x, :crop_y, :crop_w, :crop_h ) # allow nested params as array
+	 		params.require(:photo).permit(:title, :image, {images: []}, :user_id, :text, :year, :author, :published, :crop_x, :crop_y, :crop_w, :crop_h, :alt ) # allow nested params as array
 		end
 
 end

@@ -28,12 +28,13 @@ class ArticlesController < ApplicationController
 	
 	def new
 		@article = Article.new
-		@categories = Category.where( parent_category_type: 'Article')
+		@categories = category_select('Article')
 		@users = User.select([:id, :username]).all
 	end
 	
 	def edit
   		@article = Article.find(params[:id])
+  		
   		if can_manage? (@article)
   			@categories = category_select('Article')
   			@users = User.select([:id, :username]).all

@@ -58,6 +58,18 @@ var aplication_init_functions = function() {
         
     }
 
+    if ( $('#building-form').length != 0 ) {
+
+        validate_building_form();
+
+    }
+
+    if ( $('#article-form').length != 0 ) {
+
+        validate_article_form();
+
+    }
+
 
     bind_comment_form_ajax_response();
     

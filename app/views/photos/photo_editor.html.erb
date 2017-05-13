@@ -13,25 +13,58 @@
 			<%= image_tag @photo.image.url, :name => 'photo[image]' %>
 		</div>
 
-	 	<div id="popup-image-editor-form">
-	 		<div class="left-section">
-	 			<%= f.label :author, 'источник фотографии' %><br>
-	 			<%= f.text_field :author, :class => 'rounded-input' %><br>
+		<div id="popup-image-editor-form">
+			<table class="photo-inputs-table" cellpadding="0">
+				<tr>
+					<th class="left-section">
+						<%= f.label :author, 'источник фотографии' %><br>
+					</th>
+					<th class="right-section">
+						<%= f.label :text, 'описание' %><br>
+					</th>
+				</tr>
+				<tr>
+					<td class="left-section">
+		 				<%= f.text_field :author, :class => 'rounded-input' %>
+					</td>
+					<td rowspan="3" class="right-section">
+		 				<%= f.text_area :text, :class => 'rounded-input photo-text' %>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<%= f.label :year, 'когда сделано (год)' %>
+					</th>
+				</tr>
+				<tr>
+					<td class="left-section">
+		 				<%= f.text_field :year, :class => 'rounded-input' %>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<div class="help-text">
+							<br>
+				 			иногда изменения могут вступить в силу только через некоторое время
+				 		</div>
+					</td>
+				</tr>
 
-	 			<%= f.label :year, 'когда сделано (год)' %><br>
-	 			<%= f.text_field :year, :class => 'rounded-input' %><br>
+				<% if current_user.is? "admin" %>
+					<tr>
+						<td colspan="2">
+							<%= f.label :alt, 'атрибут alt изображения' %><br>
+				 			<%= f.text_area :alt, :class => 'form-input' %>
+		 				</td>
+		 			</tr>
+				<% end %>
 
-	 		</div>
-	 		<div class="right-section">
-	 			<%= f.label :text, 'описание' %><br>
-	 			<%= f.text_area :text, :class => 'rounded-input' %>
-	 		</div>
-	 		<div class="clear"></div>
-	 		<div class="help-text">
-	 			иногда изменения могут вступить в силу только через некоторое время
-	 		</div>
+			</table>
 	 			 		
 	 	</div>
+
+	 	
+
 	 	<div id="popup-image-editor-footer">
 			<div class="confirm-green-button">
 		    	<%= f.submit 'сохранить', :class => 'confirm-green-button-input' %>

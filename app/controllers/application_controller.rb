@@ -41,10 +41,16 @@ class ApplicationController < ActionController::Base
 		def category_loop(categories)
 			categories.each do |category| 
 				@cats.push( category )
-				category_loop(category.categories) if category.categories.count != 0
+
+				inner_categories = category.categories
+
+				category_loop(inner_categories) if inner_categories.length != 0
+				
 			end
 		end
+
 		category_loop(@categories)
+
 		return @cats
 	end
 

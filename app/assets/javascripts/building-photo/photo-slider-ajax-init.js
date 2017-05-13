@@ -104,8 +104,6 @@ function load_slider_by_ajax(target_url, options) {
             parse_url_get_params(target_url)
 
 
-            console.log('loading slider window')
-
             $.ajax({
                 url: target_url,
                 method: 'GET',
@@ -114,7 +112,7 @@ function load_slider_by_ajax(target_url, options) {
                 cache: false,
                 beforeSend: function() 
                 {
-                    console.log('lbefore ajax')
+
                 },
                 success: function(data, textStatus, jqXHR) 
                 {
@@ -150,6 +148,7 @@ function load_slider_by_ajax(target_url, options) {
                             $(year_menu).show();
 
                          }
+
 
                     });
 

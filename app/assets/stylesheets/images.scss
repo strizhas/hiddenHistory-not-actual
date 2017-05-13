@@ -1,13 +1,13 @@
 /*IE9*/
-*::selection 
+img::selection 
 {
     background-color:transparent;
 } 
-*::-moz-selection
+img::-moz-selection
 {
     background-color:transparent;
 }
-*
+img
 {        
     -webkit-user-select: none;
     -moz-user-select: -moz-none;

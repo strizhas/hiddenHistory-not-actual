@@ -160,13 +160,13 @@
 	}
 
 	#schema-add-guide-button {
-		background: url( '/assets/schema-edit-button.png') no-repeat;
+		background: url( '/assets/schema-add-guide-button.png') no-repeat;
 		z-index: 981;
 	}
 
 
 	#schema-delete-marker-button {
-		background: url( '/assets/schema-edit-button.png') no-repeat;
+		background: url( '/assets/schema-delete-button.png') no-repeat;
 		z-index: 1745;
 	}
 
@@ -271,6 +271,7 @@
 	-ms-overflow-style: none;
 	overflow: -moz-scrollbars-none;	
 }
+
 
 #schema-photo-show-container::-webkit-scrollbar { width: 0; }
 

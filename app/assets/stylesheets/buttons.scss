@@ -1,0 +1,139 @@
+.add-post-button {
+	padding: 10px 25px 10px 5px;
+}
+
+.add-post-button,
+.confirm-green-button,
+.abort-operation-button {
+	position: relative;
+	text-decoration: none;
+	cursor: pointer;
+	margin-right: 10px;
+}
+
+.confirm-green-button,
+.abort-operation-button {
+	border-radius: 5px;
+}
+
+.add-post-button,
+.confirm-green-button,
+.abort-operation-button {
+	font-size: 14px;
+}
+
+
+.confirm-green-button {
+	background-color: #a7bf6d;
+	display: inline-block;
+	border: 1px solid #a7bf6d;
+	color: #f1f1f2;
+	border-top: 1px solid #c3d381;
+	box-shadow: 0px 0px 0 2px #879261;
+}
+
+.confirm-green-button > input{
+	font-size: 1em;
+	background: none;
+	border: none;
+	padding: 0.75em 2em 0.75em  0.75em;
+	margin-left: 10px;
+	color: #f1f1f2;
+	font-family: 'PTSansRegular';
+	cursor: pointer;
+}
+
+.add-post-button {
+	color: #a5a5a5;
+}
+
+.add-post-button:before {
+	content: "+";
+	padding: 11px 16px 10px 13px;
+	margin-right: 14px;
+}
+
+#main-sidebar {
+
+	.add-post-button {
+		color: #a5a5a5;
+		background: #595959;
+	}
+
+	.add-post-button:before {
+		border-right: 6px solid #404041;
+	}
+
+}
+
+main { 
+
+	.add-post-button {
+		color: #424242;
+		background: #c9c9c9;
+	}
+
+	.add-post-button:before {
+		border-right: 6px solid #e8e8e8;
+	}
+
+}
+
+.confirm-green-button:before {
+	content: url(/assets/button-ok.png);
+	height: 10px;
+	padding: 0 10px;
+	border-right: 2px solid #f1f1f2;
+}
+
+#main-sidebar .add-post-button {
+	position: absolute;
+	bottom: 40px;
+	margin-left: 20px;
+
+}
+
+.confirm-green-button-input:focus {
+	outline: none;
+}
+
+.abort-operation-button {
+	padding: 11px 20px 10px 10px;
+	background-color: #a86450;
+	color: #f1f1f2;
+}
+
+.abort-operation-button:before {
+	content: "✕";
+	padding: 11px 15px 10px 10px;
+	margin-right: 10px;
+	border-right: 2px solid #f1f1f2;
+}
+
+
+.remove-image-button {
+    width: 28px;
+    height: 28px;
+    background: url('/assets/image-delete-button.png');
+    border: none;
+    position: absolute;
+    top: 20px;
+    right: 22px;
+    cursor: pointer;
+}
+
+.crop-image-button {
+    position: absolute;
+    top: 60px;
+    right: 22px;
+    z-index: 6000;
+    width: 28px;
+    height: 28px;
+    background: url( '/assets/image-crop-button.png' );
+    cursor: pointer;
+    border: none; 
+}
+
+.crop-image-button:focus {
+    outline: none;
+}

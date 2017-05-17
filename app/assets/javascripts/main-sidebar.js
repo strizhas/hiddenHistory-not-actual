@@ -13,11 +13,6 @@
 
 	var init_sidebar = function() {
 
-		$(window).on('photo-gallery-start' , function() {
-			create_photos_menu();
-			 add_active_class_to_sidebar( $('#sidebar-photo-content') )
-		});
-
 		$(sidebar).mouseenter(function(event) {
                         $('body').css('overflow', 'hidden');
         }).mouseleave(function(event) {
@@ -87,7 +82,8 @@
 		    add_active_class_to_sidebar( $('#sidebar-article-content') )
  
 
-		}
+		}	
+
 
 		if ( $('#building-photo-main').length > 0 )  { 
 
@@ -251,6 +247,7 @@
 
 			if ( $(active_tree).find('.active-link').length == 0 ) 
 				{
+					console.log('hiding')
 					active_list = $(active_tree).find('ul')[0];
 					$(active_tree).removeClass('active-tree');
 					$(active_list).slideToggle('fast');
@@ -367,13 +364,14 @@
 
 			}
 
-			console.log(' ckip loading')
 			// if it existing, just make it visible
 			if ( $('#photo-years-submenu').is(':hidden') ) {
 
 				$('#photo-years-submenu').toggle('fast');
 
 			}
+
+			add_active_class_to_sidebar( $('#sidebar-photo-content') );
 
 	};
 
@@ -412,6 +410,13 @@
 		update : function() {
 
 			update_sidebar();
+
+		},
+
+		create_photos_menu : function() {
+
+			create_photos_menu();
+
 
 		}
 

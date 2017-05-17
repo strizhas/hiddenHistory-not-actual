@@ -9,8 +9,30 @@ main_photo_slider = function( options ) {
     var main_img_frame    = $('#slider_main_img_frame')
 
 
-    console.log('main_photo_slider')
-    console.log( params)
+    var init = function() {
+
+        var figure = $('#main_slider_section').find('figure')
+
+
+        $('#main_slider_section').css('height' , params.max_height )
+
+        recalculate_image_size( )
+
+        $(window).on('close_popup', close_slider_function )
+                
+        // toggling to previos slide
+        $(main_button_left).on('click' , function() { load_image_to_main_container( '', 'prev' ) })
+
+        // toggling to next slide
+        $(main_button_right).on('click' , function() { load_image_to_main_container( '', 'next' ) })
+
+        bind_button_appears_on_figure_hover( figure );
+
+        bind_likes_button();
+
+        $(window).trigger('change_content_area')
+
+    };
 
 
     var load_image_to_main_container = function( current_id, direction ) {
@@ -148,26 +170,7 @@ main_photo_slider = function( options ) {
 
                 initialize : function() {
 
-                    $('#main_slider_section').css('height' , params.max_height )
-
-                    recalculate_image_size( )
-
-                    $(window).on('close_popup', close_slider_function )
-                
-                    // toggling to previos slide
-                    $(main_button_left).on('click' , function() { load_image_to_main_container( '', 'prev' ) })
-
-                    // toggling to next slide
-                    $(main_button_right).on('click' , function() { load_image_to_main_container( '', 'next' ) })
-
-                    $(window).trigger('change_content_area')
-
-                    var figure = $('#main_slider_section').find('figure')
-
-                    bind_button_appears_on_figure_hover( figure );
-
-                    bind_likes_button()
-
+                    init();
                 
                 },
 

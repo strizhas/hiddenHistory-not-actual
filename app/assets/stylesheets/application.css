@@ -98,7 +98,7 @@ body {
 	position: relative;
 }
 
-#main-sidebar ul li > ul li {
+#main-sidebar ul li > ul {
 	background-color: #303030;
 }
 
@@ -110,8 +110,37 @@ body {
 	color: #efefef;
 }
 
+#sidebar-article-content ul {
+	background: #303030;
+}
+
 #sidebar-article-content ul > li > a {
 	text-transform: none !important;
+	width: 200px;
+	padding-left: 40px;
+	line-height: 1.75em;
+}
+
+#sidebar-article-content ul > li {
+  list-style-type: none;
+  position: relative;
+  width: 1px;
+  margin-left: 22px;
+  background: #515151 !important;
+  padding: 0.3em 0;
+}
+
+#sidebar-article-content ul > li::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  bottom: calc( 50% + 5px) ;
+  transform: translateX(-50%) translateY(70%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: inherit;
 }
 
 
@@ -599,19 +628,19 @@ box-shadow: -2px 2px 5px 0px rgba(0,0,0,0.51);
 
 
 .gray-circle-bar {
-	background: url(/assets/gray-circle.svg);
+	background: url(/assets/gray-circle.svg) no-repeat center;
 	width: 50px;
 	height: 50px;
 }
 
 .brown-gears-bar {
-	background: url(/assets/brown-gears.svg);
+	background: url(/assets/brown-gears.svg) no-repeat center;
 	width: 70px;
 	height: 70px;
 }
 
 .gray-gears-bar {
-	background: url(/assets/gray-gears.svg);
+	background: url(/assets/gray-gears.svg) no-repeat center;
 	width: 70px;
 	height: 70px;
 }

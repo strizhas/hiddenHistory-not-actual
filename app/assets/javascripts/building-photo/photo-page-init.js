@@ -6,9 +6,18 @@ function bind_actions_on_photo_gallery( options ) {
     // showing sidebar submenu if it still hidden
     var year_menu = $('#sidebar-photo-content').find('ul')[0]
 
-    if ( !$(year_menu).is(':visible') ) {
+
+    if ( $(year_menu).length != 0 && !$(year_menu).is(':visible') ) {
 
         $(year_menu).show();
+
+    } else {
+
+        if ( typeof( sidebar_menu ) !== 'undefined' ) {
+
+            sidebar_menu.create_photos_menu();
+
+        }
 
     }
 

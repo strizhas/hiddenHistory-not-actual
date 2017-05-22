@@ -34,13 +34,21 @@
 
 .comment-body {
 
-	.content-editor {
+	.content-editor,
+	.member-comment {
 		display: inline-block;
-		background-color: #a7bf6d;
 		color: #f1f1f2;
 		font-size: 0.75em;
 		padding: 0 5px;
 		border-radius: 5px;
+	}
+
+	.content-editor {
+		background-color: #a7bf6d;
+	}
+
+	.member-comment {
+		background-color: #b7b7b7;
 	}
 
 	.guest-comment {
@@ -146,6 +154,7 @@
 	padding-left: 30px;
 	padding-top: 30px;
 	padding-bottom: 10px;
+	font-size: 0.75em;
 }
 
 .unpublished-comment .comment-author,

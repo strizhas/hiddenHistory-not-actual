@@ -2,26 +2,40 @@
 
   <div id="content-inner-wrap" class="index-inner-wrap"> 
 
-  <% flash.each do |name, msg| -%>
-    <%= content_tag :div, msg, class: name %>
-  <% end -%>
-
-  	<div class="edit-profile-header">
-  		<%= link_to 'редактировать профиль', :controller => 'users', :action => 'setting' if current_user.present? && @user.id == current_user.id %>
-  	</div>
+    <% flash.each do |name, msg| -%>
+      <%= content_tag :div, msg, class: name %>
+    <% end -%>
 
 
-  <h2 class="index-post-header">Добавленные сооружения</h2>
+    <h2><%= @user.username %></h2>
+    	<div class="edit-profile-header">
+    		<%= link_to 'редактировать профиль', :controller => 'users', :action => 'setting' if current_user.present? && @user.id == current_user.id %>
+    	</div>
 
-  	<ul class="articles-list">
-          	<%= render(:partial => 'shared/post_preview', :collection => @user.buildings, :as => 'post') || 'пользователь не добавил сооружений' %>
-      </ul>
+    <div class="content-section">
+      <h2 class="index-post-header">Добавленные сооружения</h2>
 
+      	<ul class="articles-list">
+              	<%= render(:partial => 'shared/post_preview', :collection => @user.buildings, :as => 'post') || 'пользователь не добавил сооружений' %>
+        </ul>
 
-  <h2 class="index-post-header">Добавленные статьи</h2>
-  	<ul class="articles-list">
-      	<%= render(:partial => 'shared/post_preview', :collection => @user.articles, :as => 'post') || 'пользователь не добавил статей' %>
-      </ul>
+      <% if current_user.present? && @user.id == current_user.id %>
+        <%= link_to 'добавить сооружение', new_building_path, :rel => 'nofollow', class: "add-post-button"  if can? :create, Building %>
+      <% end %>
+    </div>
+
+    <div class="content-section">
+      <h2 class="index-post-header">Добавленные статьи</h2>
+      	<ul class="articles-list">
+          	<%= render(:partial => 'shared/post_preview', :collection => @user.articles, :as => 'post') || 'пользователь не добавил статей' %>
+          </ul>
+
+      <% if current_user.present? && @user.id == current_user.id %>
+         <%= link_to 'добавить статью', new_article_path, :rel => 'nofollow', class: "add-post-button"  if can? :create, Article %>
+      <% end %>
+    </div>
+
+   
 
   </div>
 </div>

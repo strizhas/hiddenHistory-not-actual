@@ -19,7 +19,11 @@ class ApplicationController < ActionController::Base
 	# check permission to edit posts
 	def can_manage?(post)
 
-		if  ( @current_user && ( @current_user.id == post.user_id || ( @current_user.is? :admin  ))) || 
+		if !defined? @current_user
+			return false
+		end	
+
+		if  (  @current_user.id == post.user_id || ( @current_user.is? :admin  )) || 
 			( can? :manage, post.class ) 
 				return true
 		else

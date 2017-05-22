@@ -1,20 +1,22 @@
 
 Building_schema_interface = function() {
 
+	var interface = this
+
 	var elements = {}
-	var menus = {}
 
+	interface.menus = {}
 
+	this.init = function() {
 
+		initialize();
+	}
 
 	// по умолчанию при нажатии на кнопку edit сразу загружаются
 	// неотмеченные на схемы фотографии
 	var Edit_button = function() {
 
-		this.button = $('#schema-edit-button')
-
-
-
+		this.button = $('#schema-edit-button');
 
 		this.bind_click = function() {
 
@@ -25,9 +27,9 @@ Building_schema_interface = function() {
 
 				var that = this
 
-				for ( var menu in menus ) {
+				for ( var menu in interface.menus ) {
 
-					menus[menu].turn_on_edit_mode()
+					interface.menus[menu].turn_on_edit_mode()
 				}
 
 				$(that).replaceWith( elements.ready_button.button )
@@ -64,9 +66,9 @@ Building_schema_interface = function() {
 			$(this.button).on('click' , function() {
 
 
-				for ( var menu in menus ) {
+				for ( var menu in interface.menus ) {
 
-					menus[menu].turn_off_edit_mode();
+					interface.menus[menu].turn_off_edit_mode();
 				}
 
 				schema_promt.fadeOut();
@@ -77,7 +79,7 @@ Building_schema_interface = function() {
 
 				elements.edit_button.bind_click();
 					
-				menus.guides.add_content_button.animateOut();
+				interface.menus.guides.add_content_button.animateOut();
 
 				elements.delete_marker_button.animateOut();
 					
@@ -104,19 +106,21 @@ Building_schema_interface = function() {
 
 		this.fadeIn = function(callback) {
 
-			$('#schema-menu-titles').children().removeClass('active')
+			that.active = true
 
-			for ( var menu in menus ) {
+			$('#schema-menu-titles').children().removeClass('active');
 
-				if ( menus[menu] != that ) {
-					menus[menu].fadeOut()
+			for ( var menu in interface.menus ) {
+
+				if ( interface.menus[menu] != that ) {
+					interface.menus[menu].fadeOut()
 				}
 
 			}
 
-			that.active = true
-
+		
 			setTimeout( function() {
+
 				$(that.container).fadeIn('fast')
 
 				if (typeof(callback) === 'function') {
@@ -156,9 +160,9 @@ Building_schema_interface = function() {
 			}
 
 
-			for ( var menu in menus ) {
+			for ( var menu in interface.menus ) {
 
-				if ( menus[menu].active == true ) {
+				if ( interface.menus[menu].active == true ) {
 
 					if ( that.add_content_button.active == false ) {
 
@@ -173,7 +177,7 @@ Building_schema_interface = function() {
 
 				}
 
-				var button = menus[menu].add_content_button.button
+				var button = interface.menus[menu].add_content_button.button
 
 				$(button).hide()
 
@@ -323,6 +327,15 @@ Building_schema_interface = function() {
 
 		};
 
+		// удаление элемента из области просмотра по его id
+		this.remove_figure_by_id = function(id) {
+
+			var element_id = '#icon-figure-' + id;
+
+			$(this.show_area).find( element_id ).remove();
+
+		}
+
 		var fadeIn_show_area = function() {
 
 
@@ -452,7 +465,7 @@ Building_schema_interface = function() {
 
 					if ( e.pageX > container_left_offset && e.pageY > container_top_offset ) {
 
-						ready_to_drop = true
+						ready_to_drop = true;
 
 
 						if ( marker_created == false ) {
@@ -460,26 +473,27 @@ Building_schema_interface = function() {
 							var marker_params = { 
 													'photo_id'			: img_id,
 													'year'				: $(img).data('year')
-												} 
+												}; 
 
 
 							marker = document.building_schema.add_marker( 'Photo' , marker_params )
-							marker.select()
-							marker.move( e.pageX  , e.pageY )
 
-							marker_created = true
+							marker.scale();
+							marker.select();
+							marker.move( e.pageX  , e.pageY );
+
+							marker_created = true;
 
 						} else {
 
-							marker.move( e.pageX  , e.pageY )
+							marker.move( e.pageX  , e.pageY );
 
 						}
 
 
 					} else {
 
-						console.log( 'ready_to_drop = false ')
-						ready_to_drop = false
+						ready_to_drop = false;
 
 					}
 
@@ -556,9 +570,9 @@ Building_schema_interface = function() {
 
 				if ( markers_loaded == false ) {
 
-					document.building_schema.load_guide_markers()
+					document.building_schema.load_guide_markers();
 
-					markers_loaded = true
+					markers_loaded = true;
 				
 				}
 
@@ -566,14 +580,14 @@ Building_schema_interface = function() {
 
 					if ( that.edit_mode == true ) {
 
-						that.load_edit_menu()
+						that.load_edit_menu();
 
-						return
+						return;
 					}
 
 					if ( loaded == false ) {
 
-						load_guides()
+						load_guides();
 					
 					}
 
@@ -599,6 +613,36 @@ Building_schema_interface = function() {
 
 			}
 
+
+		};
+
+		this.remove_figure_by_id = function(id) {
+
+			var element_id = '#guide-link-' + id;
+
+			$(element_id).parent().remove();
+
+		};
+
+		this.add_guide = function(params) {
+
+			console.log( 'this.add_guide')
+			console.log( params)
+
+			li = $('<li>');
+
+			var a = $('<a>')
+
+			$(a).attr('href', params.url )
+				.attr('id', 'guide-link-' + params.id )
+				.text( params.title )
+				.data('id' , params.id);
+
+			$(li).append(a);
+			
+			$(that.guide_list).append(li);
+
+			bind_mouse_events_in_item(a);
 
 		};
 
@@ -649,27 +693,13 @@ Building_schema_interface = function() {
 
 		var create_guides_list = function(data) {
 
-			var ul = $('<ul>');
+			that.guide_list = $('<ul>').appendTo(that.show_area);
 
 			for ( var elem in data ) {
 
-				
-				li = $('<li>');
-
-				var a = $('<a>')
-
-				$(a).attr('href', data[elem].url ).text( data[elem].title ).data('id' , data[elem].id);
-
-				$(li).append(a);
-				
-				$(ul).append( li);
-
-				bind_mouse_events_in_item(a);
+				that.add_guide(data[elem]);
 
 			}
-
-			$(that.show_area).append(ul);
-
 
 		};
 
@@ -738,68 +768,61 @@ Building_schema_interface = function() {
 
 
 	
+	var initialize = function() {
 
-	return {
+		schema_promt = new Promt()
 
-		initialize : function() {
+		// schema main navigation module depends of d3.js library,
+		// so we check if it was correctly loaded
+		if ( typeof(d3) == 'undefined' ) {
 
-					schema_promt = new Promt()
+			schema_promt.fadeIn('возникла проблема с библиотекой d3.js');
 
-					// schema main navigation module depends of d3.js library,
-					// so we check if it was correctly loaded
-					if ( typeof(d3) == 'undefined' ) {
-
-						schema_promt.fadeIn('возникла проблема с библиотекой d3.js');
-
-						return
-
-					}
-
-
-					document.building_schema = new Building_schema();
-
-					document.building_schema.init();
-
-
-					// creating new lighbox, in which fullsize images will be showen
-					// created before gallery, because 'placed gallery' callback we be
-					// executed every time, when gallery updates
-					elements.schema_lightbox = new Schema_lightbox();
-					elements.schema_lightbox.init();
-
-
-
-					// we use timeout function, because schema didn't appears emmideatly, so if we'll
-					// try to call promt_builder, message will be placed in the document left top corner
-					setTimeout( function() {
-						$('#schema-settings-button').promt_builder('параметры схемы')
-						
-					} ,300)
-
-
-					elements.edit_button  = new Edit_button()
-						
-					elements.edit_button.bind_click()
-
-					elements.ready_button  = new Ready_button()
-
-					elements.delete_marker_button = new Delete_marker_button()
-
-
-					menus.photos = new Photos_menu()
-
-					menus.photos.init()
-
-					menus.guides = new Guides_menu()
-
-					menus.guides.init()
-
-
-
+			return
 
 		}
 
-	};
+
+		document.building_schema = new Building_schema();
+
+		document.building_schema.init();
+
+
+		// creating new lighbox, in which fullsize images will be showen
+		// created before gallery, because 'placed gallery' callback we be
+		// executed every time, when gallery updates
+		elements.schema_lightbox = new Schema_lightbox();
+		elements.schema_lightbox.init();
+
+
+
+		// we use timeout function, because schema didn't appears emmideatly, so if we'll
+		// try to call promt_builder, message will be placed in the document left top corner
+		setTimeout( function() {
+			$('#schema-settings-button').promt_builder('параметры схемы')
+			
+		} ,300)
+
+
+		elements.edit_button  = new Edit_button()
+			
+		elements.edit_button.bind_click()
+
+		elements.ready_button  = new Ready_button()
+
+		elements.delete_marker_button = new Delete_marker_button()
+
+
+		interface.menus.photos = new Photos_menu()
+
+		interface.menus.photos.init()
+
+		interface.menus.guides = new Guides_menu()
+
+		interface.menus.guides.init()
+
+
+	}
 
 
 
@@ -809,8 +832,10 @@ Building_schema_interface = function() {
 
 $( window ).on('shema-block-start', function() { 
 	
-	document.building_schema_interface = new Building_schema_interface();
+	document.schema_interface = new Building_schema_interface();
 
-	document.building_schema_interface.initialize(); 
+	document.schema_interface.init();
+
+	console.log( document.schema_interface)
 
 });

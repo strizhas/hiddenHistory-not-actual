@@ -181,22 +181,55 @@ Add_guide_button = function() {
 
 			var form = $(guide_editor.container).find('form').eq(0);
 
-	         handle_image_to_guide_gallery();
+	        handle_image_to_guide_gallery();
 
-            var callback = { }
-            			
-            callback['success'] = function( data ) {
+	        // параметры, которые будет отправлены
+	        // в меню для создания нового элемента
+	        var guide_params = {}
 
-            	console.log('form success guide id = ' + data)
-				marker.params['guide_id'] = data  
-				marker.update('create')
+	        // действия, которые будут выполнены
+	        // после заполнения формы
+	        var callback = { }
+
+	        var title_input = $(form).find('#guide_title');
+	        var url_input   = $(form).find('#guide_url');
+            
+            $(title_input).on( 'change', function(  ) {
+
+				guide_params['title'] = $(this).val();
+				console.log(guide_params)
+
+			});
+
+			$(url_input).on( 'change', function(  ) {
+
+				guide_params['url'] = $(this).val();
+				console.log(guide_params)
+
+			});
+            
+            // действия в случае успешного заполнения формы	
+            // получаем id созданного guide и добавляем его
+            // в маркер и соотвествующий эдемент меню
+            callback['success'] = function( id ) {
+
+				marker.params['guide_id'] = id;  
+				marker.update('create');
+
+				guide_params['id'] = id
+
+				// добавляем новый элемент в меню
+				document.schema_interface.menus.guides.add_guide(guide_params);
+
 			};
 
+			// действия в случае неудачного заполнения формы	
             callback['error'] = function() {
 	            $(window).trigger('close_popup')
             };
 
 
+            // действия при закрытии формы
             $(window).on('popup_closed' , function() {
 
             	if ( typeof( marker.params['guide_id'] ) == 'undefined') {

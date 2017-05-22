@@ -147,7 +147,7 @@ function load_slider_by_ajax(target_url, options) {
 
                             $(year_menu).show();
 
-                         }
+                        }
 
 
                     });

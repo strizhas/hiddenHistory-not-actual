@@ -15,8 +15,11 @@ class NewsController < ApplicationController
 			@content = articles + buildings
 
 		else
-			@content = News.where( published: true )
-			@header = true
+
+			@content   = News.where( published: true )
+			@buildings = Building.select([ :id, :title, :image, :intro, :category_id, :created_at, :era]).limit(5)
+			@header    = true
+
 		end
 	end
 

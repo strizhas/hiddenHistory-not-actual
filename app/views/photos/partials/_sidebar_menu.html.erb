@@ -2,9 +2,18 @@
 	<% @years.each do |year|  %>
 		<li>
 
-			<%= link_to ( year == nil ? 'без даты' : year), polymorphic_url( [ @parent, 'photos' ] , :year=> year ), 
-															:class => 'remote-link',
-															:data => { background: '#2b2b2b' }  %>
+			<%  if year != nil %>
+
+				<%= link_to ( year ), polymorphic_url( [ @parent, 'photos' ] , :year=> year ), 
+															:class => 'remote-link', :rel => 'nofollow' %>
+
+			<% else %>
+
+				<%= link_to ( 'без даты' ), polymorphic_url( [ @parent, 'photos' ] , :year=> 'undefined' ), 
+															:class => 'remote-link', :rel => 'nofollow'  %>
+
+			<% end %>
+
 		</li>
 	<% end %>
 </ul>	

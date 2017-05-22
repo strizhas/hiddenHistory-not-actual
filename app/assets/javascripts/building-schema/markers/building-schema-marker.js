@@ -46,12 +46,14 @@ Schema_marker.prototype.move = function( page_x, page_y ) {
 
 Schema_marker.prototype.destroy = function(  ) {
 
+	
+
 	if ( this.active == false ) {
 		return;
 	}
 
 	// удаляем маркер из DOM
-	this.marker.remove()
+	this.marker.remove();
 
 	if ( typeof( this.params.id ) !== 'undefined' ) {
 
@@ -59,7 +61,28 @@ Schema_marker.prototype.destroy = function(  ) {
 	}
 	
 	// удаляем объект
-	delete this
+	delete this;
+
+	// удаление соответсвующего элемента из меню просмотра
+	if ( this.model_name == 'photo_marker' ) {
+
+		var id = this.params['photo_id']
+
+		document.schema_interface.menus.photos.remove_figure_by_id(id);
+
+		return;
+
+	}
+
+	if ( this.model_name == 'guide_marker' ) {
+
+		var id = this.params['guide_id']
+
+		document.schema_interface.menus.guides.remove_figure_by_id(id);
+
+		return;
+		
+	}
 
 };
 
@@ -126,6 +149,14 @@ Schema_marker.prototype.check_can_edit = function(  ) {
 	}
 
 };
+
+Schema_marker.prototype.scale = function() {
+
+	var scale = document.building_schema.settings.size_delta;
+
+	this.marker.selectAll("*").attr('transform' , 'scale(' +  scale + ')');
+
+}
 
 
 Schema_marker.prototype.update = function( action) {
@@ -376,9 +407,7 @@ Schema_marker.prototype.init = function( params	) {
 
 		$(document).on('shema_zoom', function() {
 
-			var scale = document.building_schema.settings.size_delta;
-
-			that.marker.selectAll("*").attr('transform' , 'scale(' +  scale + ')');
+			that.scale();
 		});
 
 		$(document).on('turn_on_edit_mode' , function() {
@@ -391,6 +420,8 @@ Schema_marker.prototype.init = function( params	) {
 
 			that.activate();
 
-		});				
+		});	
+
+		console.log(this)			
 
 };

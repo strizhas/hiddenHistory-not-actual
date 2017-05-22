@@ -41,7 +41,11 @@ class UsersController < ApplicationController
  	end
 
     def create
-    	@user = User.new(user_params)
+
+    	new_params = user_params
+    	new_params[:role] = 'user'
+
+    	@user = User.new(new_params)
 
     	if @user.save
     		

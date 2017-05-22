@@ -30,7 +30,7 @@ Schema_photo_marker.prototype.create_marker = function() {
 
 	var schema_svg = document.building_schema.schema_svg
 
-	var radius = Math.floor( this.params.radius * document.building_schema.settings.size_delta  )
+	var radius = Math.floor( this.params.radius  )
 
 	var marker = schema_svg.append('g')
 						.attr('transform' , 'translate( ' + this.params.coord_x + ' ' + this.params.coord_y +  ') rotate(' + this.params.angle + ')')
@@ -168,8 +168,8 @@ Schema_photo_marker.prototype.return_ajax_params = function() {
 		coord_x  : this.params.coord_x,
 		coord_y  : this.params.coord_y,
 		angle	 : this.params.angle,
-		photo_id : this.params.photo_id
-
+		photo_id : this.params.photo_id,
+		year	 : this.params.year
 	}
 
 }

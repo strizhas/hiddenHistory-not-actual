@@ -42,6 +42,33 @@ bind_comment_form_ajax_response = function() {
 
 	};
 
+	var validate_comment_form = function() {
+
+		$(".comment-form").validate({
+	        rules:{
+	            'comment[commenter]':{
+	                    required: true,
+	                    rangelength: [3,50]
+	                },
+
+	            'comment[body]':{
+	                    required: true,
+	                }
+	        },
+	        messages:{
+	            'comment[commenter]':{
+	                required: "вы не указали имя",
+	                rangelength: "Выберете имя в диапозоне от 3 до 50 символов"
+	            },
+	            'comment[body]': {
+	                required: "вы не заполнили текст комментария",
+	            }
+	        }
+
+	    });
+
+	}
+
 	
 	var slide_away = function(el, callback) {
 		$(el).slideToggle('fast' , function() {
@@ -138,7 +165,9 @@ bind_comment_form_ajax_response = function() {
 
 			slide_away( $('#reply-form') );	
 
-		})	
+		});
+
+		validate_comment_form();	
 	
 	}()
 

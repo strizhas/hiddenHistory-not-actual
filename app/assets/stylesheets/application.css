@@ -465,15 +465,15 @@ p {
 6.0 Articles page 
 */
 
-
+.content-section {
+	padding-top: 20px;
+	padding-bottom: 50px;
+}
 
 .articles-list {
 	list-style:  none;
 	padding:  30px 0;
 }
-
-
-
 
 .admin-edit-links {
 	padding:  10px 0;

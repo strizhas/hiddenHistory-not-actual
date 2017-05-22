@@ -3,10 +3,14 @@
 		<%= content_tag :div, msg, class: name %>
 	<% end -%>
 
-		<%= content_tag :h1, 'Последние обновления', class: 'index-post-header' if defined? @header %>
+    	<%  if defined? @header %>
+			
+			<%= render(:partial => 'news/partials/index_all' )  %>
 
-		<ul class="articles-list">
-        	<%= render(:partial => 'shared/post_preview', :collection => @content, :as => 'post') || 'Нет ни одной записи' %>
-    	</ul>
+		<%  else %>
+
+			<%= render(:partial => 'news/partials/index_era' )  %>
+
+    	<%  end %>
 
 </div>

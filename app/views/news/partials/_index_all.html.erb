@@ -1,0 +1,13 @@
+
+<%= content_tag :h1, 'Новости проекта', class: 'index-post-header'  %>
+<div class="content-section">
+	<ul class="articles-list">
+		<%= render(:partial => 'shared/post_preview', :collection => @content, :as => 'post') || 'Нет ни одной записи' %>
+	</ul>
+</div>
+
+<%= content_tag :h2, 'Последние добавленные сооружения', class: 'index-post-header' %>
+
+<ul class="articles-list">
+    <%= render(:partial => 'shared/post_preview', :collection => @buildings, :as => 'post') || 'Нет ни одной записи' %>
+</ul>

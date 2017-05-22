@@ -14,7 +14,9 @@ module ApplicationHelper
 				$html += "<li>"
 
 				inner_cont = ( '<span>' + category.title + '</span>' ).html_safe
-				$html += ( link_to inner_cont, { :action => :index, :category_id => category.id }, :class => 'remote-link' )
+				$html += ( link_to inner_cont, { :action => :index, :category_id => category.id }, 
+												 :class => 'remote-link', 
+												 :rel => 'nofollow' )
 
 
 

@@ -31,6 +31,9 @@ class CommentsController < ApplicationController
 		end
 
 		if @comment.save
+
+			UserMailer.comment_notification(@comment, @commentable).deliver_later
+
 			render :partial => "comments/comment", :locals => { :comment => @comment }, :layout => layout, :status => :created
 		else
 			render :partial => "comments/error", :layout => false
@@ -70,10 +73,10 @@ class CommentsController < ApplicationController
     	end
 
     	def find_commentable
-     		@commentable = Comment.find_by_id(params[:comment_id]) if params[:comment_id]
-      		@commentable = Article.find_by_id(params[:article_id]) if params[:article_id]
-      		@commentable = Building.find_by_id(params[:building_id]) if params[:building_id]
-      		@commentable = Photo.find_by_id(params[:photo_id]) if params[:photo_id]
-      		@commentable = Guide.find_by_id(params[:guide_id]) if params[:guide_id]
+     		@commentable = Comment.select([:id, :body]).find_by_id(params[:comment_id])				if params[:comment_id]
+      		@commentable = Article.select([:id]).find_by_id(params[:article_id])					if params[:article_id]
+      		@commentable = Building.select([:id]).find_by_id(params[:building_id])					if params[:building_id]
+      		@commentable = Photo.select([:id, :building_id]).find_by_id(params[:photo_id])			if params[:photo_id]
+      		@commentable = Guide.select([:id, :building_id, :title]).find_by_id(params[:guide_id]) 	if params[:guide_id]
     	end
 end

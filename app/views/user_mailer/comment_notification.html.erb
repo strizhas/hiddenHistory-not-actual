@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+
+
+    <% if @commentable.commentable_type == 'Comment' %>
+
+      <p>добавлен ответ на ваш комментарий</p>
+
+      <blockquote><%= @commentable.body %></blockquote>
+
+    <% end %>
+
+
+    <% if @commentable.commentable_type == 'Building' %>
+
+      <p>К вашему сооружению <%= @commentable.title %> добавлен комментарий</p>
+
+    <% end %>
+
+
+    <% if @commentable.commentable_type == 'Article' %>
+
+      <p>К вашей статье <%= @commentable.title %> добавлен комментарий</p>
+
+    <% end %>
+
+    <blockquote><%= @comment.body %></blockquote>
+
+    
+  </body>
+</html>

@@ -48,10 +48,12 @@ class UsersController < ApplicationController
     	@user = User.new(new_params)
 
     	if @user.save
-    		
-    		flash[:notice] = "Вы успешно зарегестрированы!"
+
+    		UserMailer.welcome_email(@user).deliver_later
 
     		session[:user_id] = @user.id
+
+    		flash[:notice] = "Вы успешно зарегестрированы!"
 
     		redirect_to user_path( @user, :set_js_user_id => true )
 

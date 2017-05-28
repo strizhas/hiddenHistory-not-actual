@@ -1,0 +1,38 @@
+<% if @comment.commentable_type == 'Comment' %>
+
+  добавлен ответ на ваш комментарий
+
+  %= @commentable.body %>
+
+<% end %>
+
+
+<% if @comment.commentable_type == 'Building' %>
+
+  К вашему сооружению <%= @commentable.title %> добавлен комментарий
+
+<% end %>
+
+
+<% if @comment.commentable_type == 'Article' %>
+
+  
+
+<% end %>
+
+<% if @commentcommentable_type == 'Photo' %>
+
+  К вашей <%= link_to 'фотографии', building_photo_path( @parent, @commentable.id ) %> добавлен комментарий
+
+<% end %>
+
+<% if @comment.commentable_type == 'Guide' %>
+
+  К вашей отметке <%= @commentable.title %> добавлен комментарий
+
+<% end %>
+
+===============================================
+
+<%= @comment.body %>
+

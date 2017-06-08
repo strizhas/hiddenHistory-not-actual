@@ -7,7 +7,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :image
       t.string :encrypted_password, null: false 
       t.string :salt
-      t.string :role, null: false, default: 'member'
+      t.string :role, null: false, default: 'guest'
 	    t.date	 :birthdate
       t.timestamps
 	  

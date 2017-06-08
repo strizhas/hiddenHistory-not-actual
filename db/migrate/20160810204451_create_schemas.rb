@@ -8,6 +8,7 @@ class CreateSchemas < ActiveRecord::Migration
       t.integer :building_id
       t.integer :user_id
       t.integer :angle
+      t.integer :schema_id
       t.decimal :bounce_up_ltd, :precision=>10, :scale=>6
       t.decimal :bounce_up_lng, :precision=>10, :scale=>6
       t.decimal :bounce_dn_ltd, :precision=>10, :scale=>6

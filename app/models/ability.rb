@@ -15,13 +15,11 @@ class Ability
         can :manage, [ Article, News ]
     elsif user.is? :buildings_editor
         can :manage, [ Building, News ] 
-    elsif user.is? :user
+    elsif user.is? :member
         can :create, :all
         can :read, :all
         can :manage, Schema
-    # идиотизм, но member это на самом деле гость
-    # простите
-    elsif user.is? :member
+    elsif user.is? :guest
         can :read, :all, :published => true
     end
     

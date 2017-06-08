@@ -18,7 +18,10 @@
          		 <%= f.file_field :image, id: 'image-input-field' %>
     		</div>
 		</div>
-
+		<div class="text-section">
+	 		<%= f.label :number, 'номер (если известен)' %><br>
+	 		<%= f.text_field :number %><br>
+	 	</div>
 	 	<div class="text-section">
 	 		<%= f.label :title, 'название' %><br>
 	 		<%= f.text_field :title, data: { 'validate' => true} %><br>

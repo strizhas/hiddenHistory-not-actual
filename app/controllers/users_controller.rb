@@ -43,7 +43,7 @@ class UsersController < ApplicationController
     def create
 
     	new_params = user_params
-    	new_params[:role] = 'user'
+    	new_params[:role] = 'member'
 
     	@user = User.new(new_params)
 

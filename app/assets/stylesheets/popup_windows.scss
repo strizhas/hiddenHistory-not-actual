@@ -47,10 +47,17 @@
 	margin: auto;
 	position: absolute;
 	top:50%;
-    left:50%;
-    margin-left: -35px;
+    left:50%; 
     margin-top: -35px;
 	z-index: 9900;
+}
+
+#content-progress-bar {
+	margin-left: -35px;
+}
+
+#progress-bar-text-message {
+	margin-left: -150px;
 }
 
 .schema-guide-editor {

@@ -6,6 +6,7 @@ class CreateGuides < ActiveRecord::Migration[5.0]
       t.string :image
       t.integer :schema_id
       t.integer :user_id
+      t.integer :number
       t.string :url
 
       t.timestamps

@@ -629,16 +629,28 @@ Building_schema_interface = function() {
 			console.log( 'this.add_guide')
 			console.log( params)
 
-			li = $('<li>');
+			var li  = $('<li>');
+			
 
-			var a = $('<a>')
+			var a = $('<a>');
 
 			$(a).attr('href', params.url )
 				.attr('id', 'guide-link-' + params.id )
 				.text( params.title )
 				.data('id' , params.id);
 
-			$(li).append(a);
+			if ( params.number != null ) {
+
+				var num = $('<span>')
+
+				$(num).text( params.number )
+
+				$(li).append( num );
+
+			}
+			
+
+			$(li).append( a);
 			
 			$(that.guide_list).append(li);
 

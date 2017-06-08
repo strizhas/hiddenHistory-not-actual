@@ -9,7 +9,6 @@ class CreateComments < ActiveRecord::Migration
       t.integer :category_id
       t.integer :likes, null: false , default: 0
       t.boolean :published, default: false
-      t.boolean :read, default: false
 
       t.timestamps null: false
     end

@@ -556,9 +556,23 @@ p {
 	padding-top: 30px;
 }
 
+.article-body .article-figure {
+	display: inline-block;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-right: 20px;
+}
+
+.article-body .article-figcaption {
+	font-size: 0.75em;
+}
+
+
 .edit_article {
 	padding: 30px 0;
 }
+
+
 
 
 /*

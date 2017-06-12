@@ -55,6 +55,30 @@
 	position: relative;
 }
 
+#schema-main-container { 
+
+	svg { 
+		-webkit-user-select: none;
+	    -moz-user-select: -moz-none;
+	    /*IE10*/
+	    -ms-user-select: none;
+	    user-select: none;
+
+	    /*You just need this if you are only concerned with android and not desktop browsers.*/
+	    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	}
+
+	svg::selection {
+	    background-color:transparent;
+	} 
+	svg::-moz-selection {
+	    background-color:transparent;
+	}
+
+}
+
+
+
 #schema-main-object svg {
 	height: 100%;
 	width: 100%;
@@ -121,10 +145,19 @@
 	}
 
 
-	#schema-year-menu li {
-		cursor: pointer;
-		transition: opacity 0.2s;
+	#schema-year-menu {
+		li {
+			cursor: pointer;
+			transition: opacity 0.2s;
+			list-style: none;
+			position: relative;
 
+		}
+
+		.schema-year-dot {
+			position: absolute;
+			left: -14px;
+		}
 	}
 
 
@@ -270,6 +303,17 @@
 	box-shadow: 0px 0px 6px 2px rgba(0,0,0,0.75);
 	-ms-overflow-style: none;
 	overflow: -moz-scrollbars-none;	
+}
+
+#schema-photo-show-container {
+	.error {
+		color: #d8563d;
+	}
+
+	.edit-item-button {
+		text-decoration: underline;
+		font-size: 0.75em;
+	}
 }
 
 

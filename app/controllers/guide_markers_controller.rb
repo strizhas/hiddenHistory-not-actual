@@ -15,6 +15,8 @@ class GuideMarkersController < ApplicationController
 
 		@owner = User.select([ :id, :username]).find( @guide.user_id )
 
+		@edit = can_manage?(@guide)
+
 		render :partial => 'markers/guide/show' , :layout => false
 
 	end

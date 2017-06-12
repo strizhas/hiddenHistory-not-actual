@@ -4,11 +4,11 @@ var Promt = function() {
 		this.box.className = 'schema-update-promt'
 		this.box.style.display = 'none'
 		this.active = false
+		this.fadingOut = false
 
 		document.getElementById('schema-svg-section').appendChild( this.box ) 
 
 		var that = this
-
 
 		this.flash = function( message ) {
 
@@ -34,6 +34,14 @@ var Promt = function() {
 
 		this.fadeOut = function() {
 
+			if ( that.fadingOut == true ) {
+
+				return;
+
+			}
+
+			that.fadingOut = true
+
 			var op = 1; // initial opacity
 			var n = 0 ; // counter
 
@@ -45,7 +53,8 @@ var Promt = function() {
 
 					clearInterval(timer) 
 					that.box.style.display = 'none'
-					that.active = false
+					that.active 	= false
+					that.fadingOut  = false
 
 				}
 

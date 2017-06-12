@@ -98,12 +98,20 @@ Schema_content_editor = function() {
         var callback = function() {
 
             var img = $(that.container).find('#photo-big-preview');
+
+            var edit_button = $('#edit-item-button')
                     
             $(img).resizeImageToContainer( $('#photo-section') );
 
             bind_likes_button();
 
             bind_comment_form_ajax_response();
+
+            $(edit_button).on('click' , function() {
+
+                that.load_editor( $(edit_button).data('id') )
+
+            })
 
         };
 
@@ -128,18 +136,32 @@ Schema_show_photo = function( photo_id ) {
 };
 
 
+
+
+
 Schema_show_guide = function( guide_id ) {
 
     Schema_content_editor.call(this);
+
 
     this.SHOW_PATH = window.location.href + '/show_guide_marker/'
 
     this.init();
 
     this.ajax_update_content_area( { 'guide_id' : guide_id } )
-   
+
+    this.load_editor = function(id) {
+
+        var guide_editor = new Guide_edior();
+                    
+        guide_editor.edit_guide(id);
+
+    }
+
+    
 
 };
+
 
 
 
@@ -156,7 +178,7 @@ Guide_edior = function( id ) {
 
 
 
-        var form = $(editor.container).find('form')
+        var form = $(editor.container).find('form').eq(0);
 
         var uploader_options = { 'gallery' : $('#photo-load-section')}
 
@@ -168,9 +190,40 @@ Guide_edior = function( id ) {
 
             handle_image_to_guide_gallery();
 
-
+            that.validate_guide_form(form)
 
         }
+
+    }
+
+    this.validate_guide_form = function(form) {
+
+        $(form).validate({
+            rules:{
+                'guide[number]':{
+                        regex: "[а-яА-Я0-9]"
+                    },
+
+                'guide[title]':{
+                        rangelength: [5,50]
+                    },
+                'guide[url]':{
+
+                    },
+            },
+            messages:{
+                'guide[number]':{
+                    
+                    },
+                'guide[title]': {
+                        rangelength: "Выберете имя в диапазоне от 5 до 50 символов"
+                    },
+                'guide[url]': {
+
+                    }
+            }
+
+        });
 
     }
 
@@ -190,5 +243,7 @@ Guide_edior = function( id ) {
         that.ajax_content_load( url, {}, basic_callback );
 
     }
+
+
 
 };

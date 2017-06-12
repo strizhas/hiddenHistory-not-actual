@@ -19,10 +19,7 @@
 		<%= f.label :username, "имя пользователя", :class => 'form-label' %><br>
 		<%= f.text_field :username, class: 'form-input' %>
 	</p>
-	<p>
-		<%= f.label :email, "электронная почта", :class => 'form-label' %><br>
-		<%= f.text_field :email, class: 'form-input' %>
-	</p>
+
 	<div class="form-label">дата рождения</div>
 	<label class="select-label">
 		<%= date_field :user, :birthdate, :class => 'rounded-input' %>

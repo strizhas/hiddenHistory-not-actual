@@ -12,8 +12,15 @@
 		
 	</div>
 
+	
+
 	<div class="title-section">
 		<%= @guide.title %>
+
+		<% if @edit == true %>
+			 <span id="edit-item-button" class="edit-item-button" data-id=<%= @guide.id %> >(редактировать)</span>
+		<% end %>
+
 	</div>
 
 	<div class="text-section">

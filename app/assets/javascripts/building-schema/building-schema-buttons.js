@@ -138,6 +138,13 @@ Add_guide_button = function() {
 
 		$(this.button).on('click', function( e ) {
 
+			add_marker_to_schema(e);
+			
+
+		})
+
+		var add_marker_to_schema = function(e) {
+
 			marker_params = { 'coord_x' : 0, 'coord_y' : 0 }
 
 			marker = document.building_schema.add_marker( 'Guide' , marker_params )
@@ -153,34 +160,48 @@ Add_guide_button = function() {
 
 			});
 
+			$(window).on('close_popup' , function() {
+
+            	marker.destroy();
+
+            	unbind_events();
+
+            })
+
 			setTimeout( function() {
 
 				$('#schema-svg-section').on('click' , function() {
 
-					$('#schema-svg-section').off('click')
-
-
 					var guide_editor = new Guide_edior()
 						guide_editor.create_new_guide( guide_editor_callback )
 
-					
-
-					$(window).unbind('mousemove')
-					schema_promt.fadeOut('кликните на схеме чтобы добавить отметку');
+					unbind_events()
 
 				});
 
 
 			}, 300)
-			
 
-		})
+		}
 
+		var unbind_events = function() {
+
+			$('#schema-svg-section').off('click');
+
+			$(window).unbind('mousemove');
+
+			schema_promt.fadeOut();
+
+		}
 
 		var guide_editor_callback = function(guide_editor) {
 
 			var form = $(guide_editor.container).find('form').eq(0);
 
+			// добавляем валидации
+			guide_editor.validate_guide_form(form)
+
+			// превью прикрепляемого изображения
 	        handle_image_to_guide_gallery();
 
 	        // параметры, которые будет отправлены
@@ -193,18 +214,23 @@ Add_guide_button = function() {
 
 	        var title_input = $(form).find('#guide_title');
 	        var url_input   = $(form).find('#guide_url');
+	        var num_input   = $(form).find('#guide_number');
             
             $(title_input).on( 'change', function(  ) {
 
 				guide_params['title'] = $(this).val();
-				console.log(guide_params)
 
 			});
 
 			$(url_input).on( 'change', function(  ) {
 
 				guide_params['url'] = $(this).val();
-				console.log(guide_params)
+
+			});
+
+			$(num_input).on( 'change', function(  ) {
+
+				guide_params['number'] = $(this).val();
 
 			});
             
@@ -238,6 +264,7 @@ Add_guide_button = function() {
 
             })
 
+
             $(form).bind_form_ajax_sucess( callback );
 
 
@@ -256,7 +283,7 @@ Delete_marker_button = function() {
 		this.button = $('#schema-delete-marker-button')
 
 		this.offset = 100
-		this.promt = 'удалить маркер'
+		this.promt  = 'удалить маркер'
 
 
 		// removing previosly binded event functions

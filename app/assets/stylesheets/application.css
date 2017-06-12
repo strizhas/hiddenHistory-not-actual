@@ -467,7 +467,7 @@ p {
 
 .content-section {
 	padding-top: 20px;
-	padding-bottom: 50px;
+	padding-bottom: 100px;
 }
 
 .articles-list {
@@ -623,7 +623,6 @@ box-shadow: -2px 2px 5px 0px rgba(0,0,0,0.51);
 	height: 64px;
 	margin: 0 0px 20px 15px;
 }
-
 
 .image-edit-button {
 	position: absolute;

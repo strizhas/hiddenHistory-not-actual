@@ -172,9 +172,9 @@ var Building_schema = function() {
 		var marker_dates = [];	
 		var null_year_added = false;
 
+		console.log(data)
 
 		for ( var i=0 ; i < data.length ; i++ ) {
-
 	
 			// если задан год, то проверяем, есть ли он уже в объекте marker_dates
 			if (  data[i]['year']  != null ) {
@@ -612,13 +612,25 @@ var Building_schema = function() {
 
 				switch ( type ) {
 					case 'Photo':
+
 						hide_collection( guide_marker_collection );
+
 						show_collection( photo_marker_collection );
+
+						schema.year_menu.fadeIn();
+
 						break;
+
 					case 'Guide':
+					
 						hide_collection( photo_marker_collection );
+
 						show_collection( guide_marker_collection );
+
+						schema.year_menu.fadeOut();
+
 						break
+
 					default:
 						return;
 						break;

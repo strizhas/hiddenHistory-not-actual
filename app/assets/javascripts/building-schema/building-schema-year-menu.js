@@ -1,7 +1,5 @@
 Schema_year_menu = function(years , callback) {
 
-	console.log( 'Schema_year_menu' )
-	console.log( years )
 
 	var container = document.createElement('div');
 	var ul =  document.createElement('ul');
@@ -25,16 +23,25 @@ Schema_year_menu = function(years , callback) {
 
 		var li 	 = document.createElement('li');
 		var link = document.createElement('div');
+		var dot  = document.createElement('div')
 
 		$(li)
 			.attr('id','year-selector-' + year )
 			.data('year' , year)
+			
+
+		$(dot)
+			.addClass('schema-year-dot')
+			.text('●')
+			.appendTo(li)
 			.css('color', marker_colors[year] )
 
 		$(link)
 			.addClass('schema-year-select')
 			.html(text)
 			.appendTo(li);
+
+
 
 		$(ul).append(li)
 
@@ -92,23 +99,32 @@ Schema_year_menu = function(years , callback) {
 	bind_li_callback();
 			
 	
-
-	
-
 	this.add_year = function( new_year ) {
 		
 		if ( new_year == null ) { new_year = 'null' }
 
-		console.log('add_year')
-		console.log(years)
-
 		if(years.indexOf( new_year ) === -1) {
-			create_link(new_year)
-			bind_li_callback() 
+
+			create_link(new_year);
+
+			bind_li_callback();
+
+			years.push(new_year);
 		}
 
 	}
 
+	this.fadeIn = function() {
+
+		$(container).fadeIn('fast')
+		
+	}
+
+	this.fadeOut = function() {
+
+		$(container).fadeOut('fast')
+
+	}
 
 
 }

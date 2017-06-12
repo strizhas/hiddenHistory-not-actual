@@ -30,6 +30,7 @@ Schema_guide_marker.prototype.create_marker = function() {
 	marker.append("svg:circle" )	
 			.attr( "fill" , this.params.color )
 			.attr("stroke-width" , 2)
+			.attr("stroke" , '#000')
 			.attr( "r", radius );
 
 	this.marker = marker;

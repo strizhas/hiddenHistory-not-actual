@@ -1,6 +1,6 @@
 class UserMailer < ApplicationMailer
 
-	default from: 'notifications@hiddenhistory.com'
+	default from: 'hiddenhistory.mail@gmail.com'
  
 	def welcome_email(user)
 		@user  = user
@@ -20,12 +20,15 @@ class UserMailer < ApplicationMailer
 		@comment = comment
 		@commentable = commentable
 
+
+
+
 		if @comment.commentable_type == 'Photo'
 			@parent = Building.select([:id]).find( @commentable.building_id )
 		end
 
 		if @comment.commentable_type == 'Guide'
-			@parent = Guide.select([:id]).find( @commentable.building_id )
+			@parent = Guide.select([:id]).find( @commentable.guide_id )
 		end
 
 		@user = User.find( @commentable.user_id )

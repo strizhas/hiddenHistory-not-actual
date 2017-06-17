@@ -274,7 +274,12 @@ p {
 }
 
 
-
+.article-in-progress {
+	background: #f2c779;
+	padding: 10px 20px;
+	text-indent: 0;
+	color: #60503b;
+}
 
 /* 
 4.0 header section 

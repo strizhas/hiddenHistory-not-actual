@@ -162,7 +162,11 @@ Add_guide_button = function() {
 
 			$(window).on('close_popup' , function() {
 
-            	marker.destroy();
+            	if ( marker.params.id == null) {
+
+            		marker.destroy();
+
+            	}
 
             	unbind_events();
 

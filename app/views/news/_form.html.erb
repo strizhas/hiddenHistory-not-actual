@@ -24,9 +24,17 @@
   <% if f.object.image? %>
       <%= image_tag f.object.image.url, id: "old-image-preview" %>
   <% end %>  
-  <div id="image_upload">
-      <%= f.file_field :image, id: 'image-input-field' %>
-    </div>
+
+
+  <div id="post-image-upload">
+        <div id="image-editor-area">
+        </div>
+        <div id="image_upload-area">
+            <%= f.file_field :image, id: 'image-input-field', :data => { :edit => true, 
+                                           :default_size => '300x300',
+                                           :keep_aspect => true
+                                          } %>
+        </div>
   </div>
 
   <div>

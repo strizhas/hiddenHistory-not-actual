@@ -10,24 +10,8 @@ $.fn.bind_form_ajax_sucess = function( callback ) {
 
     $(form).on( 'ajax:beforeSend', function(e, xhr) { 
 
-        // проверка заполненности полей
-        for ( var i=0; i<inputs.length; i++ ) {
-
-            if ( $(inputs[i]).data('validate') == true) {
-            
-                if ( $(inputs[i]).val() == '' ) {
-
-                    xhr.abort();
-
-                    return false;
-           
-                }
-            }
-        }
-
         $('#popup-tint').fadeIn('fast');
         $(progress_area).simple_progress_bar('create', {progress_bar_type : 'gray-gears-bar'});
-
 
     });
 

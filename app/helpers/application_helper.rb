@@ -1,6 +1,11 @@
 module ApplicationHelper
+
 	def kramdown(text)
   		return sanitize Kramdown::Document.new(text).to_html
+	end
+
+	def turbolinks_cache_control_meta_tag
+		tag :meta, name: 'turbolinks-cache-control', content: @turbolinks_cache_control || 'cache'
 	end
 
 	def build_category_tree

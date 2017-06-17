@@ -20,7 +20,7 @@
 
 <% end %>
 
-<% if @commentcommentable_type == 'Photo' %>
+<% if @comment.commentable_type == 'Photo' %>
 
   К вашей <%= link_to 'фотографии', building_photo_path( @parent, @commentable.id ) %> добавлен комментарий
 

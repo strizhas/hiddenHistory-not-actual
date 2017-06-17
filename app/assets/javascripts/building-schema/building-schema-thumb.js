@@ -8,24 +8,22 @@ Schema_thumbnail = function( marker, thumb_url ) {
 		return false;
 	}
 
-	var offset = $(marker).offset()
+	var offset = $(marker).offset();
 
-	console.log( 'show schema photo thumbnail')
+	var pos_x = offset.left + 10;
+	var pos_y = offset.top - 85;
 
-	var pos_x = offset.left + 10
-	var pos_y = offset.top - 85
+	var img = new Image();
+		img.src = thumb_url;
 
-	var img = new Image()
-		img.src = thumb_url
-
-	this.container = document.createElement('div')
+	this.container = document.createElement('div');
 
 	$(this.container).addClass('schema-image-small-preview')
 					.css({'top' : pos_y , 'left' : pos_x })
 					.appendTo('body')
 					.append(img)
 					.hide()
-					.fadeIn('fast')
+					.fadeIn('fast');
 			
 
 	return this					
@@ -33,7 +31,7 @@ Schema_thumbnail = function( marker, thumb_url ) {
 
 Schema_thumbnail.prototype.destroy = function() {
 
-		this.container.remove()
-		delete schema_thumb
+		$(this.container).remove();
+		delete schema_thumb;
 
 }

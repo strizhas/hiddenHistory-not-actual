@@ -50,8 +50,9 @@ class SchemasController < ApplicationController
 
 		new_params = Hash.new
 
-		new_params[:title] = params[:schema][:title]
-		new_params[:text] = params[:schema][:text]
+		new_params[:title]		  = params[:schema][:title]
+		new_params[:text]  		  = params[:schema][:text]
+		new_params[:building_id]  = params[:schema][:building_id]
 
 		if !params[:schema][:schema].blank?
 
@@ -123,7 +124,7 @@ class SchemasController < ApplicationController
 
 
 		def schema_params
-			params.require(:schema).permit( :title, :user_id, :text, :schema )
+			params.require(:schema).permit( :title, :user_id, :text, :building_id, :schema )
 		end
 
 		def parent_object

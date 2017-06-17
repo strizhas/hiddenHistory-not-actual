@@ -435,6 +435,8 @@ Building_schema_interface = function() {
 
 		var schema_photo_drag_and_drop = function( e) {
 
+			e.preventDefault();
+			
 			var img  	= this;
 			var img_id  = $(img).data('id');
 			var figure 	= $(img).parent().parent();
@@ -459,8 +461,6 @@ Building_schema_interface = function() {
 				
 
 				$(window).bind('mousemove' , function(e) {
-
-					console.log('mousemove')
 
 
 					if ( e.pageX > container_left_offset && e.pageY > container_top_offset ) {

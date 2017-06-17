@@ -4,6 +4,8 @@
   <%= yield :head %>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= turbolinks_cache_control_meta_tag %>
+  <% if action_name == "new" %> <meta name="turbolinks-cache-control" content="no-preview"> <% end %>
   <%= csrf_meta_tags %>
 </head>
 <body>

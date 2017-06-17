@@ -28,6 +28,5 @@ module Blog
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
 
     config.action_view.embed_authenticity_token_in_remote_forms = true
-    config.action_controller.per_form_csrf_tokens = true
   end
 end

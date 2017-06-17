@@ -23,7 +23,7 @@ class Article < ActiveRecord::Base
   self.per_page = 10
 
   def generate_thumbnails
-    image.recreate_versions! if image.present?
+      image.recreate_versions! if image.present? && self.crop_x.present?
   end
   
 end

@@ -202,26 +202,9 @@ Guide_edior = function( id ) {
             rules:{
                 'guide[number]':{
                         regex: "[а-яА-Я0-9]"
-                    },
-
-                'guide[title]':{
-                        rangelength: [5,50]
-                    },
-                'guide[url]':{
-
-                    },
-            },
-            messages:{
-                'guide[number]':{
-                    
-                    },
-                'guide[title]': {
-                        rangelength: "Выберете имя в диапазоне от 5 до 50 символов"
-                    },
-                'guide[url]': {
-
                     }
             }
+
 
         });
 

@@ -1,6 +1,5 @@
 var create_icon_figure = function( params, callback ) {
 
-
     var figure = $('<figure>');
 
     var link   = $('<a>').attr('href', window.location.href + '/' + params['id'] )
@@ -18,8 +17,19 @@ var create_icon_figure = function( params, callback ) {
             .data('id'  , params['id'] )
             .append( link );
 
-    $(link).append(img)
-    $(link).off('click').on( 'click' , function(e) { e.preventDefault() })
+    $(link).append(img);
+    $(link).off('click').on( 'click' , function(e) { e.preventDefault() });
+
+
+    if ( typeof(callback) !== 'object' ) {
+
+        callback = {};
+
+    }
+
+    // устраняем стандартную возможность перетаскивать изображение
+    // Нужно для нормальной работы претаскивания на схему
+    callback['dragstart'] = function(e) { e.preventDefault(); }
 
     $(img).on(callback);
 

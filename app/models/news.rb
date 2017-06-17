@@ -4,17 +4,16 @@ class News < ActiveRecord::Base
 	
 	mount_uploader :image, ThumbUploader
 
+	after_update :generate_thumbnails
+	
 	IMAGE_SIZES = {
-
+		:thumb => [300,  300]
  	}
 
  	RU_NAME = 'новости' 
 
- 	after_update :crop_image
-	after_create :crop_image
-
-	def crop_image
-   		image.resize_and_crop if crop_x.present?
+ 	def generate_thumbnails
+   		image.recreate_versions! if image.present? && self.crop_x.present?
   	end
 
 end

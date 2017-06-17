@@ -216,7 +216,7 @@ class PhotosController < ApplicationController
 		end
 
 		def photos_params
-	 		params.require(:photo).permit(:title, :image, {images: []}, :user_id, :text, :year, :author, :published, :crop_x, :crop_y, :crop_w, :crop_h, :alt ) # allow nested params as array
+	 		params.require(:photo).permit(:title, :image, {images: []}, :user_id, :text, :year, :author, :schema_id, :building_id, :published, :crop_x, :crop_y, :crop_w, :crop_h, :alt ) # allow nested params as array
 		end
 
 end

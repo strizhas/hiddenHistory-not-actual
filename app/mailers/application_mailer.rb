@@ -1,5 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'notifications@hiddenhistory.com'
+  default from: 'hiddenhistory.mail@gmail.com'
   layout 'mailer'
 end
 

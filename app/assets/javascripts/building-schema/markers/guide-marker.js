@@ -19,15 +19,18 @@ Schema_guide_marker.prototype.constructor = Schema_guide_marker;
 
 Schema_guide_marker.prototype.create_marker = function() {
 
-	var schema_svg = document.building_schema.schema_svg
+	var schema_svg = hiddenHistory.schema.schema_svg
 
-	var radius = Math.floor( this.params.radius * document.building_schema.settings.size_delta  )
+	var radius = Math.floor( this.params.radius * hiddenHistory.schema.settings.size_delta  )
 
 	var marker = schema_svg.append('g')
 						.attr('transform' , 'translate( ' + this.params.coord_x + ' ' + this.params.coord_y +  ')')
+						.attr('class' , 'g-mrk')
 						.style( "cursor", "pointer" );
 
-	marker.append("svg:circle" )	
+	var main_g = marker.append('g');
+
+	main_g.append("svg:circle" )	
 			.attr( "fill" , this.params.color )
 			.attr("stroke-width" , 2)
 			.attr("stroke" , '#000')
@@ -58,7 +61,7 @@ Schema_guide_marker.prototype.show_preview = function() {
 Schema_guide_marker.prototype.show_full_content = function() { 
 
 
-	schema_show_marker = new Schema_show_guide( this.params.guide_id  );
+	hiddenHistory.schema_item = new Schema_show_guide( this.params.guide_id  );
 
 
 }; 

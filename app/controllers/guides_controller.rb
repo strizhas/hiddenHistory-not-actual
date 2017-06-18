@@ -23,8 +23,11 @@ class GuidesController < ApplicationController
 
 	def create
 
-		@schema = Schema.find(params[:schema_id])
-		@guide  = @schema.guides.new( guide_params.merge(user_id: current_user.id) )
+		new_params = guide_params
+		new_params[:user_id]   = current_user.id
+		new_params[:schema_id] = params[:schema_id]
+
+		@guide  = Guide.new( new_params )
 
 		@guide.save!
 

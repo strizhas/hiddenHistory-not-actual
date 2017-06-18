@@ -369,6 +369,10 @@
 	
 	}
 
+	.schema-guide-number {
+		padding-right: 5px;
+	}
+
 	.schema-photo-header {
 
 		a {
@@ -423,11 +427,13 @@
 
 }
 
+#schema-menu-main-conteiner .schema-guide-number {
+	padding-right: 10px;
+}
 
 .schema_guides_list {
 	position: relative;
 	height: 180px;
-	padding: 20px 20px;
 }
 
 .schema_guides_list {
@@ -436,12 +442,13 @@
 		list-style: none;
 	}
 
+	li {
+		cursor: pointer;
+	}
+
 	a {
 		color: #c4c4c4;
 		text-decoration: none;
 	}
 
-	span {
-		padding-right: 10px;
-	}
 }

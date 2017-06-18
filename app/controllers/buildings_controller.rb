@@ -10,10 +10,6 @@ class BuildingsController < ApplicationController
 		@categories = Category.all
 		@title = 'здания и сооружения'
 
-		puts 'askjaskjaksjaks'
-		puts params[:page]
-		puts params.key?('page')
-
 		if params[:category_id]
 
 			ids = get_children_categories_ids(params[:category_id])

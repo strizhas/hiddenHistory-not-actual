@@ -34,7 +34,7 @@ class CommentsController < ApplicationController
 
 			render :partial => "comments/comment", :locals => { :comment => @comment }, :layout => layout, :status => :created
 
-			UserMailer.comment_notification(@comment, @commentable).deliver
+			UserMailer.comment_notification(@comment, @commentable).deliver_later
 		else
 			render :partial => "comments/error", :layout => false
 			flash[:error] = "комментарий не был добавлен"
@@ -76,7 +76,7 @@ class CommentsController < ApplicationController
      		@commentable = Comment.select([:id, :body, :user_id]).find_by_id(params[:comment_id])						if params[:comment_id]
       		@commentable = Article.select([:id, :user_id, :title]).find_by_id(params[:article_id])						if params[:article_id]
       		@commentable = Building.select([:id, :user_id, :title]).find_by_id(params[:building_id])					if params[:building_id]
-      		@commentable = Photo.select([:id, :building_id, :user_id]).find_by_id(params[:photo_id])					if params[:photo_id]
-      		@commentable = Guide.select([:id, :building_id, :title, :user_id, :title]).find_by_id(params[:guide_id]) 	if params[:guide_id]
+      		@commentable = Photo.select([:id, :building_id, :schema_id, :user_id]).find_by_id(params[:photo_id])		if params[:photo_id]
+      		@commentable = Guide.select([:id, :schema_id, :title, :user_id, :title]).find_by_id(params[:guide_id]) 		if params[:guide_id]
     	end
 end

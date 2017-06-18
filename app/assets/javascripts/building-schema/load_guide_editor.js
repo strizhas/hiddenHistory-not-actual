@@ -127,7 +127,7 @@ Schema_show_photo = function( photo_id ) {
 
     Schema_content_editor.call(this);
 
-    this.SHOW_PATH = window.location.href + '/show_photo_marker/'
+    this.SHOW_PATH = hiddenHistory.schema_URL + '/show_photo_marker/'
 
     this.init();
 
@@ -144,7 +144,7 @@ Schema_show_guide = function( guide_id ) {
     Schema_content_editor.call(this);
 
 
-    this.SHOW_PATH = window.location.href + '/show_guide_marker/'
+    this.SHOW_PATH = hiddenHistory.schema_URL + '/show_guide_marker/'
 
     this.init();
 
@@ -152,9 +152,9 @@ Schema_show_guide = function( guide_id ) {
 
     this.load_editor = function(id) {
 
-        var guide_editor = new Guide_edior();
+        hiddenHistory.schema_item = new Guide_edior();
                     
-        guide_editor.edit_guide(id);
+        hiddenHistory.schema_item.edit_guide(id);
 
     }
 
@@ -213,7 +213,7 @@ Guide_edior = function( id ) {
     this.create_new_guide = function( callback ) {
 
 
-        var url = window.location.href + '/new_guide/';
+        var url = hiddenHistory.schema_URL + '/new_guide/';
 
         that.ajax_content_load( url , {}, callback );
 
@@ -221,7 +221,7 @@ Guide_edior = function( id ) {
 
     this.edit_guide = function(id, callback ) {
 
-        var url = window.location.href + '/edit_guide/' + id;
+        var url = hiddenHistory.schema_URL + '/edit_guide/' + id;
 
         that.ajax_content_load( url, {}, basic_callback );
 

@@ -68,7 +68,7 @@ Schema_marker.prototype.destroy = function(  ) {
 
 		var id = this.params['photo_id']
 
-		document.schema_interface.menus.photos.remove_figure_by_id(id);
+		hiddenHistory.schema_interface.menus.photos.remove_figure_by_id(id);
 
 		return;
 
@@ -78,7 +78,7 @@ Schema_marker.prototype.destroy = function(  ) {
 
 		var id = this.params['guide_id']
 
-		document.schema_interface.menus.guides.remove_figure_by_id(id);
+		hiddenHistory.schema_interface.menus.guides.remove_figure_by_id(id);
 
 		return;
 		
@@ -142,7 +142,7 @@ Schema_marker.prototype.activate = function(  ) {
 Schema_marker.prototype.check_can_edit = function(  ) {
 
 	if ( this.params.user_id != sessionStorage.getItem("user_id") &&
-		document.building_schema.settings.can_edit == false ) {
+		hiddenHistory.schema.settings.can_edit == false ) {
 
 			this.deactive();
 
@@ -152,9 +152,9 @@ Schema_marker.prototype.check_can_edit = function(  ) {
 
 Schema_marker.prototype.scale = function() {
 
-	var scale = document.building_schema.settings.size_delta;
+	var scale = hiddenHistory.schema.settings.size_delta;
 
-	this.marker.selectAll("*").attr('transform' , 'scale(' +  scale + ')');
+	this.marker.selectAll("g").attr('transform' , 'scale(' +  scale + ')');
 
 }
 
@@ -170,7 +170,7 @@ Schema_marker.prototype.update = function( action) {
 	}
 
 	var marker_id = this.params.id
-	var token = document.building_schema.settings.token
+	var token = hiddenHistory.schema.settings.token
 
     if ( typeof( token ) == 'undefined' || token == '' ) 
     { 
@@ -183,24 +183,21 @@ Schema_marker.prototype.update = function( action) {
 
     	case 'update':
     		var method = 'PATCH'
-    		var url = window.location.href + '/' + this.model_name + '_' + action + '/' +  marker_id
+    		var url = hiddenHistory.schema_URL + '/' + this.model_name + '_' + action + '/' +  marker_id
     		break;
     	case 'create':
     		var method = 'POST'
-    		var url = window.location.href + '/' + this.model_name + '_' + action + '/'
+    		var url = hiddenHistory.schema_URL + '/' + this.model_name + '_' + action + '/'
     		break;
     	case 'destroy':
     		var method = 'POST'
-    		var url = window.location.href + '/' + this.model_name + '_' + action + '/' +  marker_id
+    		var url = hiddenHistory.schema_URL + '/' + this.model_name + '_' + action + '/' +  marker_id
     		break;
     	default:
     		return;
     }
 
-    var that = this
-
-    console.log('ajax request start')
-
+    var that = this;
 
 	$.ajax({
                 url: url,
@@ -211,13 +208,12 @@ Schema_marker.prototype.update = function( action) {
                 beforeSend: function(xhr) 
                 {
                     xhr.setRequestHeader( 'X-CSRF-Token' , token )
-                    console.log('before send')
 
                 },
                 success: function(data, textStatus, jqXHR) 
                 {
 
-                    schema_promt.flash('схема обновлена');
+                    hiddenHistory.schema_promt.flash('схема обновлена');
 
                     // если маркер был создан, то мы должны узнать его id
                     // для этого сервер отправляет ответ в виде актуального id
@@ -230,7 +226,9 @@ Schema_marker.prototype.update = function( action) {
                                     
                 },
                 error: function(data) {
-                	console.log('ajax  error')
+                	
+                	hiddenHistory.schema_promt.flash('произошла какая-то ошибка');
+
                 	console.log(data)
 
                 } 
@@ -271,7 +269,7 @@ Schema_marker.prototype.init = function( params	) {
 							
 		this.marker.on('mousedown' , function(event) {
 
-			if ( document.building_schema.settings.edit_mode == false ) { return; }
+			if ( hiddenHistory.schema.settings.edit_mode == false ) { return; }
 
 				
 				if ( typeof(active_marker) != 'undefined' ) {
@@ -290,7 +288,7 @@ Schema_marker.prototype.init = function( params	) {
 				active_marker = that;
 				active_marker.select();
 
-				document.building_schema.settings.img_dragging = true;
+				hiddenHistory.schema.settings.img_dragging = true;
 			
 				var start_dx = that.params.coord_x;
 				var start_dy = that.params.coord_y;
@@ -304,7 +302,7 @@ Schema_marker.prototype.init = function( params	) {
 
 				schema_svg.on('mouseup' , function() {
 
-					document.building_schema.settings.img_dragging = false
+					hiddenHistory.schema.settings.img_dragging = false
 
 					// unbind all avent functions
 					schema_svg.on('mousemove mouseup' , ''  );
@@ -326,7 +324,7 @@ Schema_marker.prototype.init = function( params	) {
 		// в файле schema-ajax-functions. 
 		this.marker.on('click' , function(event) {
 
-			if ( document.building_schema.settings.edit_mode == true ) { return; }
+			if ( hiddenHistory.schema.settings.edit_mode == true ) { return; }
 
 			// Если пользователь ткнул на активный маркер,
 			// то загрываем окно и снимаем выделение с маркера
@@ -421,7 +419,6 @@ Schema_marker.prototype.init = function( params	) {
 			that.activate();
 
 		});	
-
-		console.log(this)			
+			
 
 };

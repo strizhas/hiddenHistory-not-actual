@@ -22,15 +22,15 @@
 
 <% if @comment.commentable_type == 'Photo' %>
 
-  К вашей <%= link_to 'фотографии', building_photo_path( @parent, @commentable.id ) %> добавлен комментарий
+	К вашей <%= link_to 'фотографии', building_schema_url( @building, @schema, :photo => @commentable.id ) %> добавлен комментарий
 
 <% end %>
 
 <% if @comment.commentable_type == 'Guide' %>
 
-  К вашей отметке <%= @commentable.title %> добавлен комментарий
+	К вашей <%= link_to 'отметке', building_schema_url( @building, @schema, :guide => @commentable.id ) %> добавлен комментарий
 
-<% end %>
+ <% end %>
 
 ===============================================
 

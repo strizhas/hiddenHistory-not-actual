@@ -2,6 +2,12 @@
 
 var aplication_init_functions = function() {
 
+    // создание пространства имен
+    if ( typeof( hiddenHistory) === 'undefined')  { 
+
+        hiddenHistory = {}; 
+
+    }
 
     create_background_black_tint();
 
@@ -75,6 +81,14 @@ var aplication_init_functions = function() {
         validate_article_form();
 
     }
+
+    // Инициализация схемы
+    if ( $('#schema-svg-section').length != 0 ) {
+
+        building_schema_initialize();
+
+    }
+
 
     // добавляем ajax и другие необходимые
     // функции к форме комментариев

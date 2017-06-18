@@ -21,14 +21,14 @@ class UserMailer < ApplicationMailer
 		@commentable = commentable
 
 
-
-
-		if @comment.commentable_type == 'Photo'
-			@parent = Building.select([:id]).find( @commentable.building_id )
+		if @comment.commentable_type == 'Guide'
+			@schema   = Schema.select([:id, :building_id]).find( @commentable.schema_id )
+			@building = Building.select([:id ]).find( @schema.building_id )
 		end
 
-		if @comment.commentable_type == 'Guide'
-			@parent = Guide.select([:id]).find( @commentable.guide_id )
+		if @comment.commentable_type == 'Photo'
+			@schema   = Schema.select([:id, :building_id]).find( @commentable.schema_id )
+			@building = Building.select([:id ]).find( @schema.building_id )
 		end
 
 		@user = User.find( @commentable.user_id )

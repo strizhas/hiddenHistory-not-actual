@@ -21,6 +21,17 @@
 
     <% end %>
 
+    <% if @comment.commentable_type == 'Photo' %>
+
+      <p>К вашей <%= link_to 'фотографии', building_schema_url( @building, @schema, :photo => @commentable.id ) %> добавлен комментарий</p>
+
+    <% end %>
+
+    <% if @comment.commentable_type == 'Guide' %>
+
+      <p>К вашей <%= link_to 'отметке', building_schema_url( @building, @schema, :guide => @commentable.id ) %> добавлен комментарий</p>
+
+    <% end %>
 
     <% if @comment.commentable_type == 'Article' %>
 

@@ -29,6 +29,12 @@
 	 		<%= f.text_field :url  %>
 	 	</div>		 		
 	 	
+	 	<% if current_user.is? "admin" %>
+	 		<div class="text-section">
+				<%= f.label :schema_id, 'id схемы' %><br>
+				<%= f.text_field :schema_id  %>
+			</div>
+		<% end %>
 
 	 	<div class="editor-footer">
 			<div class="confirm-green-button">

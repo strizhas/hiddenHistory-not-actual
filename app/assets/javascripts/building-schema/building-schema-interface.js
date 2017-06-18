@@ -1,683 +1,859 @@
-var Building_schema = function() {
 
-	this.settings = {
-		viewBox_itit_params   : [],
-		viewBox_actual_params : [],
-		scale_delta		      : 150,
-		zoom_level 			  : 0,
-		zoom_level_max 		  : 10,
-		img_dragging 		  : false, // img marker dragging status
-		token 				  : '',    // authenticity token
-		edit_mode 			  : false,
-		current_type		  : 'Photo',
-		current_year		  : null,
-		can_edit 			  : false
+Building_schema_interface = function() {
+
+	var interface = this
+
+	var elements = {}
+
+	interface.menus = {}
+
+	this.init = function() {
+
+		initialize();
+	}
+
+	// по умолчанию при нажатии на кнопку edit сразу загружаются
+	// неотмеченные на схемы фотографии
+	var Edit_button = function() {
+
+		this.button = $('#schema-edit-button');
+
+		this.bind_click = function() {
+
+
+			$( this.button ).off('click' )
+
+			$( this.button ).on('click' , function() {
+
+				var that = this
+
+				for ( var menu in interface.menus ) {
+
+					interface.menus[menu].turn_on_edit_mode()
+				}
+
+				$(that).replaceWith( elements.ready_button.button )
+
+				elements.delete_marker_button.animateIn();
+				elements.ready_button.bind_click()
+
+
+				hiddenHistory.schema.edit_mode(true)
+					
+
+			});
+
+			$(this.button).promt_builder('редактировать схему')
+		
+		}
+		
+
 	};
 
-	var schema = this
 
-	schema.schema_svg = d3.select('#schema-main-container').select('svg');
+	var Ready_button = function() {
 
-	if ( !schema.schema_svg ) { return; }
+		this.button = document.createElement('div')
+		
+		$(this.button).attr('id' , 'schema-ready-button' )
 
+		this.bind_click = function() {
 
-	var scale_up   = d3.select('#scale-up-button');
-	var scale_down = d3.select('#scale-down-button');
+			// removing previosly binded event functions
+			$( this.button ).off('click' )
 
-	var photo_marker_collection = {}
-	var guide_marker_collection = {}
-
-	var show_markers_by_year = function(year) {
-
-		var collection = select_collection( schema.settings.current_type );
+			// binding new functions
+			$(this.button).on('click' , function() {
 
 
-		if ( schema.settings.current_year == year ) {
+				for ( var menu in interface.menus ) {
 
-			for ( var index in collection ) {
+					interface.menus[menu].turn_off_edit_mode();
+				}
 
-				collection[index].show();
+				hiddenHistory.schema_promt.fadeOut();
+
+				$(this).replaceWith( elements.edit_button.button );
+
+				hiddenHistory.schema.edit_mode(false);
+
+				elements.edit_button.bind_click();
+					
+				interface.menus.guides.add_content_button.animateOut();
+
+				elements.delete_marker_button.animateOut();
+					
+
+
+
+			})
+
+			$(this.button).promt_builder('вернуться к просмотру')
+
+		}
+
+	};
+
+
+	var Content_menu = function() {
+
+		var that = this
+
+		this.wrapper	 = $('#schema-menu-main-conteiner')
+		this.active 	 = false
+		this.edit_mode 	 = false
+		this.edit_menu_loaded = false
+
+		this.fadeIn = function(callback) {
+
+			that.active = true
+
+			$('#schema-menu-titles').children().removeClass('active');
+
+			for ( var menu in interface.menus ) {
+
+				if ( interface.menus[menu] != that ) {
+					interface.menus[menu].fadeOut()
+				}
 
 			}
 
-			schema.settings.current_year = null;
+		
+			setTimeout( function() {
 
+				$(that.container).fadeIn('fast')
+
+				if (typeof(callback) === 'function') {
+					callback()
+				}
+
+			}, 150 )
+
+
+			hiddenHistory.schema.show_marker_by_type( that.type )
+
+			$(that.button).addClass('active')
+
+			if ( that.edit_mode == true ) {
+
+				that.show_button()
+
+			}
+
+		};
+
+		this.fadeOut = function() {
+
+			$( that.container ).fadeOut('fast')
+
+			console.log( $( that.add_content_button ) )
+			$( that.add_content_button.button ).hide()
+
+			that.active = false
+
+		};
+
+		this.show_button = function() {
+
+			if ( that.edit_mode == false ) {
+				return;
+			}
+
+
+			for ( var menu in interface.menus ) {
+
+				if ( interface.menus[menu].active == true ) {
+
+					if ( that.add_content_button.active == false ) {
+
+						that.add_content_button.animateIn();
+
+					} else {
+
+						$(that.add_content_button.button).show()
+					}
+
+					continue
+
+				}
+
+				var button = interface.menus[menu].add_content_button.button
+
+				$(button).hide()
+
+
+			}
+
+		}
+
+		this.turn_on_edit_mode = function() {
+
+			that.edit_mode = true
+
+			that.show_button()
+
+			// creating gallery if it wasn't been created earlier
+			if ( that.edit_menu_loaded == false ) {
+
+				// создает галлерею с неотмеченными фотографиями
+				that.load_edit_menu()
+
+				return
+
+			}
+
+			that.toggle_view()
+
+
+
+		};
+
+		this.turn_off_edit_mode = function() {
+
+			that.edit_mode = false
+
+			that.add_content_button.animateOut();
+
+			that.toggle_view()
+	
+		};
+
+
+
+	};
+
+
+
+	var Photos_menu = function() {
+
+		Content_menu.call(this); // отнаследовать
+
+		this.container = $('#schema-photos-conteiner')
+
+		this.button = $('#schema-photos-title')
+
+		this.type = 'Photo'
+
+		this.active = true
+
+		this.add_content_button = new Add_photo_button()
+
+		this.others_hidden = false;
+
+		var that = this
+
+		this.init = function() {
+
+
+			$(that.button).on('click' , function() {
+
+				that.fadeIn();
+
+			})
+
+			that.show_area = $('<div>').addClass('schema_photos_list')
+
+			$(that.container).append( that.show_area )
+
+			var url = hiddenHistory.schema_URL + '/load_placed_photos'
+
+			load_schema_photos( url, that.show_area, that.add_figures_to_show_area )
+
+			return 
+
+			
+
+		};
+
+
+		this.load_edit_menu = function() {
+
+
+			that.show_area.fadeOut( 'fast', function() {
+
+				var url = hiddenHistory.schema_URL + '/load_unplaced_photos'
+
+				that.edit_area = $('<div>').addClass('schema_photos_list').appendTo(that.container)
+
+				load_schema_photos( url, that.show_area, that.add_figures_to_edit_area )
+
+				that.add_content_button.init( that )
+
+				that.edit_menu_loaded = true
+
+			})
+
+
+		};
+
+		this.add_figures_to_show_area = function( data ) {
+
+			var container = that.show_area
+
+			var callback = get_event_callbacks()
+
+			convert_json_in_figures(data, container, callback )
+
+			
+
+		};
+
+
+		this.add_figures_to_edit_area = function(data) {
+
+			var container = that.edit_area
+
+			var callback = { 'mousedown' : schema_photo_drag_and_drop }
+
+			convert_json_in_figures( data, container, callback )
+
+		};
+
+
+
+		this.toggle_view = function() {
+
+
+			if (  that.edit_mode == false ) {
+
+				fadeIn_show_area();
+
+				return
+
+			}
+
+			fadeIn_edit_area()
+
+
+		};
+
+		// удаление элемента из области просмотра по его id
+		this.remove_figure_by_id = function(id) {
+
+			var element_id = '#icon-figure-' + id;
+
+			$(this.show_area).find( element_id ).remove();
+
+		}
+
+		var fadeIn_show_area = function() {
+
+
+			$(that.edit_area).fadeOut('fast', function() {
+				$(that.show_area).fadeIn('fast')
+			})
+		}
+
+		var fadeIn_edit_area = function() {
+
+			$(that.show_area).fadeOut('fast', function() {
+
+				$(that.edit_area).fadeIn('fast');
+
+
+				// когда пользователь загружает новые фотографии
+				// все имеющиеся в edit-разделе скрываются
+				// Если пользователь переключает в режим просмотра,
+				// а потом опять в режим редактирования, то все 
+				// фотографии появляются
+				if ( that.others_hidden == true ) {
+
+					$(that.edit_area).find('figure').fadeIn('fast');
+
+					that.others_hidden = false;
+
+				}
+
+			})
+
+		}
+
+		var load_schema_photos = function( url, container, callback ) {
+
+			$.ajax({
+
+				url: url,
+				method: 'POST',
+				dataType: 'json',
+				cache: false,
+				beforeSend:  function() {		
+
+					$(container).simple_progress_bar('create', {progress_bar_type : 'gray-circle-bar'})
+
+				},
+				success: function(data, textStatus, jqXHR) 
+				{	
+
+					$(container).simple_progress_bar('remove')
+
+					if ( typeof(callback) === 'function') {
+						callback(data)
+					}
+
+					
+				},
+				error: function() {
+					$(container).simple_progress_bar('remove')
+				}
+
+			});
+
+		}
+
+		var get_event_callbacks = function() {
+
+			var callback = {
+
+				'click' : function( e ) {
+
+					var id = $(this).data('id');
+
+					elements.schema_lightbox.fullsize_image_loading( id );
+
+					return;
+
+				},
+				'mouseenter' : function( e ) {
+
+					hiddenHistory.schema.select_marker( 'Photo' , $(this).data('id') );
+
+					return;
+				},
+				'mouseout' : function( e ) {
+
+					hiddenHistory.schema.drop_marker( 'Photo', $(this).data('id') );
+
+					return;
+
+				}
+			}
+
+			return callback
+
+		}
+
+
+		var schema_photo_drag_and_drop = function( e) {
+
+			e.preventDefault();
+			
+			var img  	= this;
+			var img_id  = $(img).data('id');
+			var figure 	= $(img).parent().parent();
+
+
+			return (function() {
+
+				$(img).addClass('schema-thumb-selected')
+				$(img).on('dragstart', function(event) { event.preventDefault(); });
+
+
+				var ready_to_drop  = false
+				var marker_created = false
+
+
+				var marker = ''
+
+				var container_top_offset  = $('#schema-svg-section').offset().top 
+				var container_left_offset = $('#schema-svg-section').offset().left
+
+
+				
+
+				$(window).bind('mousemove' , function(e) {
+
+
+					if ( e.pageX > container_left_offset && e.pageY > container_top_offset ) {
+
+						ready_to_drop = true;
+
+
+						if ( marker_created == false ) {
+
+							var marker_params = { 
+													'photo_id'	: img_id,
+													'year'		: $(img).data('year')
+												}; 
+
+
+							marker = hiddenHistory.schema.add_marker( 'Photo' , marker_params )
+
+							marker.scale();
+							marker.select();
+							marker.move( e.pageX  , e.pageY );
+
+							marker_created = true;
+
+						} else {
+
+							marker.move( e.pageX  , e.pageY );
+
+						}
+
+
+					} else {
+
+						ready_to_drop = false;
+
+					}
+
+				});
+
+				$(window).on('mouseup' , function(e) {
+
+					$(window).off('mouseup')
+					$(window).unbind('mousemove')
+
+					if ( ready_to_drop == true ) {
+
+
+						marker.update( 'create' )
+						
+						marker.marker_drop()
+
+						$(figure).toggle('scale' , function() {
+
+							$(figure).appendTo(that.show_area).toggle('scale');
+
+							var callback = get_event_callbacks()
+
+							$(img).off('mousedown')
+							$(img).on(callback)
+
+
+						})
+
+
+						hiddenHistory.schema.year_menu.add_year( $(img).data('year') )
+						
+					} else {
+
+						if ( marker_created == true ) {
+
+							marker.destroy()
+							
+						}
+
+					}
+
+					$(img).removeClass('schema-thumb-selected')
+
+				});
+
+			})(jQuery)
+
+		};
+
+
+
+	}; 
+
+
+	var Guides_menu = function() {
+
+		Content_menu.call(this); // отнаследовать
+
+		var that = this
+
+		this.container  = $('#schema-guides-container')
+		this.button 	= $('#schema-guides-title')
+		this.type 		= 'Guide'
+
+		this.add_content_button = new Add_guide_button()
+
+		var loaded = false
+		var markers_loaded = false
+
+		this.init = function() {
+
+			$(that.button).on('click' , function() {
+
+				if ( markers_loaded == false ) {
+
+					hiddenHistory.schema.load_guide_markers();
+
+					markers_loaded = true;
+				
+				}
+
+				that.fadeIn( function() {
+
+					if ( that.edit_mode == true ) {
+
+						that.load_edit_menu();
+
+						return;
+					}
+
+					if ( loaded == false ) {
+
+						load_guides();
+					
+					}
+
+
+				})
+
+			})
+
+		};
+
+		this.toggle_view = function() {
+
+			return;
+		}
+
+		this.load_edit_menu = function() {
+
+			if ( loaded == false ) {
+
+				load_guides( );
+
+				return;
+
+			}
+
+
+		};
+
+		this.remove_figure_by_id = function(id) {
+
+			var element_id = '#guide-link-' + id;
+
+			$(element_id).parent().remove();
+
+		};
+
+		this.add_guide = function(params) {
+
+			var li  = $('<li>');
+			var a 	= $('<a>');
+
+			$(a).attr('href', params.url )
+				.attr('id', 'guide-link-' + params.id )
+				.text( params.title )
+				.data('id' , params.id);
+
+			if ( params.number != null ) {
+
+				var num = $('<span>').addClass('schema-guide-number')
+									 .text( params.number )
+									 .appendTo(li)
+
+			}
+			
+
+			$(li).append( a);
+			
+			$(that.guide_list).append(li);
+
+			bind_mouse_events_in_item(li);
+
+		};
+
+
+		var load_guides = function( callback ) {
+
+			loaded = true
+
+			var url = hiddenHistory.schema_URL + '/load_guides'
+
+			$.ajax({
+
+				url: url,
+				method: 'POST',
+				dataType: 'json',
+				cache: false,
+				beforeSend:  function() {
+
+					that.show_area = $('<div>').addClass('schema_guides_list')
+
+					$(that.container).append( that.show_area )
+
+					$(that.show_area).simple_progress_bar('create', {progress_bar_type : 'gray-circle-bar'})
+
+				},
+				success: function(data, textStatus, jqXHR) 
+				{	
+
+					$(that.show_area).simple_progress_bar('remove');
+					
+					create_guides_list( data  );
+
+
+				},
+				error: function() {
+
+					$(that.show_area).simple_progress_bar('remove');
+
+				}
+
+			});
+
+		};
+
+		var create_guides_list = function(data) {
+
+			that.guide_list = $('<ul>').appendTo(that.show_area);
+
+			for ( var elem in data ) {
+
+				that.add_guide(data[elem]);
+
+			}
+
+		};
+
+		var schema_remote_file_upload = function() {
+
+		    var input = $('#image-input-field');
+		    var gallery = $('#photo-load-section');
+		    var url = $(input).closest('form').attr('action')
+
+		    $(input).off('change');
+
+		    $(input).on('change', function(event) {
+
+		        ajax_file_upload(event.target.files, url, gallery, add_images_to_gallery )
+
+		    });
+
+		    var add_images_to_gallery = function( data ) {
+
+		        $( that.params.gallery ).append( data )
+		             
+		    }; 
+
+		};
+
+		var bind_mouse_events_in_item = function(li) {
+
+			var a = $(li).find('a').eq(0);
+
+			$(li).on('mouseenter' , function() {
+
+				hiddenHistory.schema.select_marker( 'Guide' , $(a).data('id') );
+
+			})
+
+			$(li).on('mouseleave' , function() {
+
+				hiddenHistory.schema.drop_marker( 'Guide' , $(a).data('id') );
+
+			})
+
+			$(li).on('click' , function(e) {
+
+				e.preventDefault();
+
+				if ( that.edit_mode == true ) {
+
+					hiddenHistory.schema_item = new Guide_edior();
+					
+					hiddenHistory.schema_item.edit_guide( $(a).data('id') );
+
+					return	
+				}
+					
+				hiddenHistory.schema_item = new Schema_show_guide(  $(a).data('id')  );
+
+
+			})
+
+		}
+
+
+	};
+
+	/*  функция преобразовыввает GET-параметры
+	в объект и в зависимости от его значений может
+	загрузить окно с фотографией или отметкой
+	*/
+	var parse_url = function() {
+
+		var start_url  = window.location.href;
+		var get_params = start_url.substr(start_url.indexOf("?") + 1).split('&');
+		var params_obj = {};
+
+
+		hiddenHistory.schema_URL = start_url.split('?')[0]
+
+
+		for ( i in get_params ) {
+
+			var param = get_params[i].split('=');
+
+			params_obj[ param[0] ] = param[1];
+			
+		}
+
+		if ( params_obj.hasOwnProperty('guide')) {
+
+			hiddenHistory.schema_item = new Schema_show_guide( params_obj['guide']  );
 			return;
 
 		}
 
-
-		schema.settings.current_year = year;
-
-
-		for ( var index in collection ) {
-
-			if ( collection[index].params['year'] == year ) {
-
-				collection[index].show();
-
-			} else {
-
-				collection[index].hide();
-			}
-
+		if ( params_obj.hasOwnProperty('photo')) {
+			
+			hiddenHistory.schema_item = new Schema_show_photo( params_obj['photo'] );
+			return;
 		}
 
-	};
-
-	var select_collection = function(type) {
-
-		var collection;
-
-		switch ( type ) {
-			case 'Photo':
-				collection = photo_marker_collection;
-				break;
-			case 'Guide':
-				collection = guide_marker_collection;
-				break;
-
-		}
-
-		return collection;		
-
-
-	};
-
-	var hide_collection = function( collection ) {
-
-		for ( var index in collection ) {
-
-			collection[index].hide()
-
-		}
-
-	};
-
-	var show_collection = function( collection ) {
-
-		for ( var index in collection ) {
-
-			collection[index].show()
-
-		}
 
 
 	};
 
 
-	// Функция добавляет в массив маркеры, выделенные пользователем
-	var get_selected_markers = function() {
 
-		var collection = select_collection( schema.settings.current_type )
-
-		var selected = []
-
-			for ( var index in collection ) {
-
-				if ( 'selected' in collection[index].params && 
-					collection[index].params['selected'] == true ) 
-				{
-						
-					selected.push( collection[index] );
-
-				}
-
-					
-			}
-
-		return selected
-
-	};
-
-	var find_marker_and_action = function( type , id, action ) {
-
-		var collection, selected_marker;
-
-		switch ( type ) {
-			case 'Photo':
-				collection 	 = photo_marker_collection;
-				parent_param = 'photo_id';
-				break;
-			case 'Guide':
-				collection = guide_marker_collection;
-				parent_param = 'guide_id'
-				break;
-
-		}
-
-		for ( var index in collection ) {
-
-			if ( collection[index].params[ parent_param ] == id ) {
-
-				collection[index][action]();
-				return true;
-
-			}
-
-		}
-
-		return false;
-
-	};
-
-	// сюда попадают данные, возвращаемые функцией load_markers_by_ajax
-	// Функция перебарает json и создает новые объекты маркеров
-	// Также попутно выбирает уникальные значения поля year
-	// и на их основе создает меню с выбором года создания фотографий
-	var add_photo_markers_to_schema = function(data) {
-
-		// объект, в котором будут уникальные года. Он необходим
-		// для построения меню сортировки по году
-		var marker_dates = [];	
-		var null_year_added = false;
-
-		console.log(data)
-
-		for ( var i=0 ; i < data.length ; i++ ) {
 	
-			// если задан год, то проверяем, есть ли он уже в объекте marker_dates
-			if (  data[i]['year']  != null ) {
-													
-			// если нет, то добавляем и генерируем для него цвет
-			if (   marker_dates.indexOf(data[i]['year']) === -1 )
-				{	
-					marker_dates.push( data[i]['year'] ); 
-				}
+	var initialize = function() {
 
-			} else {
+		// Проверяем URL на наличие GET-параметров
+		parse_url();
 
-				data[i]['year'] = 'null'
-
-				// Добавляем в массив null ( соотвествует фотографиям без даты)
-				if ( null_year_added == false )
-					{	
-											
-						marker_dates.push( 'null' ) 
-						null_year_added = true
-											
-					}
-
-				}
+		// creating new lighbox, in which fullsize images will be showen
+		elements.schema_lightbox = new Schema_lightbox();
+		elements.schema_lightbox.init();
 
 
-			data[i]['parent'] = schema.schema_svg;
+		// we use timeout function, because schema didn't appears emmideatly, so if we'll
+		// try to call promt_builder, message will be placed in the document left top corner
+		setTimeout( function() {
+			
+			$('#schema-settings-button').promt_builder('параметры схемы')
+			
+		} ,300)
 
-			var new_marker = new Schema_photo_marker( data[i] );
 
-			photo_marker_collection[ data[i]['id'] ] = new_marker;
+		// Инициализируем кнопки "редактировать", "готово"
+		// и кнопку "удалить маркер"
+		elements.edit_button  = new Edit_button();
+			
+		elements.edit_button.bind_click();
 
-		}
+		elements.ready_button  = new Ready_button();
 
-							
-		schema.year_menu = new Schema_year_menu( marker_dates, show_markers_by_year )
+		elements.delete_marker_button = new Delete_marker_button();
 
-		schema.svg_container.node().appendChild( schema.year_menu.container )
 
-	};
+		// инициализируем меню фотографий и отметок
+		interface.menus.photos = new Photos_menu();
 
-	// сюда попадают данные, возвращаемые функцией 
-	// load_markers_by_ajax. 
-	// Функция перебарает json и создает новые объекты маркеров
-	var add_guide_markers_to_schema = function(data) {
+		interface.menus.photos.init();
 
-		for ( var i=0 ; i < data.length ; i++ ) {
+		interface.menus.guides = new Guides_menu();
 
-			data[i]['parent'] = schema.schema_svg;
+		interface.menus.guides.init();
 
-			var new_marker = new Schema_guide_marker(data[i]);
-
-			guide_marker_collection[ data[i]['id'] ] = new_marker;
-
-			if ( document.building_schema.settings.edit_mode == true ) {
-				new_marker.check_can_edit();
-			}
-
-		}
-
-	};
-
-	// загрузка маркеров. 
-	// При старте схемы загружаются только фото-маркеры, а когда
-	// пользователь нажимает кнопку 'экспликация' загружаются и
-	// маркеры с гуайдами
-	var load_markers_by_ajax = function( type , callback ) {
-
-		switch( type ) {
-
-	    	case 'Photo':
-	    		var url = window.location.href + '/load_photo_markers'
-	    		break;
-	    	case 'Guide':
-	    		var url = window.location.href + '/load_guide_markers'
-	    		break;
-	    	default:
-	    		return;
-	    }
 
 		
+		
 
-		$.ajax({
-
-			url: url,
-			method: 'POST',
-			dataType: 'json',
-			cache: false,
-			success: function(data, textStatus, jqXHR) 
-			{
-
-				if ( typeof(callback) === 'function') {
-					callback(data);
-				}
-				
-
-			}
-
-		});
-
-	};
-
-	// функция определяет относительное изменение 
-	// масштаба схемы. Это нужно для правильного
-	// изменения масштаба маркеров
-	var get_svg_scale_delta = function() {
-
-		var w_init, w_actual
-
-		w_init = schema.settings.viewBox_itit_params[2];
-		w_actual = schema.settings.viewBox_actual_params[2];
-
-		schema.settings.size_delta = w_actual/w_init
-
-		$(document).trigger('shema_zoom');
-
-	};
-
-	// функция проверяет, может ли данный пользователь 
-	// редактировать все маркеры и гуайды
-	var check_if_can_edit_markers = function() {
-
-		console.log('check_if_can_edit_markers');
-
-		var url = window.location.href + '/check_can_edit';
-
-		$.ajax({
-
-			url: url,
-			method: 'POST',
-			dataType: 'json',
-			cache: false,
-			success: function(data, textStatus, jqXHR) 
-			{
-
-				if ( data == true ) {
-					schema.settings.can_edit = true
-				}
-
-			}
-
-		});
 
 	}
 
 
-
-		this.init = function( ) {
-
-
-			var container = document.getElementById('schema-main-container')
-			var container_width = container.offsetWidth
-			var container_height = container.offsetHeight
-
-
-			schema.settings.viewBox_itit_params = schema.schema_svg.attr('viewBox').split(' ')
-
-
-			// определяем изначальный размер viewbox'а
-			for ( var i=0; i<4; i++) {
-
-				var item = schema.settings.viewBox_itit_params[i];
-
-				schema.settings.viewBox_itit_params[i] = parseInt(item);
-
-			}
-
-			schema.settings.scale_delta = schema.settings.viewBox_itit_params[2]/5
-
-			schema.schema_svg.node().style.width = container_width + 'px'
-			schema.schema_svg.node().style.height = container_height + 'px'
-
-			
-
-
-					schema.settings.viewBox_actual_params = schema.settings.viewBox_itit_params 
-
-					schema.schema_svg
-						.attr( 'width',   740 )
-						.attr( 'height',  524 )
-						.attr( 'viewBox' , schema.settings.viewBox_itit_params.join(' ') )
-						.attr( 'enable-background' , 'new ' + schema.settings.viewBox_itit_params.join(' ') )
-
-					var defs = schema.schema_svg.insert("defs",":first-child")
-
-					var pattern = defs.append("pattern")
-						.attr( "id", "gridpattern" )
-						.attr("width" , 140 )
-						.attr("height" , 140 )
-						.attr( "fill-opacity" , 0 )
-						.attr("patternUnits", "userSpaceOnUse");
-
-					var filter = defs.append("filter")
-						.attr("id", "drop-shadow")	
-						.attr('filterUnits', "userSpaceOnUse")
-						.attr('width', '150%')
-						.attr('height', '150%');
-
-
-					filter.append("feGaussianBlur")
-    						.attr("in", "SourceAlpha")
-   							.attr("stdDeviation", 2)
-    						.attr("result", "blur-out");
-
-					filter.append('svg:feColorMatrix')
-							.attr('in', 'blur-out')
-							.attr('type', 'hueRotate')
-							.attr('values', 180)
-							.attr('result', 'color-out');
-
-					filter.append("feOffset")
-    						.attr("in", "color-out")
-    						.attr("dx", -5)
-    						.attr("dy", 5)
-    						.attr("result", "the-shadow");
-
-    				filter.append('svg:feBlend')
-							.attr('in', 'SourceGraphic')
-							.attr('in2', 'the-shadow')
-							.attr('mode', 'normal');
-
-
-
-					var cell_group = pattern.append("g")
-
-					// creating main grid rectangle
-					cell_group.append("rect")
-						.attr("width" , 140 )
-						.attr("height" , 140 )
-						.attr( "stroke", "#d1d1d1" )
-						.attr( "stroke-width", 2 )
-
-					// creating small grid cells	
-					for ( var row=0; row<10; row++ ) {
-						for ( var col=0; col<10; col++ ) {
-							cell_group.append("rect")
-								.attr( "height" , 14 )
-								.attr( "width" , 14 )
-								.attr( "stroke-width", 1 )
-								.attr( "stroke", "#d1d1d1" )
-								.attr( "transform" , "translate( " + col*14 + ", " + row*14 + ")")
-						}		
-					}
-
-
-					schema.schema_svg
-						.insert('rect',":first-child")
-						.attr( "x", "-3000")
-						.attr( "y", "-3000" )
-						.attr( "width",  "9999" )
-						.attr( "height", "9999" )
-						.attr( "fill" , "url(#gridpattern)" );
-
-
-
-
-					schema.svg_container = d3.select('#schema-main-container');
-
-
-					get_svg_scale_delta();
-
-
-
-					schema.svg_container.on('mousedown', function(event) {
-
-						if ( schema.settings.img_dragging == true ) {
-							return false;
-						}
-
-
-						var start_offset_x = d3.event.pageX
-						var start_offset_y = d3.event.pageY
-
-						var start_dx = schema.settings.viewBox_actual_params[0]
-						var start_dy = schema.settings.viewBox_actual_params[1]
-
-
-
-						schema.svg_container.on('mousemove' , function(event) {
-
-							schema.settings.viewBox_actual_params[0] = start_dx + start_offset_x - d3.event.pageX // delta x
-							schema.settings.viewBox_actual_params[1] = start_dy + start_offset_y - d3.event.pageY // delta y
-
-
-							schema.schema_svg.attr('viewBox' , schema.settings.viewBox_actual_params.join(' '))
-
-						})
-
-						schema.svg_container.on('mouseup', function() {
-							schema.svg_container.on('mousemove mouseup' , null )
-						})
-
-					});
-
-
-					scale_up.on('click', function() {
-
-						if ( schema.settings.zoom_level + 1 >= schema.settings.zoom_level_max ) { return; }
-
-						var viewBox_new_params = []
-
-
-						viewBox_new_params[0] = schema.settings.viewBox_actual_params[0] + schema.settings.scale_delta / 2
-						viewBox_new_params[1] = schema.settings.viewBox_actual_params[1] + schema.settings.scale_delta / 2
-						viewBox_new_params[2] = schema.settings.viewBox_actual_params[2] - schema.settings.scale_delta
-						viewBox_new_params[3] = schema.settings.viewBox_actual_params[3] - schema.settings.scale_delta
-
-						
-						// проверка чтобы значения viewBox 
-						// не ушли в отрицательный диапазон
-
-						if ( viewBox_new_params[2] <= 0 ) {
-
-							viewBox_new_params[2] = 10;
-
-						}
-
-						if ( viewBox_new_params[3] <= 0 ) {
-
-							viewBox_new_params[3] = 10;
-
-						}
-
-						schema.schema_svg
-							.attr( 'viewBox', schema.settings.viewBox_actual_params.join(' ') )
-							.transition()
-							.duration(1000)
-							.attr( 'viewBox', viewBox_new_params.join(' ') )
-
-						schema.settings.viewBox_actual_params = viewBox_new_params
-						schema.settings.zoom_level++
-
-						setTimeout( function() {
-							get_svg_scale_delta();
-						}, 200 )
-
-					});
-
-					scale_down.on('click', function() {
-
-
-						var viewBox_new_params = [];
-
-						viewBox_new_params[0] = schema.settings.viewBox_actual_params[0] - schema.settings.scale_delta / 2;
-						viewBox_new_params[1] = schema.settings.viewBox_actual_params[1] - schema.settings.scale_delta / 2;
-						viewBox_new_params[2] = schema.settings.viewBox_actual_params[2] + schema.settings.scale_delta;
-						viewBox_new_params[3] = schema.settings.viewBox_actual_params[3] + schema.settings.scale_delta;
-
-						schema.schema_svg
-							.attr( 'viewBox', schema.settings.viewBox_actual_params.join(' ') )
-							.transition()
-							.duration(1000)
-							.attr( 'viewBox', viewBox_new_params.join(' ') );
-
-						schema.settings.viewBox_actual_params = viewBox_new_params;
-						schema.settings.zoom_level--;
-
-						setTimeout( function() {
-							get_svg_scale_delta();
-						}, 200 )
-						
-						
-					});
-
-
-					load_markers_by_ajax( 'Photo' , function(data) { add_photo_markers_to_schema(data) });
-
-					check_if_can_edit_markers();
-
-
-			};
-
-			this.load_guide_markers = function() {
-
-				load_markers_by_ajax( 'Guide' , function(data) { add_guide_markers_to_schema(data) })
-
-			}
-
-
-
-			this.add_marker = function( type, params ) {
-
-				if ( !params || !type ) { return; }
-
-				var new_marker, collection; 
-
-				params['parent'] = schema.schema_svg
-
-				switch ( type ) {
-					case 'Photo':
-						new_marker = new Schema_photo_marker( params );
-						break;
-					case 'Guide':
-						new_marker = new Schema_guide_marker( params );
-						break
-					default:
-						break;
-
-				}
-
-				collection = select_collection(type);
-
-				collection[ params['id'] ] = new_marker;
-
-				return new_marker;	
-
-			};
-
-			this.delete_selected_markers = function( id ) {
-
-				var selected_markers = get_selected_markers();
-
-				for ( var index in selected_markers ) {
-
-					selected_markers[index].destroy();
-				}
-
-			};
-
-			this.select_marker = function( type, id ) {
-
-
-				find_marker_and_action(type, id, 'select');
-				
-
-			};
-
-			this.drop_marker = function( type, id ) {
-
-				find_marker_and_action(type, id, 'marker_drop');
-				
-			};
-
-			this.show_marker_by_type = function( type ) {
-
-				switch ( type ) {
-					case 'Photo':
-
-						hide_collection( guide_marker_collection );
-
-						show_collection( photo_marker_collection );
-
-						schema.year_menu.fadeIn();
-
-						break;
-
-					case 'Guide':
-					
-						hide_collection( photo_marker_collection );
-
-						show_collection( guide_marker_collection );
-
-						schema.year_menu.fadeOut();
-
-						break
-
-					default:
-						return;
-						break;
-
-				}
-
-				schema.settings.current_type = type
-
-
-			};
-
-
-			this.edit_mode = function( status ) {
-
-				switch ( status ) {
-
-					case true:
-
-						var token = document.getElementsByName('authenticity_token')[0];
-	
-						if ( typeof(token) != 'undefined' ) {
-							schema.settings.token = token.value;
-							schema.settings.edit_mode = true;
-
-							$(document).trigger('turn_on_edit_mode');
-
-							schema_promt.fadeIn('нажмите и удерживайте маркер для перемещения');
-						}
-
-						break;
-
-					case false:
-
-						schema.settings.edit_mode = false;
-						$(document).trigger('turn_off_edit_mode');
-
-						break;
-
-					default:
-						break;
-
-				}
-
-			}
-
-
-	
 
 
 };

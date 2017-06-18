@@ -2,7 +2,7 @@ var create_thumb_figure = function( params, callback ) {
 
     var figure = $('<figure>');
 
-    var link   = $('<a>').attr('href', window.location.href + '/' + params['id'] )
+    var link   = $('<a>').attr('href', hiddenHistory.schema_URL + '/' + params['id'] )
                         .addClass('photo-gallery-image-link');
 
     var img    = $('<img>').attr('src', params['image']['thumb']['url'] )

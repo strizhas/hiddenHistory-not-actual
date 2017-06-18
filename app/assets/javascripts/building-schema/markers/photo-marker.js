@@ -28,20 +28,24 @@ Schema_photo_marker.prototype.create_marker = function() {
 	}
 
 
-	var schema_svg = document.building_schema.schema_svg
+	var schema_svg = hiddenHistory.schema.schema_svg
 
 	var radius = Math.floor( this.params.radius  )
 
 	var marker = schema_svg.append('g')
-						.attr('transform' , 'translate( ' + this.params.coord_x + ' ' + this.params.coord_y +  ') rotate(' + this.params.angle + ')')
+						.attr('transform' , 'translate( ' + this.params.coord_x + ' ' + this.params.coord_y +  ')')
+						.attr('class' , 'p-mrk')
 						.style( "cursor", "pointer" );
 
-	marker.append('svg:path' )	
+	var main_g = marker.append('g');
+
+	main_g.append('svg:path' )	
 			.style("fill", this.params.color)
 			.attr("opacity", 0.3)
 			.attr('d' , 'M-50,-50, 0-0,50,-50')
+			.attr('transform' , 'rotate(' + this.params.angle + ')')
 
-	marker.append("svg:circle" )	
+	main_g.append("svg:circle" )	
 			.attr( "fill" , this.params.color )
 			.attr("stroke-width" , 2)
 			.attr("stroke" , '#000')
@@ -60,7 +64,7 @@ Schema_photo_marker.prototype.create_marker = function() {
 Schema_photo_marker.prototype.rotate = function( ) {
 
 	if ( this.params['rotating'] == true || 
-		 document.building_schema.settings.edit_mode != true) {
+		 hiddenHistory.schema.settings.edit_mode != true) {
 
 		return
 
@@ -70,12 +74,13 @@ Schema_photo_marker.prototype.rotate = function( ) {
 
 	that.params['rotating'] = true
 
-
 	var currentMousePos = { x: -1, y: -1 };
 
 	var node = that.marker.node();
 
 	var node_position = node.getBoundingClientRect();
+
+	var path = that.marker.selectAll('path')
 
 	$(document).on('mousemove' , function(event) {
 
@@ -88,13 +93,11 @@ Schema_photo_marker.prototype.rotate = function( ) {
 		y = currentMousePos.y - node_position.top
 
 
-		that.params['angle'] = Math.floor( 180 + ( 180 / Math.PI ) * Math.atan2( y, x ) - 90 );
+		that.params['angle'] = Math.floor( 180 + ( 180 / Math.PI ) * Math.atan2( y, x ) - 90  );
 
-		transform = 'translate( ' + that.params.coord_x + ' ' + that.params.coord_y +  ')';
-		transform += ' rotate(' + that.params['angle'] + ')';
+		transform = 'rotate(' + that.params['angle'] + ')';
 
-		that.marker.attr('transform', transform );
-
+		path.attr('transform', transform );
 
 	});
 
@@ -116,9 +119,9 @@ Schema_photo_marker.prototype.select = function(  ) {
 
 	this.params['selected'] = true;
 
-	if ( document.building_schema.settings.edit_mode == true ) {
+	if ( hiddenHistory.schema.settings.edit_mode == true ) {
 			
-			schema_promt.fadeIn('удерживайте клавишу R для вращения');
+			hiddenHistory.schema_promt.fadeIn('удерживайте клавишу R для вращения');
 
 	}
 	
@@ -126,7 +129,7 @@ Schema_photo_marker.prototype.select = function(  ) {
 	$(document).on( 'keydown' , function (e){
 
 
-		if ( document.building_schema.settings.edit_mode != true && 
+		if ( hiddenHistory.schema.settings.edit_mode != true && 
 			that.params['selected'] != true && 
 			that.params['rotating'] != false 
 			) {
@@ -146,7 +149,7 @@ Schema_photo_marker.prototype.select = function(  ) {
 
 	$(document).on( 'keyup', function() {
 
-		if ( document.building_schema.settings.edit_mode != true ) {
+		if ( hiddenHistory.schema.settings.edit_mode != true ) {
 
 			return
 
@@ -188,7 +191,7 @@ Schema_photo_marker.prototype.show_preview = function() {
 
 		node = that.marker.node()
 
-		if ( document.building_schema.settings.img_dragging == true  ) { 
+		if ( hiddenHistory.schema.settings.img_dragging == true  ) { 
 			return; 
 		}
  				
@@ -214,7 +217,7 @@ Schema_photo_marker.prototype.show_preview = function() {
 Schema_photo_marker.prototype.show_full_content = function() { 
 
 
-	schema_show_marker = new Schema_show_photo( this.params.photo_id );
+	hiddenHistory.schema_item = new Schema_show_photo( this.params.photo_id );
 
 }; 
 

@@ -77,7 +77,7 @@ Add_photo_button = function() {
 
 		this.init = function( parent ) {
 
-			var url = window.location.href + '/upload_photo'
+			var url = hiddenHistory.schema_URL + '/upload_photo'
 			var container = parent.edit_area
 
 			$(input).bind('change', function(event) {
@@ -147,11 +147,11 @@ Add_guide_button = function() {
 
 			marker_params = { 'coord_x' : 0, 'coord_y' : 0 }
 
-			marker = document.building_schema.add_marker( 'Guide' , marker_params )
+			marker = hiddenHistory.schema.add_marker( 'Guide' , marker_params )
 
 			marker.move( e.pageX , e.pageY )
 
-			schema_promt.fadeIn('кликните на схеме чтобы добавить отметку');
+			hiddenHistory.schema_promt.fadeIn('кликните на схеме чтобы добавить отметку');
 
 
 			$(window).bind('mousemove' , function(e) {
@@ -162,11 +162,10 @@ Add_guide_button = function() {
 
 			$(window).on('close_popup' , function() {
 
-            	if ( marker.params.id == null) {
+				if ( marker.params.id == null ) {
 
-            		marker.destroy();
-
-            	}
+					marker.destroy();
+				}
 
             	unbind_events();
 
@@ -176,8 +175,8 @@ Add_guide_button = function() {
 
 				$('#schema-svg-section').on('click' , function() {
 
-					var guide_editor = new Guide_edior()
-						guide_editor.create_new_guide( guide_editor_callback )
+					hiddenHistory.schema_item = new Guide_edior()
+					hiddenHistory.schema_item.create_new_guide( guide_editor_callback )
 
 					unbind_events()
 
@@ -194,7 +193,7 @@ Add_guide_button = function() {
 
 			$(window).unbind('mousemove');
 
-			schema_promt.fadeOut();
+			hiddenHistory.schema_promt.fadeOut();
 
 		}
 
@@ -249,7 +248,7 @@ Add_guide_button = function() {
 				guide_params['id'] = id
 
 				// добавляем новый элемент в меню
-				document.schema_interface.menus.guides.add_guide(guide_params);
+				hiddenHistory.schema_interface.menus.guides.add_guide(guide_params);
 
 			};
 
@@ -299,7 +298,7 @@ Delete_marker_button = function() {
 				var confirmation = confirm("Вы уверены что хотите удлить выделенные маркеры?");
 
 				if ( confirmation == true ) {
-					document.building_schema.delete_selected_markers()
+					hiddenHistory.schema.delete_selected_markers()
 				}
 			
 

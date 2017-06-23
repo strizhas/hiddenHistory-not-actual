@@ -1,7 +1,6 @@
 class PhotoMarkersController < ApplicationController
 
-	before_action :authenticate_user, :only => [:create, :update ]
-	before_action :is_admin?, :only => [:destroy ]
+	before_action :authenticate_user, :only => [:create, :update, :destroy ]
 	before_action :parent_photo, :only => [ :show, :create, :destroy ]
 
 	def index
@@ -55,6 +54,12 @@ class PhotoMarkersController < ApplicationController
 	def destroy
 
 		marker = PhotoMarker.find(params[:id])
+
+		if !can_manage? (marker)
+			head 404
+			return
+		end
+
 		marker.destroy
 
 		@photo.schema_id = nil

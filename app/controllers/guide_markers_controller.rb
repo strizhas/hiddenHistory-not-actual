@@ -1,7 +1,6 @@
 class GuideMarkersController < ApplicationController
 
-	before_action :authenticate_user, :only => [:create, :update ]
-	before_action :is_admin?, :only => [:destroy ]
+	before_action :authenticate_user, :only => [:create, :update, :destroy ]
 	before_action :parent_guide, :only => [ :destroy, :show ]
 
 	def index
@@ -51,7 +50,13 @@ class GuideMarkersController < ApplicationController
 
 	def destroy
 
-		marker = GuideMarker.find(params[:id])
+		marker = GuideMarker.find(params[:id]) 
+
+		if !can_manage? (marker)
+			head 404
+			return
+		end
+
 		marker.destroy
 
 	end

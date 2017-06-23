@@ -149,13 +149,10 @@
 
 	var calculate_heights = function() {
 
-
-			// calculate heights of the main blocks
-
-			settings.article_height = $('#article-main').outerHeight(true);	
-			settings.content_height = $('#content-main').outerHeight(true);
-			settings.sidebar_height = $(sidebar).outerHeight(true);
-			settings.window_height  = $(window).outerHeight(true);
+		settings.article_height = $('#article-main').outerHeight(true);	
+		settings.content_height = $('#content-main').outerHeight(true);
+		settings.sidebar_height = $(sidebar).outerHeight(true);
+		settings.window_height  = $(window).outerHeight(true);
 
 
 	};
@@ -291,10 +288,12 @@
 			var h3 = $(article).find('h2,h3');
 			var parent_li = $('#sidebar-article-content');
 
-			console.log('work');
-			if ( h3.length == 0 || parent_li.length <= 0 ) { return; }
 
-			console.log(h3.length);
+			if ( h3.length == 0 || parent_li.length <= 0 ) { 
+
+				return; 
+
+			}
 
 			$(parent_li).find('ul').remove();
 

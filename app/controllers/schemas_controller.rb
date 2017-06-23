@@ -20,7 +20,10 @@ class SchemasController < ApplicationController
 
 	def create
 
-		@schema = @building.schemas.new(schema_params)
+		new_params = schema_params
+		new_params[:user_id] = current_user.id
+
+		@schema = @building.schemas.new(new_params)
 
 		if @schema.save
 			redirect_to building_schema_path( @building, @schema )
@@ -39,20 +42,40 @@ class SchemasController < ApplicationController
 
 	end
 
-	def edit 
-		@schema = @building.schemas.find(params[:id])
+	def edit
+
+		@schema = @building.schemas.find(params[:id]) 
+
+		if !can_manage? (@schema)
+			redirect_to buildings_path
+			return
+		end
+
 		render :layout => "building"
+
 	end
 
 	def update
 
 		@schema = Schema.find(params[:id])
 
+		if !can_manage? (@schema)
+			redirect_to buildings_path
+			return
+		end
+
 		new_params = Hash.new
 
 		new_params[:title]		  = params[:schema][:title]
 		new_params[:text]  		  = params[:schema][:text]
-		new_params[:building_id]  = params[:schema][:building_id]
+
+		if !params[:schema][:building_id].blank?
+			new_params[:building_id]  = params[:schema][:building_id]
+		end
+
+		if params.key?('building_id') && !params[:building_id].blank?
+			new_params[:building_id]  = params[:building_id]
+		end
 
 		if !params[:schema][:schema].blank?
 
@@ -73,6 +96,7 @@ class SchemasController < ApplicationController
 	end
 
 	def upload_photo
+
 		ids = Array.new
 
 		if !params.has_key?(:post_photos)
@@ -88,6 +112,7 @@ class SchemasController < ApplicationController
 			@photo.save!
 
 			ids.push @photo.id
+
 		end
 
 		@photos = Photo.where( id: ids )

@@ -1,8 +1,7 @@
 
 
-thumbnails_slider = function( current_id, parent, options, callback ) {
-
-        
+thumbnails_slider = function( parent, options, callback ) {
+  
 
         var current_offset = 0                  // смещение слайдера
         var visible_last_index = 0              // индекс самой правой фотографии, нахадящийся в видимой области
@@ -10,8 +9,8 @@ thumbnails_slider = function( current_id, parent, options, callback ) {
         var figure_width = 0
         var visible_width = 0         
         var sliding = false                     // true когда слайдер двигается
-        var maximum_last_img_id = undefined     // id последней загруженной фотографии при достижении слайдером конца выборки
         var last_img_id = 0                     // id последней загруженной фотографии
+        var load_new = true                     // загружать новые фотографии при прокрутке вправо
 
         
         var container_width = $(parent).width()
@@ -118,9 +117,7 @@ thumbnails_slider = function( current_id, parent, options, callback ) {
 
         };
 
-        var append_single_figure = function( params ) {
-
-            var figure = create_thumb_figure(params, callback )
+        var append_single_figure = function( figure ) {
 
             collection.push( figure )
 
@@ -133,44 +130,74 @@ thumbnails_slider = function( current_id, parent, options, callback ) {
 
             for ( var index in data ) {
 
-                append_single_figure(data[index])
+                var figure = create_thumb_figure( data[index], callback );
+
+                append_single_figure(figure);
 
             }
 
 
             // если в коллекции нет фотографий, удаляем слайдер
-            if ( collection.length == 0 )
-                {
-                    return
-                }
+            if ( collection.length == 0 ) {
+
+                    return;
+            }
 
 
             // если ajax запрос вернул меньше фотографий, чем мы запросили
             // то это означает, что мы уже загрузили все фотографии
-            if ( data.length < visible_photos_count ) 
-                {
-                    maximum_last_img_id = $( collection[collection.length-1] ).find('img').eq(0).data('id')
-                }
+            if ( data.length < visible_photos_count ) {
 
-            calculate_slider_params()                            
+                    load_new = false;
+            }
 
-            find_visible_images_last_index() 
+            calculate_slider_params();                            
+
+            find_visible_images_last_index(); 
+
+        };
+
+        var add_existing_figures_to_slider = function() {
+
+            $(elems.container).simple_progress_bar('remove');
+
+            for ( var i = 0 ; i < options.figures.length ; i++ ) {
+
+                var new_figure =  $( options.figures[i] ).clone();
+
+                var img = $(new_figure).find('img');
+
+                var id = $(img).attr('id').replace('gallery-item-', '');
+                
+                $(img).data('id' , id );
+
+                $(img).off('click').on( 'click' , function(e) { e.preventDefault() });
+
+                $(img).on(callback);
+
+                append_single_figure( new_figure );
+
+                bind_button_appears_on_figure_hover( new_figure );
+
+            }
+
+            calculate_slider_params();                            
+
+            find_visible_images_last_index(); 
 
         };
 
 
         var ajax_data_load = function( optional_data ) {
 
+            console.log( 'ajax_data_load')
 
             var start_url = ( window.location.pathname );
 
             var ajax_data = $.extend( request_data,  optional_data );
 
-            console.log('slider start sdsd2 23 wdsds')
-            console.log(ajax_data)
-
             $.ajax({
-                url: start_url + '/load_slider_photos' ,
+                url: start_url + '/load_slider_photos',
                 method: 'POST',
                 dataType: 'json',
                 cache: false,
@@ -187,7 +214,7 @@ thumbnails_slider = function( current_id, parent, options, callback ) {
 
                         setTimeout( function() {
 
-                             add_loaded_figures_to_slider( data );
+                            add_loaded_figures_to_slider( data );
 
                         }, 300 )
                                             
@@ -209,19 +236,14 @@ thumbnails_slider = function( current_id, parent, options, callback ) {
         // thumbnail gallery sliding function. Fired from 'thumb_gallery_slide' function
         var thumb_gallery_slide_left = function( sliding_offset ) {
 
-
             if (  sliding == true ) { return false; }
-
-            if ( typeof( sliding_offset ) == 'undefined') {
-                sliding_offset = visible_width;
-            }
 
 
             var slider_left_pos = parseInt( $( elems.slider ).css('left') ) || 0
 
             sliding = true;
             
-            current_offset = slider_left_pos + sliding_offset;
+            current_offset = slider_left_pos + visible_width;
 
             if ( current_offset > -100 ) {
 
@@ -245,29 +267,17 @@ thumbnails_slider = function( current_id, parent, options, callback ) {
 
         };
 
-        // thumbnail gallery sliding function. Fired from 'thumb_gallery_slide' function
-        var thumb_gallery_slide_right = function( sliding_offset ) {
+
+        var thumb_gallery_slide_right = function( ) {
             
 
             if ( sliding == true ) { 
                 return false; 
             }
 
-            if ( typeof( sliding_offset ) == 'undefined') {
-
-                sliding_offset = visible_width;
-                load_new = true;
-
-            } else {
-
-                load_new = false;
-
-            }
-
-
             var slider_left_pos = parseInt( $( elems.slider ).css('left') ) || 0
 
-            var next_offset = slider_left_pos - sliding_offset;
+            var next_offset = slider_left_pos - visible_width;
 
             var animation_complete_function = function() {
 
@@ -282,25 +292,8 @@ thumbnails_slider = function( current_id, parent, options, callback ) {
 
             sliding = true;
 
-            if ( visible_last_index + request_data.count <= total  && 
-                 maximum_last_img_id  == undefined && load_new == true ) {
 
-                // если в параметрах были переданы id изображений
-                // то мы загружаем им один раз в начале и больше
-                // не подгружаем
-                if ( typeof(options.ids) != 'undefined' ) {
-
-                    return;
-
-                }
-
-                ajax_data_load( { id: last_img_id, direction: 'next' } );
-                
-
-            }
-
-
-            if ( -1*next_offset > $( elems.wrapper ).width() - sliding_offset ) {
+            if ( -1*next_offset > $( elems.wrapper ).width() - visible_width ) {
 
                 next_offset = -1 * ( $( elems.wrapper ).width() - $( elems.frame ).innerWidth() );
 
@@ -310,13 +303,20 @@ thumbnails_slider = function( current_id, parent, options, callback ) {
 
             
 
-            $(  elems.slider ).animate(  { 'left' : next_offset }, 
+            $(  elems.slider ).animate( { 'left' : next_offset }, 
                                         { duration : 300, 
-                                            complete : animation_complete_function
+                                          complete : animation_complete_function
                                         });       
             
 
             $( elems.left_button ).fadeIn('fast');
+
+
+            if ( visible_last_index + request_data.count <= total && load_new == true ) {
+
+                ajax_data_load( { id: last_img_id, direction: 'next' } );        
+
+            }
 
             return true;
 
@@ -343,7 +343,22 @@ thumbnails_slider = function( current_id, parent, options, callback ) {
                 // добавялем индикатор загрузки
                 $(elems.container).simple_progress_bar('create', {progress_bar_type : 'gray-circle-bar'}); 
 
-                ajax_data_load( );
+                if ( 'figures' in options ) {
+
+                    add_existing_figures_to_slider();
+
+                    // Если вместе с параметрами были переданы
+                    // ссылки на элементы figure, присутсвующие в DOM, 
+                    // то новые  подгружатся не будут
+                    load_new = false;
+
+                } else {
+
+                    ajax_data_load( );
+
+                }
+
+                return;
 
 
             },
@@ -357,15 +372,3 @@ thumbnails_slider = function( current_id, parent, options, callback ) {
         }
     
     };
-
-
-
-
-$.fn.add_thumbnail_slider = function( current_id, options, callback ) {
-
-    thumbnail_slider = new thumbnails_slider( current_id, this, options, callback );
-
-    thumbnail_slider.init();
-
-    return thumbnail_slider;
-};

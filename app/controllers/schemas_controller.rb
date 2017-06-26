@@ -1,7 +1,9 @@
 class SchemasController < ApplicationController
 
-	before_filter :authenticate_user, :only => [:new, :create, :destroy, :edit]
+	before_filter :authenticate_user, :only => [:new, :create, :destroy, :edit, :upload_photo]
 	before_filter :parent_object, :except => [ :load_schema_photos, :photo_position_update, :destroy ]
+
+	load_and_authorize_resource :only => [:create, :destroy, :edit, :update]
 
 	layout "building"
 
@@ -44,25 +46,11 @@ class SchemasController < ApplicationController
 
 	def edit
 
-		@schema = @building.schemas.find(params[:id]) 
-
-		if !can_manage? (@schema)
-			redirect_to buildings_path
-			return
-		end
-
 		render :layout => "building"
 
 	end
 
 	def update
-
-		@schema = Schema.find(params[:id])
-
-		if !can_manage? (@schema)
-			redirect_to buildings_path
-			return
-		end
 
 		new_params = Hash.new
 
@@ -90,8 +78,6 @@ class SchemasController < ApplicationController
 			flash[:error] 	= "произошла ошибка"
 			redirect_to edit_building_schema_path( @building, @schema )
 		end
-
-		
 
 	end
 
@@ -154,7 +140,7 @@ class SchemasController < ApplicationController
 
 		def parent_object
 
-			@building = Building.select([ :id, :title, :category_id, :image, :status, :user_id ]).find(params[:building_id])
+			@building = Building.select([ :id, :title, :category_id, :image, :status, :photos_count, :schemas_count, :user_id ]).find(params[:building_id])
 			@category = category_select('Building').find_all { |category| category.id == @building.category_id}[0]
 			
 		end

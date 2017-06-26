@@ -7,5 +7,5 @@
 
     </ul>
 
-    <%= link_to 'добавить схему', new_building_schema_path(@building, Schema.new) , :rel => 'nofollow', class: "add-post-button"  if can? :create, Building %>
+    <%= link_to 'добавить схему', new_building_schema_path(@building, Schema.new) , :rel => 'nofollow', class: "add-post-button"  if can? :create, Schema %>
   </div>

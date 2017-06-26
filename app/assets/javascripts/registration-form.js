@@ -17,6 +17,9 @@ function validate_registration_form() {
                     required: true,
                     rangelength: [6,30]
                 },
+            'user[password_confirmation]':{
+                    equalTo: "#user_password"
+            }    
         },
         messages:{
             'user[username]':{
@@ -30,6 +33,9 @@ function validate_registration_form() {
             'user[password]': {
                 required: "вы не указали пароль",
                 rangelength: "Выберете пароль в диапозоне от 6 до 30 символов"
+            },
+            'user[password_confirmation]':{
+                equalTo: "Введенные пароли не совпадают"
             }
         }
 

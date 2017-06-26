@@ -1,6 +1,6 @@
 class Admin::UsersController < ApplicationController
 
-	# before_filter :authenticate_user, :is_admin?
+	before_filter :authenticate_user, :is_admin?
 
   layout 'admin'
 

@@ -13,6 +13,7 @@ class Article < ActiveRecord::Base
  	RU_NAME = 'статьи' 
 
 	belongs_to :category
+  belongs_to :user, counter_cache: true
 	has_many :comments, as: :commentable, dependent: :destroy
   	has_many :likes, as: :likeable, dependent: :destroy
 

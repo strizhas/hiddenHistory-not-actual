@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   Roles = [ :admin , :member, :article_editor, :buildings_editor ]
 
 
-  attr_accessor :password, :crop_x, :crop_y, :crop_w, :crop_h 
+  attr_accessor :password, :password_confirmation, :crop_x, :crop_y, :crop_w, :crop_h
 
   before_save :encrypt_password
   after_save :clear_password
@@ -32,7 +32,8 @@ class User < ActiveRecord::Base
   
   validates :username, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
   validates :email, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
-  validates :password, :confirmation => true
+  
+  validates_confirmation_of :password
   
   #Only on Create so other actions like update password attribute can be nil
   validates_length_of :password, :in => 6..20, :on => :create

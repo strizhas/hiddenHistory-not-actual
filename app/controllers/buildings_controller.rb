@@ -1,14 +1,15 @@
 class BuildingsController < ApplicationController
 
+	layout "building_index"
+
 	before_filter :authenticate_user, :only => [:new, :create, :destroy, :edit, :update]
 	before_filter :is_admin?, :only => [:destroy]
 
-	layout "building_index"
+	load_and_authorize_resource :only => [:create, :destroy, :edit, :update]
 
 	def index
 		
 		@categories = Category.all
-		@title = 'здания и сооружения'
 
 		if params[:category_id]
 
@@ -17,6 +18,8 @@ class BuildingsController < ApplicationController
 			@buildings = Building.select(index_params)
 									.where( :category_id => ids )
 									.where( 'building_id is NULL' )
+									.where(:published => true )
+									.order(id: :desc)
 									.paginate(:page => params[:page])
 			
 			if params[:layout] == 'false' && !params.key?('page')
@@ -24,7 +27,11 @@ class BuildingsController < ApplicationController
 			end
 
 		else
-			@buildings = Building.select(index_params).where( 'building_id is NULL' ).paginate(:page => params[:page])
+			@buildings = Building.select(index_params)
+								.where( 'building_id is NULL' )
+								.where(:published => true )
+								.order(id: :desc)
+								.paginate(:page => params[:page])
 		end
 
 	end
@@ -38,8 +45,6 @@ class BuildingsController < ApplicationController
 			@parent = Building.select([:id, :title]).find( @building.building_id )
 
 		end
-
-		@title = @building.title
 
 		@category = category_select('Building').find_all { |category| category.id == @building.category_id}[0]
 
@@ -62,7 +67,14 @@ class BuildingsController < ApplicationController
 	end
 
 	def create
-		@building = Building.new(building_params)
+
+		new_params = building_params
+
+		if current_user.role != 'member' && current_user.role != 'guest'
+			new_params[:published] = true
+		end
+
+		@building = current_user.buildings.new(new_params)
  
 		if @building.save
 
@@ -79,27 +91,18 @@ class BuildingsController < ApplicationController
 	end
 
 	def edit
-  		@building = Building.find(params[:id])
-  		if can_manage? (@building)
 
-  			@categories = category_select('Building')
+		@categories = category_select('Building')
 
-  			@users = User.select([:id, :username]).all
-
-  		else 
-  			redirect_to buildings_path
-  		end		
 	end
 
 	def update
-
-		@building = Building.find(params[:id])
-		
 		
 		if @building.update(building_params)
 			flash[:success] = "запись обновлена"
 			redirect_to @building
 		else
+			flash[:error] = "запись не обновлена"
 			render 'edit'
 		end
 	end

@@ -8,6 +8,7 @@
         <%= f.text_field :username, placeholder: 'имя пользователя'%>
         <%= f.text_field :email, placeholder: 'электронная почта'%>
         <%= f.password_field :password, placeholder: 'пароль'%>
+        <%= f.password_field :password_confirmation, placeholder: 'подтверждение пароля' %>
 
         <%= f.submit 'регистрация', class: "submit-button" %>
       <% end %>

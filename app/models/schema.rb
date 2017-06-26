@@ -1,7 +1,7 @@
 class Schema < ActiveRecord::Base
 
 	belongs_to :user
-	belongs_to :building
+	belongs_to :building, counter_cache: true
 	
 	has_many   :photo_markers, :dependent => :destroy
 	has_many   :guide_markers, :dependent => :destroy

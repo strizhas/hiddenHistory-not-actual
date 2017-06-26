@@ -31,6 +31,11 @@ class ApplicationController < ActionController::Base
 		end			
 	end
 
+	rescue_from CanCan::AccessDenied do |exception|
+		flash[:warning] = exception.message
+		redirect_to root_path
+	end
+
 	# Метод используется для рекусрсивного поиска опеределенных подкатегорий
 	# В качестве аргумента передаётся название модели
 	# Функция получает массив со всеми категориями, имеющими 

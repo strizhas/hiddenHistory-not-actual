@@ -11,10 +11,11 @@
 		<button id="scale-up-button"></button>
 		<button id="scale-down-button"></button>
 
-		<% if can_manage?(@schema) %>
-
+		<% if can? :edit, @schema %>
 			<%= link_to ' ', edit_building_schema_path( @building, @schema ), id: 'schema-settings-button' %> 
+		<% end %>
 
+		<% if current_user && current_user.role != 'guest' %>
 			<%= button_tag '' , :id => 'schema-edit-button' %>
 			<%= button_tag '' , :id => 'schema-add-guide-button' %>
 			<%= button_tag '' , :id => 'schema-delete-marker-button' %>

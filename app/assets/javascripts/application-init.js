@@ -38,15 +38,15 @@ var aplication_init_functions = function() {
 
     if ( $('#main-sidebar').length != 0 ) {
 
-        if ( typeof(sidebar_menu) === 'undefined' ) {
+        if ( typeof(hiddenHistory.sidebar) === 'undefined' ) {
 
-            sidebar_menu = new Sidebar_menu();
+            hiddenHistory.sidebar = new Sidebar_menu();
 
-            sidebar_menu.init();
+            hiddenHistory.sidebar.init();
 
         } else {
 
-            sidebar_menu.update();
+            hiddenHistory.sidebar.update();
 
         }
 

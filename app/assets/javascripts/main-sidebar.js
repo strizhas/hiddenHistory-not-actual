@@ -380,8 +380,6 @@
 
 		var top = $(window).scrollTop();
 
-			
-
 			  	
 			if ( top >= 60 ) {
 
@@ -392,6 +390,18 @@
 			  	$(sidebar).css({'position' : 'relative' , 'top' : 0 });
 
 			}
+	}
+
+	var update_photo_counter = function(value) {
+
+		var counter 	= $('#sidebar-photo-content').find('.sidebar-items-count').eq(0);
+		var cur_value   = $(counter).text();
+
+		var new_value = parseInt(cur_value) + value;
+
+		counter.text(new_value);
+
+
 	}
 
 
@@ -416,6 +426,11 @@
 
 			create_photos_menu();
 
+		},
+
+		update_photo_counter : function(value) {
+
+			update_photo_counter(value);
 
 		}
 

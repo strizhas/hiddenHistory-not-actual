@@ -81,6 +81,17 @@ body {
 
 #sidebar-main-navigation a {
 	color: #d0d2d3;
+}
+
+.sidebar-items-count {
+	float: right;
+	margin-right: 20px;
+	color: #8c8c8c;
+}
+
+
+#sidebar-main-navigation a,
+.sidebar-items-count {	
 	display:  block;
 	padding-left: 60px;
 	text-decoration:  none;
@@ -142,6 +153,7 @@ body {
   border-radius: 50%;
   background: inherit;
 }
+
 
 
 /* 
@@ -244,7 +256,7 @@ h1,h2,h3,h4,h5,h6 {
 
 .help-text {
 	color: #6d6e70;
-	font-size: 14px;
+	font-size: 0.8em;
 }
 
 .strong-header {
@@ -274,12 +286,7 @@ p {
 }
 
 
-.article-in-progress {
-	background: #f2c779;
-	padding: 10px 20px;
-	text-indent: 0;
-	color: #60503b;
-}
+
 
 /* 
 4.0 header section 
@@ -579,6 +586,15 @@ p {
 
 
 
+/*
+	notifications
+*/
+
+.notification-box {
+	border: 2px solid #f2c779 ;
+	padding: 20px;
+	margin-bottom: 30px;
+}
 
 /*
 	building-photo-gallery

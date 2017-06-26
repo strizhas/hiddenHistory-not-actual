@@ -11,7 +11,7 @@ class Admin::BuildingsController < ApplicationController
   end
 
   def index
-  	@buildings= Building.all
+  	@buildings= Building.where(:published => false)
   end
 
   def show
@@ -26,6 +26,13 @@ class Admin::BuildingsController < ApplicationController
 		else
 			render 'edit'
 		end
+  end
+
+  def publish
+    @building = Building.find(params[:id])
+    @building.published = true
+    @building.save
+    redirect_to action: 'index' 
   end
 
   def destroy

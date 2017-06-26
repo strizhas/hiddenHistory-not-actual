@@ -5,18 +5,30 @@ class ArticlesController < ApplicationController
 	before_filter :authenticate_user, :only => [:new, :create, :destroy, :edit]
 	before_filter :is_admin?, :only => [:destroy]
 
+	load_and_authorize_resource :only => [:create, :destroy, :edit, :update]
+
 	def index
+
 		@categories = Category.all
 		
 		if params[:category_id]		
+
 			ids = get_children_categories_ids(params[:category_id])
-			@articles = Article.select(index_params).where( :category_id => ids )
-			render :layout => false if params[:layout] == 'false'
+
+			@articles = Article.select(index_params)
+								.where( :category_id => ids )
+								.paginate(:page => params[:page])
+
 		else
 
-			@articles = Article.select(index_params).where( :published => true ).paginate(:page => params[:page])
+			@articles = Article.select(index_params)
+								.where(:published => true )
+								.order(id: :desc)
+								.paginate(:page => params[:page])
 
 		end
+
+			render :layout => false if params[:layout] == 'false'
 
 	end
 
@@ -29,24 +41,25 @@ class ArticlesController < ApplicationController
 	def new
 		@article = Article.new
 		@categories = category_select('Article')
-		@users = User.select([:id, :username]).all
 	end
 	
 	def edit
-  		@article = Article.find(params[:id])
-  		
-  		if can_manage? (@article)
-  			@categories = category_select('Article')
-  			@users = User.select([:id, :username]).all
-  		else 
-  			redirect_to articles_path
-  		end		
+		@categories = category_select('Article')
 	end
 	
 	def create
-		@article = Article.new(article_params)
+
+		new_params = article_params
+		new_params[:user_id] = current_user.id
+
+		if current_user.role != 'member' && current_user.role != 'guest'
+			new_params[:published] = true
+		end
+
+		@article = Article.new(new_params)
  
 		if @article.save
+			flash[:success] = "запись успешно добавлена"
 			redirect_to @article
 		else
 			render 'new'
@@ -54,13 +67,14 @@ class ArticlesController < ApplicationController
 	end
 	
 	def update
-		@article = Article.find(params[:id])
+
 		@categories = Category.where( parent: 1)
 
 		if @article.update(article_params)
 			flash[:success] = "запись обновлена"
 			redirect_to @article
 		else
+			flash[:error] = "запись не обновлена"
 			render 'edit'
 		end
 	end

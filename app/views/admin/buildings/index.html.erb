@@ -1,4 +1,4 @@
-<h2>все статьи</h2>
+<h2>Сооружения, ожидающие модерации</h2>
    
 <ul class="articles-list">
  
@@ -14,6 +14,7 @@
       </div>  
 
       <div class="admin-edit-links">
+          <%= link_to "опубликовать", {:controller => "buildings", :action => "publish", :id => building.id} %>
           <%= link_to 'просмотреть', admin_building_path(building) %>
           <%= link_to 'редактировать', edit_building_path(building)  %>
           <%= link_to 'удалить', admin_building_path(building),

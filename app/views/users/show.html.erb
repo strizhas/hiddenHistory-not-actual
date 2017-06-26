@@ -6,17 +6,18 @@
       <%= content_tag :div, msg, class: name %>
     <% end -%>
 
+    <div class="profile-header">
+      <h2><%= @user.username %></h2>
+    
+    	<%= link_to 'редактировать профиль', :controller => 'users', :action => 'setting' if current_user.present? && @user.id == current_user.id %>
+    </div>
 
-    <h2><%= @user.username %></h2>
-    	<div class="edit-profile-header">
-    		<%= link_to 'редактировать профиль', :controller => 'users', :action => 'setting' if current_user.present? && @user.id == current_user.id %>
-    	</div>
 
     <div class="content-section">
       <h2 class="index-post-header">Добавленные сооружения</h2>
 
       	<ul class="articles-list">
-              	<%= render(:partial => 'shared/post_preview', :collection => @user.buildings, :as => 'post') || 'пользователь не добавил сооружений' %>
+              	<%= render(:partial => 'shared/post_preview', :collection => @user.buildings.reverse, :as => 'post') || 'пользователь не добавил сооружений' %>
         </ul>
 
       <% if current_user.present? && @user.id == current_user.id %>
@@ -27,7 +28,7 @@
     <div class="content-section">
       <h2 class="index-post-header">Добавленные статьи</h2>
       	<ul class="articles-list">
-          	<%= render(:partial => 'shared/post_preview', :collection => @user.articles, :as => 'post') || 'пользователь не добавил статей' %>
+          	<%= render(:partial => 'shared/post_preview', :collection => @user.articles.reverse, :as => 'post') || 'пользователь не добавил статей' %>
           </ul>
 
       <% if current_user.present? && @user.id == current_user.id %>

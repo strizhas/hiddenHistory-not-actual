@@ -1,4 +1,4 @@
-<h2>все статьи</h2>
+<h2>Статьи, ожидающие модерации</h2>
    
 <ul class="articles-list">
  
@@ -14,11 +14,12 @@
       </div>  
 
       <div class="admin-edit-links">
-          <%= link_to 'просмотреть', admin_article_path(article) %>
-          <%= link_to 'редактировать', edit_article_path(article)  %>
-          <%= link_to 'удалить', admin_article_path(article),
-                    method: :delete,
-                    data: { confirm: 'вы уверены?' } %>
+        <%= link_to "опубликовать", {:controller => "articles", :action => "publish", :id => article.id} %> 
+        <%= link_to 'просмотреть', admin_article_path(article) %>
+        <%= link_to 'редактировать', edit_article_path(article)  %>
+        <%= link_to 'удалить', admin_article_path(article),
+                  method: :delete,
+                  data: { confirm: 'вы уверены?' } %>
       </div>
 
     </li>

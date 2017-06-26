@@ -1,17 +1,25 @@
 function bind_admin_sidebar_functions() {
 
 	var sidebar = $('#admin-sidebar');
-	var top = $(window).scrollTop();
+	
+	$(window).on('scroll' , function() {
 
-	if ( top >= 64 ) {
+		var top = $(window).scrollTop();
 
-		$(sidebar).css({'position' : 'fixed' , 'top' : 0 });
+		if ( top >= 64 ) {
 
-	} else {
+			$(sidebar).css({'position' : 'fixed' , 'top' : 0 });
 
-		$(sidebar).css({'position' : 'relative' , 'top' : 0 });
+		} else {
 
-	}
+			$(sidebar).css({'position' : 'relative' , 'top' : 0 });
+
+		}
+
+
+	})
+
+	
 
 };
 		

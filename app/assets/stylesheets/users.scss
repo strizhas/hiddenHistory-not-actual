@@ -24,7 +24,7 @@
 	z-index: 3;
 	text-align: center;
 	width:  300px;
-	height:  200px;
+	height:  300px;
 	margin: auto;
 	top: 0; left: 0; bottom: 0; right: 0;
 }
@@ -67,6 +67,15 @@
 
 .sign-form .Signup_Errors {
 	padding: 10px 5px;
+}
+
+.sign-form > .error {
+	background: #d8563d;
+	color: #f2f2f2;
+	padding: 10px;
+	width: 100%;
+	width: calc( 100% - 10px );
+	margin-top: 10px;
 }
 
 
@@ -124,6 +133,15 @@
 	padding: 0;
 } 
 
-.edit-profile-header {
-	padding-bottom: 40px;
+.profile-header {
+	margin-bottom: 20px;
+	border-bottom: 1px solid #d0d2d3;
+}
+
+.profile-header > * {
+	display: inline-block;
+}
+
+.profile-header > a {
+	color: #afafaf;
 }

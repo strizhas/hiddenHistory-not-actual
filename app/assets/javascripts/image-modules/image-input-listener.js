@@ -113,6 +113,30 @@ function building_photo_uploader( ) {
     var form    = $('#building-photo-upload');
     var gallery = $('#basic-photo-gallery');
 
+    var remove_gallery_items = function() {
+
+        var gallery_height = $(gallery).height();
+
+        $(gallery).children().fadeOut('fast' , function() {
+
+            $(gallery).css('height', gallery_height + 'px').empty();
+
+        });
+
+        
+        setTimeout( function() {
+
+            $(gallery).animate({'height' : '150px'}, 300 , function() {
+
+                $(gallery).simple_progress_bar('create', {progress_bar_type : 'gray-gears-bar'});
+
+            });
+
+        }, 200 );
+
+    };
+
+
     $(form).validate({
         rules:{
             'photo[year]':{
@@ -148,48 +172,47 @@ function building_photo_uploader( ) {
     // и добавляем progress-bar
     $(form).on( 'ajax:beforeSend', function(e, xhr) {
 
-        var gallery_height = $(gallery).height();
+        $('#upload-submit-button').addClass('green-disabled');
 
-        $(gallery).children().fadeOut('fast' , function() {
-
-            $(gallery).css('height', gallery_height + 'px').empty();
-
-        });
-
-        
-        setTimeout( function() {
-
-            $(gallery).animate({'height' : '150px'}, 300 , function() {
-
-                $(gallery).simple_progress_bar('create', {progress_bar_type : 'gray-gears-bar'});
-
-            });
-
-        }, 200 )
-        
+        remove_gallery_items();
 
     });
 
+
     $(form).on( 'ajax:success', function( evt, data, status, xhr ) { 
 
-        var html = $(xhr.responseText);
-        var ids = [];
+        var figures
 
         // обнулим значение инпута
         $('#image-input-field').replaceWith($('#image-input-field').val('').clone(true));
 
-        $(gallery).empty().append( html ).css('height','auto');
+        $('#upload-submit-button').removeClass('green-disabled');
 
-        // получаем id всех загруженных изображений
-        // для того, чтобы отправить их в слайдер
-        $(gallery).find('img').each( function( index ) {
+        $(gallery).empty().append( $(xhr.responseText) ).css('height','auto');
 
-            ids.push( $(this).attr('id').replace( /[^0-9]/g , '' ) )
+        figures = $(gallery).find("figure");
 
-        });
+        if ( 'context' in figures) {
+
+            delete figures['context']
+        }
+
+        if ( 'prevObject' in figures) {
+
+            delete figures['prevObject']
+        }
+
+        if ( 'selector' in figures) {
+
+            delete figures['selector']
+        }
 
 
-        bind_actions_on_photo_gallery( { ids : ids} );
+        bind_button_appears_on_figure_hover( figures );
+
+        figures_bind_onclick_slider_ajax_load( figures , { figures : figures } );
+
+        hiddenHistory.sidebar.update_photo_counter( figures.length )
 
     });
 
@@ -202,6 +225,8 @@ function building_photo_uploader( ) {
         }
 
         $(gallery).simple_progress_bar('success', params );
+
+        $('#upload-submit-button').removeClass('green-disabled');
 
         
     });

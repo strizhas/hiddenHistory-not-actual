@@ -11,8 +11,7 @@ class Admin::ArticlesController < ApplicationController
   end
 
   def index
-  	@articles = Article.all
-    @categories = Category.where( parent: 1)
+  	@articles = Article.where(:published => false)
   end
 
   def show
@@ -34,6 +33,13 @@ class Admin::ArticlesController < ApplicationController
     @article.destroy
  
     redirect_to action: 'index'
+  end
+
+  def publish
+    @article = Article.find(params[:id])
+    @article.published = true
+    @article.save
+    redirect_to action: 'index' 
   end
 
   private

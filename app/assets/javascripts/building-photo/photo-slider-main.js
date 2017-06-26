@@ -1,36 +1,98 @@
 // Объект основного слайдера
 // Возвращает только метод инициализации
-main_photo_slider = function( options ) {
+Photo_slider_main = function( options ) {
 
     var params = $.extend( {  },  options)
 
-    var main_button_left  = $('#slider-main-button-left')
-    var main_button_right = $('#slider-main-button-right')
-    var main_img_frame    = $('#slider_main_img_frame')
+    var slider = this;
 
+    this.button_left   = $('#slider-main-button-left');
+    this.button_right  = $('#slider-main-button-right');
+    this.main_frame    = $('#slider_main_img_frame');
+    this.inner_wrap    = $('#image-slider-inner-wrap');
 
+ 
     var init = function() {
 
-        var figure = $('#main_slider_section').find('figure')
+        var figure = $('#main_slider_section').find('figure').eq(0);
 
-
-        $('#main_slider_section').css('height' , params.max_height )
-
-        recalculate_image_size( )
-
-        $(window).on('close_popup', close_slider_function )
+        $('#main_slider_section').css('height' , params.max_height );
                 
         // toggling to previos slide
-        $(main_button_left).on('click' , function() { load_image_to_main_container( '', 'prev' ) })
+        $(slider.button_left).on('click' , function() { load_image_to_main_container( '', 'prev' ) });
 
         // toggling to next slide
-        $(main_button_right).on('click' , function() { load_image_to_main_container( '', 'next' ) })
+        $(slider.button_right).on('click' , function() { load_image_to_main_container( '', 'next' ) });
+
+        recalculate_image_size( );
 
         bind_button_appears_on_figure_hover( figure );
 
         bind_likes_button();
 
-        $(window).trigger('change_content_area')
+        load_thumbnail_gallery();
+
+        $(window).trigger('change_content_area');
+
+        $(window).on('close_popup', close_slider_function );
+
+        // Вместе с параметрами могут быть переданы уже
+        // существующие на html страницы элементы fugires
+        // После передачи их в thumb slider их надо удалить,
+        // поскольку иначе они будут передаваться в параметры
+        // ajaz запросов
+        if ( 'figures' in params ) {
+
+            delete params[ 'figures' ]
+
+        }
+        
+
+    };
+
+    var calculate_max_slider_size = function() {
+
+        var max_height = $(window).height() - 250 // 150 - thumbnail container height + 100px padding
+
+        if ( max_height < 300 ) {
+
+            params.max_height   = Math.round( $(window).height() * 0.9 );
+            params.thumb_slider = false;
+
+        } else {
+
+            params.max_height   = max_height;
+            params.thumb_slider = true;
+
+        }
+
+    };
+
+    var load_thumbnail_gallery = function( ) {
+
+        if ( params.thumb_slider == false ) {
+
+            return false;
+
+        }
+
+        var callback = {  
+
+            'click' : function(e) {
+
+                var id = $(this).data('id');
+
+                load_image_to_main_container(id);
+
+            }
+
+        };
+
+        thumbnail_slider = new thumbnails_slider( slider.inner_wrap, params, callback );
+
+        thumbnail_slider.init();
+
+        return true;
 
     };
 
@@ -39,9 +101,10 @@ main_photo_slider = function( options ) {
 
                 if ( current_id  == '' ) {
 
-                    var current_id = $(main_img_frame).find('img').eq(0).attr('id').replace( /[^0-9]/g , '' )
+                    var current_id = $(slider.main_frame).find('img').eq(0).attr('id').replace( /[^0-9]/g , '' )
 
                 };  
+
 
 
                 // если задано направление, то добавляем его в объект,
@@ -72,10 +135,10 @@ main_photo_slider = function( options ) {
                 data: params, 
                 beforeSend: function() 
                 {
-                    $(main_img_frame).children().fadeOut('fast' , function() {
+                    $(slider.main_frame).children().fadeOut('fast' , function() {
 
                          // add progress bar until image isn't loaded
-                        $(main_img_frame).simple_progress_bar('create', {progress_bar_type : 'gray-circle-bar'}) 
+                        $(slider.main_frame).simple_progress_bar('create', {progress_bar_type : 'gray-circle-bar'}) 
 
                      })
                      
@@ -86,9 +149,9 @@ main_photo_slider = function( options ) {
 
                     setTimeout( function() {
 
-                        $(main_img_frame).hide().html( data ).fadeIn('fast');
+                        $(slider.main_frame).hide().html( data ).fadeIn('fast');
 
-                        var figure = $(main_img_frame).find('figure')
+                        var figure = $(slider.main_frame).find('figure')
 
                         recalculate_image_size( ); 
 
@@ -105,8 +168,8 @@ main_photo_slider = function( options ) {
 
                     setTimeout( function() {
 
-                        $(main_img_frame).simple_progress_bar('remove')
-                        $(main_img_frame).children().fadeIn('fast')
+                        $(slider.main_frame).simple_progress_bar('remove')
+                        $(slider.main_frame).children().fadeIn('fast')
                         return false
 
                     }, 200 ) 
@@ -123,11 +186,11 @@ main_photo_slider = function( options ) {
 
             var recalculate_image_size = function( ) {
 
-                var new_img = $(main_img_frame).find('img')[0]
+                var new_img = $(slider.main_frame).find('img')[0]
 
                 // custom plugin, recalculating img and container sizes 
                 // and making img fill the container
-                $(new_img).resizeImageToContainer( $(main_img_frame), function() {
+                $(new_img).resizeImageToContainer( $(slider.main_frame), function() {
 
                     $('#slider-main-img-footer').css('width' , $(new_img).width() )
 
@@ -166,18 +229,13 @@ main_photo_slider = function( options ) {
 
             };
 
+
             return {
 
                 initialize : function() {
 
                     init();
                 
-                },
-
-                update_image : function(id) {
-
-                    load_image_to_main_container(id)
-
                 }
 
 

@@ -19,10 +19,12 @@
 						<%= link_to 'описание', building_path(@building), data: { no_turbolink: true } %>
 					</li>
 					<li id="sidebar-photo-content">
+					<span class="sidebar-items-count"><%= @building.photos_count %></span>
 					<div class="sidebar-icon icon-photo"></div>
 					<%= link_to "фотографии", building_photos_path(@building ), :class => 'remote-link'  %>
 																				
 					</li>
+					<span class="sidebar-items-count"><%= @building.schemas_count %></span>
 					<li id="sidebar-schema-content">
 					<div class="sidebar-icon icon-schemas"></div>
 					<%= link_to "схемы", building_schemas_path(@building), :class => 'remote-link'   %>

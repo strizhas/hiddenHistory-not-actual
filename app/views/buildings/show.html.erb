@@ -13,6 +13,10 @@
 				</ul>
 			</header>
 
+			<% if @building.published == false %>
+				<%= render(:partial => 'shared/moderation' ) %>
+			<% end %>
+
 			<% if @parent.present? %>
 				<div class="parent-building">
 				Это сооружение относится к 
@@ -40,7 +44,7 @@
 
 		
 
-			<% if can_manage?(@building) %>
+			<% if can? :edit, @building %>
 		        <div class="admin-edit-links">
 		             <%= link_to 'редактировать', edit_building_path(@building), data: { no_turbolink: true }  %>
 		        </div>

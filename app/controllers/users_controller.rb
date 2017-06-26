@@ -53,7 +53,7 @@ class UsersController < ApplicationController
 
     		session[:user_id] = @user.id
 
-    		flash[:notice] = "Вы успешно зарегестрированы!"
+    		flash[:success] = "Вы успешно зарегестрированы!"
 
     		redirect_to user_path( @user, :set_js_user_id => true )
 
@@ -82,7 +82,7 @@ class UsersController < ApplicationController
 
     private
 		def user_params
-			params.require(:user).permit(:username, :crop_x, :crop_y, :crop_w, :crop_h, :email, :password, :birthdate, :role, :image, :remove_image)
+			params.require(:user).permit(:username, :crop_x, :crop_y, :crop_w, :crop_h, :email, :password, :password_confirmation, :birthdate, :role, :image, :remove_image)
 		end
 
 		def find_commentable(resource_type, resource_id)

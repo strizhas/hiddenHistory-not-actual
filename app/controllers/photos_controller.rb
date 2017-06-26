@@ -200,7 +200,7 @@ class PhotosController < ApplicationController
 		def parent_object
 
 			if params[:building_id]
-				@building = Building.select([ :id, :title, :category_id, :image, :status ]).includes('photos').find(params[:building_id])
+				@building = Building.select([ :id, :title, :category_id, :photos_count, :schemas_count, :image, :status ]).includes('photos').find(params[:building_id])
 				@parent = @building 
 			elsif params[:user_id]
 				@user = User.includes('photos').find(params[:user_id])

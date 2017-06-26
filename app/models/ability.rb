@@ -18,6 +18,9 @@ class Ability
     elsif user.is? :member
         can :create, :all
         can :read, :all
+        can [:create, :read, :edit, :update], Building, user_id: user.id
+        can [:create, :read, :edit, :update], Article,  user_id: user.id
+        can [:create, :read, :edit, :update], Schema,   user_id: user.id
     elsif user.is? :guest
         can :read, :all, :published => true
     end

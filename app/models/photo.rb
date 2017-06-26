@@ -10,8 +10,8 @@ class Photo < ActiveRecord::Base
 	# validates :coord_x, :format => NUMS_REGEX
 	# validates :coord_y, :format => NUMS_REGEX
 
-	belongs_to :user 
-	belongs_to :building
+	belongs_to :user, counter_cache: true
+	belongs_to :building, counter_cache: true
 
 	mount_uploader :image, ImageUploader
 	attr_accessor :crop_x, :crop_y, :crop_w, :crop_h

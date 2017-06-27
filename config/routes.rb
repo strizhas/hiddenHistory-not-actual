@@ -147,6 +147,8 @@ Rails.application.routes.draw do
 
 
 		get "dashboard/publish_comment" => "dashboard#publish_comment", :as => "admin/publish_comment"
+		get "articles/publish/:id"   => "articles#publish"
+		get "buildings/publish/:id"  => "buildings#publish"
 		
 	end	
 

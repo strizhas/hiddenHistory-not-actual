@@ -77,6 +77,10 @@ class PhotosController < ApplicationController
 		 		new_params[:author] = params[:photo][:author]
 			end
 
+			if @parent.has_attribute?(:title)
+				new_params[:alt] = @parent.title
+			end
+
 			@photo = @parent.photos.new( new_params )
 
 			@photo.save!

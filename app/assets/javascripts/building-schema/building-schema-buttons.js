@@ -162,11 +162,20 @@ Add_guide_button = function() {
 
 			$(window).on('close_popup' , function() {
 
-				if ( marker.params.id == null ) {
+				// Это категорически неправильно
+				// Надо выяснять как сделать так, чтобы
+				// id появлялся вовремя
+				setTimeout( function() {
 
-					marker.destroy();
-				}
+					if ( marker.params.id == null ) {
 
+						marker.destroy();
+
+					}
+
+
+				}, 300);
+				
             	unbind_events();
 
             })

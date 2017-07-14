@@ -6,38 +6,46 @@ bind_comment_form_ajax_response = function() {
 
 		$(".comment-form").on( "ajax:success", function(evt, data, status, xhr) {
 
-			var response = $(xhr.responseText).hide()
+			var response = $(xhr.responseText).hide();
 
 			// Если комментарий является ответом на другой комментарий, то 
 			// мы присоединяем его к списку ответов.
 			// if this comment is a reply, we appending it to parent comment
 			if ( $(this).parent().parent().is('li') ) {
-				list = $(this).parent().parent().find('.comment-reply-list')
-				list.first().append(response)
+
+				list = $(this).parent().parent().find('.comment-reply-list');
+				list.first().append(response);
 
 			} else {
 
-				$('#comment-list').append(response)
+				// Если к записи нет комментариев, то 
+				// списка comment-list не существует
+				if ( $('#comment-list').length == 0 ) {
+
+					$('#comment-section').append('<ul id="comment-list"></ul>');
+					$('#comment-list').addClass('white-box shadow');
+				}
+
+				$('#comment-list').append(response);
 
 			}
 			
-			response.show('fast')
+			response.show('fast');
 
 
 			if ( $('#reply-form').length > 0 ) {
 
-				console.log('remove reply form')
-				$('#reply-form').remove()
+				$('#reply-form').remove();
 
 			} else {
 
 				$(this).find("input, textarea").not('.comment-submit').each(function() {
-					$(this).val('')
+					$(this).val('');
 				})
 					
 			}
 
-			bind_comment_reply( )
+			bind_comment_reply( );
 		})
 
 	};

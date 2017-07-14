@@ -10,13 +10,20 @@
 	hiddenhistory является открытым проектом, и поэтому если вы можете дополнить эту статью или обнаружили какие-то ошибки или неточности вы можете сообщить об этом в комментариях. Мы будем благодарны за любую помощь!
 	</p>
 
-	<% if @article.comments.count > 0 %>
-		<div class="strong-header">комментарии к статье:</div>	
-	<% end -%>
+	<div id="comment-section">
 
-	<div id="comment-list">
-		<%= render @article.comments.select { |c| c[:published] == true }  %>
+		<% if @article.comments.count > 0 %>
+			<div class="strong-header">комментарии к статье:</div>
+
+			<div id="comment-list">
+				<%= render @article.comments.select { |c| c[:published] == true }  %>
+			</div>	
+
+		<% end -%>
+
 	</div>
+
+	
 				
 				
 	<br><br>

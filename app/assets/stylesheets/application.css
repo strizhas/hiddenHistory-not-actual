@@ -727,3 +727,16 @@ box-shadow: -4px 5px 5px -2px rgba(0,0,0,0.3);
     height: 12px;
     right: -5px;
 } 
+
+
+@media (min-width: 1440px) {
+
+	.inner-wrap {
+		max-width: 1050px;
+	}
+
+	.article-body {
+		padding: 50px 100px;
+	}
+
+}

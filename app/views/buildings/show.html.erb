@@ -7,7 +7,7 @@
 
 
 		<% if  @building.buildings.count > 0 %>
-			<div class="nested-buildings-section">
+			<div class="nested-buildings-section white-box shadow">
 				<span class="nb-header">дочерние сооружения</span>
 
 				<ul class="nested-buildings-list">
@@ -21,16 +21,20 @@
 		hiddenhistory является открытым проектом, и поэтому если вы можете дополнить эту статью или обнаружили какие-то ошибки или неточности вы можете сообщить об этом в комментариях. Мы будем благодарны за любую помощь!
 		</p>
 
+		<div id="comment-section">
+
 			<% if @building.comments.count > 0 %>
 				<div class="strong-header">комментарии к статье:</div>
+
+				<ul id="comment-list" class="white-box shadow">
+					<%= render @building.comments.select { |c| c[:published] == true }  %>
+				</ul>
 			<% end -%>
-			
-			<ul id="comment-list" class="white-box shadow">
-				<%= render @building.comments.select { |c| c[:published] == true }  %>
-			</ul>
-					
-					
+
+		</div>
+	
 		<br><br>
+
 		<div class="strong-header">добавить комментарий:</div>
 
 		<%= render partial: 'comments/form', object: @building, as: 'commentable' %>

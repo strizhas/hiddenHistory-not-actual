@@ -6,13 +6,20 @@
 7.0 Comments
 */
 
+
+
 #comment-list LI {
 	list-style: none;
 }
 
 #comment-list > LI {
-	border-bottom: 1px solid #d0d2d3;
+	border-top: 1px solid #d0d2d3;
 	padding-top: 2em;
+}
+
+#comment-list > LI:first-child {
+	border-top: none;
+	padding-top: 0;
 }
 
 .comment-body {

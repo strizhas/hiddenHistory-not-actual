@@ -24,6 +24,8 @@ Photo_slider_main = function( options ) {
         // toggling to next slide
         $(slider.button_right).on('click' , function() { load_image_to_main_container( '', 'next' ) });
 
+        calculate_max_slider_size();
+
         recalculate_image_size( );
 
         bind_button_appears_on_figure_hover( figure );
@@ -31,10 +33,6 @@ Photo_slider_main = function( options ) {
         bind_likes_button();
 
         load_thumbnail_gallery();
-
-        $(window).trigger('change_content_area');
-
-        $(window).on('close_popup', close_slider_function );
 
         // Вместе с параметрами могут быть переданы уже
         // существующие на html страницы элементы fugires
@@ -54,6 +52,7 @@ Photo_slider_main = function( options ) {
 
         var max_height = $(window).height() - 250 // 150 - thumbnail container height + 100px padding
 
+
         if ( max_height < 300 ) {
 
             params.max_height   = Math.round( $(window).height() * 0.9 );
@@ -65,6 +64,9 @@ Photo_slider_main = function( options ) {
             params.thumb_slider = true;
 
         }
+
+        $(slider.main_frame).height( params.max_height );
+
 
     };
 
@@ -200,34 +202,7 @@ Photo_slider_main = function( options ) {
 
 
 
-            var close_slider_function = function() {
-
-                if (  window.global_settings.popup != true ) 
-                { 
-
-                    if ( destroy() == true ) 
-                    {
-                        $(window).off('close_popup', close_slider_function )
-                    }
-
-                } 
-                else 
-                {
-                    return false;
-                }
-            };
-
-            var destroy = function( ) {
-
-                $('#image-slider-background').fadeOut('fast', function() {
-                         $(this).remove()
-                         $('#content-main').children().fadeIn('fast')
-                         $(window).trigger('change_content_area')
-                        
-                })
-                return true
-
-            };
+            
 
 
             return {
@@ -236,6 +211,16 @@ Photo_slider_main = function( options ) {
 
                     init();
                 
+                },
+
+                destroy : function( ) {
+
+                    $(this).remove();
+
+                    $('#image-slider-background').remove(); 
+
+                    return true
+
                 }
 
 

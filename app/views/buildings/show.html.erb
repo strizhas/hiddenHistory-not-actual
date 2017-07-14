@@ -3,33 +3,8 @@
 			<%= content_tag :div, msg, class: name %>
 		<% end -%>
 
-		<article id="article-main" class="article-body">
+		<%= render partial: 'shared/post_content', object: @building, as: 'post', :locals => {:owner => @owner }  %>
 
-			<header class="article-header">
-				<h1><%= @building.title %></h1>
-				<ul>
-					<li><%= @owner.username %></li> | 
-					<li><%= @building.created_at.strftime("%d %B %Y") %></li>
-				</ul>
-			</header>
-
-			<% if @building.published == false %>
-				<%= render(:partial => 'shared/moderation' ) %>
-			<% end %>
-
-			<% if @parent.present? %>
-				<div class="parent-building">
-				Это сооружение относится к 
-				<%=  link_to @parent.title , building_path(@parent), class: 'header-link', data: { no_turbolink: true } %>
-				</div>
-
-			<% end %>
-						
-			<%= kramdown @building.text %>
-
-			
-
-		</article>
 
 		<% if  @building.buildings.count > 0 %>
 			<div class="nested-buildings-section">
@@ -42,14 +17,6 @@
 		<% end %>
 
 
-		
-
-			<% if can? :edit, @building %>
-		        <div class="admin-edit-links">
-		             <%= link_to 'редактировать', edit_building_path(@building), data: { no_turbolink: true }  %>
-		        </div>
-		    <% end %>
-
 		<p class="call-to-comment">
 		hiddenhistory является открытым проектом, и поэтому если вы можете дополнить эту статью или обнаружили какие-то ошибки или неточности вы можете сообщить об этом в комментариях. Мы будем благодарны за любую помощь!
 		</p>
@@ -58,7 +25,7 @@
 				<div class="strong-header">комментарии к статье:</div>
 			<% end -%>
 			
-			<ul id="comment-list">
+			<ul id="comment-list" class="white-box shadow">
 				<%= render @building.comments.select { |c| c[:published] == true }  %>
 			</ul>
 					

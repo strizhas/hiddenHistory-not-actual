@@ -452,3 +452,19 @@
 	}
 
 }
+
+.schemas-list {
+	list-style: none;
+	margin-bottom: 30px;
+}
+
+.schemas-list .creation-date {
+		color: #808184;
+		font-size: 0.75em;
+}
+
+.schema-preview-content {
+	background: #fff;
+	padding: 10px;
+	margin-bottom: 10px;
+}

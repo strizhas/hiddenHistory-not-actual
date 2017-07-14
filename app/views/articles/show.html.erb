@@ -4,29 +4,7 @@
 		<%= content_tag :div, msg, class: name %>
 	<% end -%>
 
-	<article id="article-main" class="article-body">
-
-		<header class="article-header">
-			<h1><%= @article.title %></h1>
-			<ul>
-				<li><%= @owner.username %></li> | 
-				<li><%= @article.created_at.strftime("%d %B %Y") %></li>
-			</ul>
-		</header>
-
-		<% if @article.published == false %>
-			<%= render(:partial => 'shared/moderation' ) %>
-		<% end %>
-					
-		<%= kramdown @article.text %>
-
-		<% if can? :edit, @article %>
-     		 <div class="admin-edit-links">
-        		<%= link_to 'редактировать', edit_article_path(@article), data: { no_turbolink: true }  %>
-     	 	</div>
-    	<% end %>
-
-	</article>
+	<%= render partial: 'shared/post_content', object: @article, as: 'post', :locals => {:owner => @owner }  %>
 
 	<p class="call-to-comment">
 	hiddenhistory является открытым проектом, и поэтому если вы можете дополнить эту статью или обнаружили какие-то ошибки или неточности вы можете сообщить об этом в комментариях. Мы будем благодарны за любую помощь!

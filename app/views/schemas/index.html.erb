@@ -1,7 +1,6 @@
 <div id="content-inner-wrap" class="inner-wrap"> 
 	<h3>схемы "<%= @building.title %>"</h3>
-	<hr>
-    <ul class="articles-list">
+    <ul class="schemas-list">
       
       <%= render(:partial => 'schemas/partials/schema_preview', :collection => @schemas, :as => 'schema') || 'пока не добавлено ни одной схемы' %>
 

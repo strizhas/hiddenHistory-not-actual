@@ -20,6 +20,7 @@ function figures_bind_onclick_slider_ajax_load( figures, options ) {
 
 
 
+
 function load_slider_by_ajax(target_url, options) {
 
 
@@ -47,6 +48,31 @@ function load_slider_by_ajax(target_url, options) {
         params = $.extend( params, parsed_url_options );
 
     };
+
+    var remove_slider = function() {
+
+        var background = $('#image-slider-background');
+
+        if ( background.length == 0 ) {
+
+            return
+
+        }
+
+        $(background).fadeOut('fast' , function() {
+
+            $(background).remove();
+
+            hiddenHistory.main_slider.destroy();
+
+        });
+
+        $('#content-main').css({'height' : 'auto', 'overflow' : 'scroll'});
+
+        $(window).off('close_popup', remove_slider );
+
+    }
+
 
     var ajax_slider_load = function() {
 
@@ -80,19 +106,27 @@ function load_slider_by_ajax(target_url, options) {
             success: function(data, textStatus, jqXHR) 
             {
 
-                $('#content-main').children('#content-inner-wrap').fadeOut('fast', function() {
 
-                    $(window).trigger('change_content_area');
+                var background = $('<div id="image-slider-background"></div>');
 
-                    $('#content-main').append( data );
+                $(background).hide().css({ position: 'fixed', 
+                                            width: '100%', 
+                                            overflow: 'scroll', 
+                                            height : '100vh'});
 
-                    main_slider = new Photo_slider_main(  params  );
+                $(background).prependTo('#content-main');
 
-                    main_slider.initialize();
+                $(background).prepend( data ).fadeIn('fast');          
 
+                hiddenHistory.main_slider = new Photo_slider_main(  params  );
 
-                });
+                hiddenHistory.main_slider.initialize();
 
+                
+
+                $(window).on('close_popup', remove_slider )
+
+                
                                 
             },
             error: function(data) {

@@ -165,7 +165,7 @@ Schema_show_guide = function( guide_id ) {
 
 
 
-Guide_edior = function( id ) {
+Guide_edior = function() {
 
     Schema_content_editor.call(this); // отнаследовать
 
@@ -175,8 +175,6 @@ Guide_edior = function( id ) {
     
 
     var basic_callback = function(editor) {
-
-
 
         var form = $(editor.container).find('form').eq(0);
 
@@ -194,7 +192,99 @@ Guide_edior = function( id ) {
 
         }
 
-    }
+    };
+
+    var collect_input_values = function() {
+
+        var form = $(that.container).find('form').eq(0);
+
+        var title_input = $(form).find('#guide_title');
+        var url_input   = $(form).find('#guide_url');
+        var num_input   = $(form).find('#guide_number');
+        
+        var guide_params = {}
+
+        $(title_input).on( 'change', function(  ) {
+
+            guide_params['title'] = $(this).val();
+
+        });
+
+        $(url_input).on( 'change', function(  ) {
+
+            guide_params['url'] = $(this).val();
+
+        });
+
+        $(num_input).on( 'change', function(  ) {
+
+            guide_params['number'] = $(this).val();
+
+        });
+
+        return guide_params;
+
+    };
+
+    var new_guide_callback = function() {
+
+        var form = $(that.container).find('form').eq(0);
+
+        // добавляем валидации
+        that.validate_guide_form(form);
+
+        // превью прикрепляемого изображения
+        handle_image_to_guide_gallery();
+
+        // параметры, которые будет отправлены
+        // в меню для создания нового элемента
+        var guide_params = collect_input_values();
+
+        // действия, которые будут выполнены
+        // после заполнения формы
+        var callback = { }
+
+        
+        // действия в случае успешного заполнения формы 
+        // получаем id созданного guide и добавляем его
+        // в маркер и соотвествующий эдемент меню
+        callback['success'] = function( id ) {
+
+            // Нужно временно сделать так, чтобы значение было
+            // не null. Иначе есть риск удаления из-за
+            // срабатывания триггера close_popup
+            that.params.marker.params['id'] = 'updating'
+
+            that.params.marker.params['guide_id'] = id;  
+            that.params.marker.update('create');
+
+            guide_params['id'] = id
+
+            // добавляем новый элемент в меню
+            hiddenHistory.schema_interface.menus.guides.add_guide(guide_params);
+
+        };
+
+        // действия в случае неудачного заполнения формы    
+        callback['error'] = function() {
+            $(window).trigger('close_popup')
+        };
+
+
+        // действия при закрытии формы
+        $(window).on('popup_closed' , function() {
+
+            if ( typeof( that.params.marker.params['guide_id'] ) == 'undefined') {
+                that.params.marker.destroy()
+            }
+
+        })
+
+
+        $(form).bind_form_ajax_sucess( callback );
+
+
+    };
 
     this.validate_guide_form = function(form) {
 
@@ -210,12 +300,13 @@ Guide_edior = function( id ) {
 
     }
 
-    this.create_new_guide = function( callback ) {
-
+    this.create_new_guide = function( params ) {
 
         var url = hiddenHistory.schema_URL + '/new_guide/';
 
-        that.ajax_content_load( url , {}, callback );
+        that.params = params
+
+        that.ajax_content_load( url , {}, new_guide_callback );
 
     }
 

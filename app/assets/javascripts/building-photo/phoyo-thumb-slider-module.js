@@ -14,6 +14,7 @@ thumbnails_slider = function( parent, options, callback ) {
 
         
         var container_width = $(parent).width()
+
         var visible_photos_count = Math.round( container_width / (150+20) ) 
 
         // набор настроек, расширяемых извне

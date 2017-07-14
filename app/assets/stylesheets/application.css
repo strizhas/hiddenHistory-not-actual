@@ -177,14 +177,6 @@ textarea {
 	max-width: 800px;
 }
 
-.index-inner-wrap {
-	padding: 50px 50px 50px 250px;
-	position: relative;
-	max-width: 800px;
-	margin: 0 auto;
-}
-
-
 .header-hh-logo {
 	float: left;
 	padding-top: 10px;
@@ -223,6 +215,17 @@ select {
 	margin-bottom: 10px;
 }
 
+.white-box {
+	background: #fff;
+	padding: 40px;
+	border-radius: 3px;
+}
+
+.shadow {
+	-webkit-box-shadow: -1px 1px 5px 0px rgba(0,0,0,0.3);
+	-moz-box-shadow: -1px 1px 5px 0px rgba(0,0,0,0.3);
+	box-shadow: -1px 1px 5px 0px rgba(0,0,0,0.3);
+}
 
 
 
@@ -558,7 +561,6 @@ p {
 	font-size: 0.8em;
 }
 
-
 .article-body p {
 	text-indent: 1em;
 	padding-bottom: 1em;
@@ -626,11 +628,7 @@ p {
 .thumb-figure {
 	width: 128px;
 	height: 128px;
-	border: 3px solid #fff;
-	margin: 12px 18px 10px 0;
-	-webkit-box-shadow: -2px 2px 5px 0px rgba(0,0,0,0.51);
--moz-box-shadow: -2px 2px 5px 0px rgba(0,0,0,0.51);
-box-shadow: -2px 2px 5px 0px rgba(0,0,0,0.51);
+	margin: 12px 14px 10px 0;
 }
 
 .thumb-figure img {

@@ -23,8 +23,8 @@ Building_schema = function() {
 
 	
 
-	var photo_marker_collection = {}
-	var guide_marker_collection = {}
+	var photo_marker_collection = []
+	var guide_marker_collection = []
 
 	var show_markers_by_year = function(year) {
 
@@ -33,9 +33,9 @@ Building_schema = function() {
 
 		if ( schema.settings.current_year == year ) {
 
-			for ( var index in collection ) {
+			for (var i = 0; i < collection.length; i++) {
 
-				collection[index].show();
+				collection[i].show();
 
 			}
 
@@ -49,15 +49,15 @@ Building_schema = function() {
 		schema.settings.current_year = year;
 
 
-		for ( var index in collection ) {
+		for (var i = 0; i < collection.length; i++) {
 
-			if ( collection[index].params['year'] == year ) {
+			if ( collection[i].params['year'] == year ) {
 
-				collection[index].show();
+				collection[i].show();
 
 			} else {
 
-				collection[index].hide();
+				collection[i].hide();
 			}
 
 		}
@@ -85,9 +85,9 @@ Building_schema = function() {
 
 	var hide_collection = function( collection ) {
 
-		for ( var index in collection ) {
+		for (var i = 0; i < collection.length; i++) {
 
-			collection[index].hide()
+			collection[i].hide()
 
 		}
 
@@ -95,9 +95,9 @@ Building_schema = function() {
 
 	var show_collection = function( collection ) {
 
-		for ( var index in collection ) {
+		for (var i = 0; i < collection.length; i++) {
 
-			collection[index].show()
+			collection[i].show()
 
 		}
 
@@ -112,13 +112,13 @@ Building_schema = function() {
 
 		var selected = []
 
-			for ( var index in collection ) {
+			for (var i = 0; i < collection.length; i++) {
 
-				if ( 'selected' in collection[index].params && 
-					collection[index].params['selected'] == true ) 
+				if ( 'selected' in collection[i].params && 
+					collection[i].params['selected'] == true ) 
 				{
 						
-					selected.push( collection[index] );
+					selected.push( collection[i] );
 
 				}
 
@@ -130,6 +130,10 @@ Building_schema = function() {
 	};
 
 	var find_marker_and_action = function( type , id, action ) {
+
+		console.log( 'find_marker_and_action' )
+		console.log( id )
+		console.log( photo_marker_collection )
 
 		var collection, selected_marker;
 
@@ -145,11 +149,11 @@ Building_schema = function() {
 
 		}
 
-		for ( var index in collection ) {
+		for (var i = 0; i < collection.length; i++) {
 
-			if ( collection[index].params[ parent_param ] == id ) {
+			if ( collection[i].params[ parent_param ] == id ) {
 
-				collection[index][action]();
+				collection[i][action]();
 				return true;
 
 			}
@@ -204,7 +208,7 @@ Building_schema = function() {
 
 			var new_marker = new Schema_photo_marker( data[i] );
 
-			photo_marker_collection[ data[i]['id'] ] = new_marker;
+			photo_marker_collection.push(new_marker);
 
 		}
 
@@ -226,7 +230,7 @@ Building_schema = function() {
 
 			var new_marker = new Schema_guide_marker(data[i]);
 
-			guide_marker_collection[ data[i]['id'] ] = new_marker;
+			guide_marker_collection.push(new_marker);
 
 			if ( hiddenHistory.schema.settings.edit_mode == true ) {
 
@@ -597,7 +601,7 @@ Building_schema = function() {
 
 		collection = select_collection(type);
 
-		collection[ params['id'] ] = new_marker;
+		collection.push( new_marker );
 
 		return new_marker;	
 

@@ -162,9 +162,6 @@ Add_guide_button = function() {
 
 			$(window).on('close_popup' , function() {
 
-				// Это категорически неправильно
-				// Надо выяснять как сделать так, чтобы
-				// id появлялся вовремя
 				setTimeout( function() {
 
 					if ( marker.params.id == null ) {
@@ -185,7 +182,7 @@ Add_guide_button = function() {
 				$('#schema-svg-section').on('click' , function() {
 
 					hiddenHistory.schema_item = new Guide_edior()
-					hiddenHistory.schema_item.create_new_guide( guide_editor_callback )
+					hiddenHistory.schema_item.create_new_guide(  { marker : marker } )
 
 					unbind_events()
 
@@ -206,81 +203,7 @@ Add_guide_button = function() {
 
 		}
 
-		var guide_editor_callback = function(guide_editor) {
-
-			var form = $(guide_editor.container).find('form').eq(0);
-
-			// добавляем валидации
-			guide_editor.validate_guide_form(form)
-
-			// превью прикрепляемого изображения
-	        handle_image_to_guide_gallery();
-
-	        // параметры, которые будет отправлены
-	        // в меню для создания нового элемента
-	        var guide_params = {}
-
-	        // действия, которые будут выполнены
-	        // после заполнения формы
-	        var callback = { }
-
-	        var title_input = $(form).find('#guide_title');
-	        var url_input   = $(form).find('#guide_url');
-	        var num_input   = $(form).find('#guide_number');
-            
-            $(title_input).on( 'change', function(  ) {
-
-				guide_params['title'] = $(this).val();
-
-			});
-
-			$(url_input).on( 'change', function(  ) {
-
-				guide_params['url'] = $(this).val();
-
-			});
-
-			$(num_input).on( 'change', function(  ) {
-
-				guide_params['number'] = $(this).val();
-
-			});
-            
-            // действия в случае успешного заполнения формы	
-            // получаем id созданного guide и добавляем его
-            // в маркер и соотвествующий эдемент меню
-            callback['success'] = function( id ) {
-
-				marker.params['guide_id'] = id;  
-				marker.update('create');
-
-				guide_params['id'] = id
-
-				// добавляем новый элемент в меню
-				hiddenHistory.schema_interface.menus.guides.add_guide(guide_params);
-
-			};
-
-			// действия в случае неудачного заполнения формы	
-            callback['error'] = function() {
-	            $(window).trigger('close_popup')
-            };
-
-
-            // действия при закрытии формы
-            $(window).on('popup_closed' , function() {
-
-            	if ( typeof( marker.params['guide_id'] ) == 'undefined') {
-            		marker.destroy()
-            	}
-
-            })
-
-
-            $(form).bind_form_ajax_sucess( callback );
-
-
-		};
+	
 
 
 };

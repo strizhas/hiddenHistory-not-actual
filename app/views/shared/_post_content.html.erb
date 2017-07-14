@@ -1,0 +1,27 @@
+<article id="article-main">
+
+	<header class="article-header">
+		<h1><%= post.title %></h1>
+		<ul>
+			<li><%= owner.username %></li> | 
+			<li><%= post.created_at.strftime("%d %B %Y") %></li>
+		</ul>
+	</header>
+
+	<div class="article-body white-box shadow">
+
+		<% if post.published == false %>
+			<%= render(:partial => 'shared/moderation' ) %>
+		<% end %>
+					
+		<%= kramdown post.text %>
+
+		<% if can? :edit, post %>
+     		 <div class="admin-edit-links">
+        		<%= link_to 'редактировать', edit_polymorphic_path(post), data: { no_turbolink: true }  %>
+     	 	</div>
+    	<% end %>
+
+	</div>
+
+</article>

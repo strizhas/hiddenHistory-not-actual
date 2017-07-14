@@ -2,6 +2,16 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.post-preview-content {
+	background: #fff;
+	height: 300px;	
+	padding: 0;
+}
+
+.post-preview-content > a {
+	float: left;
+	padding-right: 20px;
+}
 
 .rounded-preview-img {
 	border-radius: 50%;
@@ -17,7 +27,7 @@
 .articles-list {
 
 	LI {
-		padding-bottom: 3em;
+		margin-bottom: 3em;
 	} 
 
 	.rounded-preview-img {
@@ -33,11 +43,16 @@
 	}
 
 	.post-preview-body {
+		padding: 20px;
 		border-bottom: 1px solid #d0d2d3;
 	}
 
+	.post-preview-footer {
+		padding: 0 20px 0 20px;
+	}
+
 	.post-preview-body p {
-		min-height: 80px;
+		height: 150px;
 	}
 
 	.header-link {
@@ -64,8 +79,6 @@
 	}
 
 }
-
-
 
 
 

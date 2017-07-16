@@ -1,13 +1,21 @@
 
 #about-top-banner {
-    min-height: 200px;
+    background-color: #cccccc;
 }
 
-#about-top-banner .banner-text-section {
-    position: absolute;
-    top: 10%;
-    left: 40%;
-    max-width: 500px;
+#about-top-banner {
+    
+    img {
+        display: block; 
+    }
+
+    .banner-text-section {
+        position: absolute;
+        top: 10%;
+        left: 40%;
+        max-width: 500px;
+    }
+
 }
 
 #about-schema-banner {
@@ -137,6 +145,15 @@
 
     #about-3d-banner .banner-text-section {
         right: 5%;
+    }
+
+}
+
+@media (min-width: 960px) {
+
+    
+    #about-top-banner {
+        min-height: 400px;
     }
 
 }

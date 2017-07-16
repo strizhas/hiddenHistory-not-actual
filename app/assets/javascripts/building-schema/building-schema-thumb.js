@@ -8,10 +8,12 @@ Schema_thumbnail = function( marker, thumb_url ) {
 		return false;
 	}
 
+	$('#schema-image-small-preview').remove();
+
 	var offset = $(marker).offset();
 
-	var pos_x = offset.left + 10;
-	var pos_y = offset.top - 85;
+	var pos_x = offset.left + 18;
+	var pos_y = offset.top - 128;
 
 	var img = new Image();
 		img.src = thumb_url;
@@ -19,6 +21,7 @@ Schema_thumbnail = function( marker, thumb_url ) {
 	this.container = document.createElement('div');
 
 	$(this.container).addClass('schema-image-small-preview')
+					.attr('id' , 'schema-image-small-preview')
 					.css({'top' : pos_y , 'left' : pos_x })
 					.appendTo('body')
 					.append(img)

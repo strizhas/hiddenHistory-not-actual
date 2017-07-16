@@ -245,8 +245,10 @@ Photo_slider_main = function(  options ) {
 
                 var new_img = $(slider.main_frame).find('img')[0]
 
-                // custom plugin, recalculating img and container sizes 
-                // and making img fill the container
+                $(new_img).css( 'max-height', $(slider.main_frame).height() );
+
+                
+                // image-modules/resize-image-to-conteiner.js
                 $(new_img).resizeImageToContainer( $(slider.main_frame), function() {
 
                     $('#slider-main-img-footer').css('width' , $(new_img).width() )

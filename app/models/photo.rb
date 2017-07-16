@@ -33,7 +33,13 @@ class Photo < ActiveRecord::Base
  		query_obj = self
 
  		# Добавляем поиск по году при необходимости
-  		query_obj = query_obj.where("year = ?", params[:year] ) if params.key?('year')
+ 		if params.key?('year')
+ 			if params[:year] != 'undefined'
+  				query_obj = query_obj.where("year = ?", params[:year] )
+  			else
+  				query_obj = query_obj.where("year IS ?", nil )
+  			end
+  		end 
 
 		# Если задан ключ направления, то в зависимости от его значения выбираем
 		# либо следующие, либо предшествующие фотографии. Если такого ключа нет, 

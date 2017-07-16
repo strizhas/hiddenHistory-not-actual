@@ -468,3 +468,23 @@
 	padding: 10px;
 	margin-bottom: 10px;
 }
+
+
+#schema-wrapper {
+	height: 100%;
+}
+
+.schema-lightbox-container {
+	position: relative;
+	padding: 60px;
+	text-align: center;
+	z-index: 7132;
+	height: 90%;
+	height: calc( 100% - 120px );
+}
+
+.schema-lightbox-container > figure,
+.schema-lightbox-container > figure > img {
+	max-width: 100%;
+	max-height: 100%;
+}

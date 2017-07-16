@@ -131,10 +131,6 @@ Building_schema = function() {
 
 	var find_marker_and_action = function( type , id, action ) {
 
-		console.log( 'find_marker_and_action' )
-		console.log( id )
-		console.log( photo_marker_collection )
-
 		var collection, selected_marker;
 
 		switch ( type ) {

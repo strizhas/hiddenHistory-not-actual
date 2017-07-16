@@ -146,7 +146,6 @@ Building_schema_interface = function() {
 
 			$( that.container ).fadeOut('fast')
 
-			console.log( $( that.add_content_button ) )
 			$( that.add_content_button.button ).hide()
 
 			that.active = false
@@ -408,7 +407,7 @@ Building_schema_interface = function() {
 
 					var id = $(this).data('id');
 
-					elements.schema_lightbox.fullsize_image_loading( id );
+					load_slider_by_ajax( id, { navigation : false, thumb_slider : false } );
 
 					return;
 
@@ -811,11 +810,6 @@ Building_schema_interface = function() {
 
 		// Проверяем URL на наличие GET-параметров
 		parse_url();
-
-		// creating new lighbox, in which fullsize images will be showen
-		elements.schema_lightbox = new Schema_lightbox();
-		elements.schema_lightbox.init();
-
 
 		// we use timeout function, because schema didn't appears emmideatly, so if we'll
 		// try to call promt_builder, message will be placed in the document left top corner

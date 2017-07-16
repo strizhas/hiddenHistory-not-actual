@@ -1,0 +1,128 @@
+<%= render 'shared/login_menu' %>
+<%= render partial: 'shared/top_menu' %>
+
+<div id="content-inner-wrap" class="inner-wrap">
+	<div class="white-box-wide shadow">
+
+	<div id="about-top-banner" class="banner-wide">
+		<div class="banner-text-section">
+			<h1>
+				HIDDENHISTORY
+			</h1>
+			<p>
+				проект посвящен зданиям и сооружениям, не являющихся объектами культурного наследия, но составляющими неотъемлемую часть истории ХХ века
+			</p>
+		</div>
+
+		<img src="https://s3.eu-central-1.amazonaws.com/hiddenhistory-photo/public/images/banners/banner-top-web.jpg" width="1050" height="463" alt="заброшенные сооружения"/>
+
+	</div>
+
+	<div id="about-schema-banner">
+
+		<img src="https://s3.eu-central-1.amazonaws.com/hiddenhistory-photo/public/images/banners/schema_banner.jpg" width="560" height="215" alt="схема подземного бункера"/>
+
+		<div class="banner-text-section">
+			<strong>Мы бережно собираем фотографии, чертежи и документы, чтобы сохранить как можно больше информации об интересных местах и явлениях</strong>
+
+			<div class="short-hr"></div>
+
+			<div class="help-text">
+				Дажа самая маленькая крупица информации несет в себе ценность и становится частью общего целого
+			</div>
+		</div>
+
+	</div>
+
+	<div id="about-3d-banner" class="banner-wide">
+
+		<div class="banner-text-section">
+			<p>
+				Когда информации собирается достаточно много, мы получаем возможность воссадать утраченные сооружения в цифровом виде
+			</p>
+			<div class="short-hr"></div>
+			<div class="clear"></div>
+			<div class="help-text">
+				Модели создаются в редакторе Blender, что делает возможным их последующее размещение в интернете с помощью технологии Blend4Web
+			</div>
+
+		</div>
+
+		<img src="https://s3.eu-central-1.amazonaws.com/hiddenhistory-photo/public/images/banners/banner-middle.jpg" width="1050" height="360" alt="схема подземного бункера"/>
+
+	</div>
+
+	<div id="about-help-banner">
+		<h2>Вы можете помочь нам сохранить историю!</h2>
+		<p class="help-text">Вполне возможно, что на сайте вы сможете найти место, где вы работали или проходили военную службу. Существует несколько способов поделится информацией:</p>
+
+		<div class="col-3-setion">
+
+			
+
+			<div class="column">
+
+				<div class="column-content">
+					<h3>комментарии</h3>
+
+					<p class="help-text">
+						Любые воспоминания или замечания вы можете оставить в виде комментария. Мы изучим вашу информациб и добавим ее к описанию или в другие разделы. 
+						Чтобы добавлять комментарии вам не нужно регистрироваться
+					</p>
+
+					<img src="https://s3.eu-central-1.amazonaws.com/hiddenhistory-photo/public/images/banners/comment_web.jpg" width="250" height="200" alt="комментарии"/>
+				</div>
+
+			</div>
+
+			
+			<div class="column">
+
+				<div class="column-content">
+					<h3>фотографии</h3>
+
+					<p class="help-text">
+						Любая фотография, даже сделанная на телефон, несет в себе информацию. Чтобы загружать фотографии нужно зарегистрироваться, это займет всего несколько секунд
+					</p>
+
+					<img src="https://s3.eu-central-1.amazonaws.com/hiddenhistory-photo/public/images/banners/photos_web.jpg" width="250" height="200" alt="комментарии"/>
+				</div>
+
+			</div>
+
+			
+			<div class="column">
+
+				<div class="column-content">
+
+					<h3>схемы</h3>
+
+					<p class="help-text">
+						У вас есть схемы или чертежи? Вы можете поделиться ими! Для этого вам нужно отправить нам чертеж с пояснениями и мы сами отредактируем его и разместим на сайте
+					</p>
+
+					<img src="https://s3.eu-central-1.amazonaws.com/hiddenhistory-photo/public/images/banners/schema_web.jpg" width="250" height="200" alt="комментарии"/>
+
+				</div>
+
+			</div>
+
+			<div class="clear"></div>
+
+		</div>
+
+	</div>
+
+	<div id="about-registration-banner">
+
+		<div class="table-inner">
+			<div class="green-button">
+				<%= link_to 'зарегистрироваться', :controller => :pages, :action => :show, :page => 'registration' %>
+			</div>
+		</div>
+
+	</div>
+
+	</div>
+
+</div>

@@ -174,7 +174,7 @@ textarea {
 	padding: 50px 0;
 	margin: 0 auto;
 	position: relative;
-	max-width: 800px;
+	max-width: 1050px;
 }
 
 .header-hh-logo {
@@ -218,6 +218,11 @@ select {
 .white-box {
 	background: #fff;
 	padding: 40px;
+	border-radius: 3px;
+}
+
+.white-box-wide {
+	background: #fff;
 	border-radius: 3px;
 }
 
@@ -728,12 +733,15 @@ box-shadow: -4px 5px 5px -2px rgba(0,0,0,0.3);
     right: -5px;
 } 
 
+@media (max-width: 1440px) {
+
+	.content-main .inner-wrap {
+		max-width: 800px;
+	}
+
+}
 
 @media (min-width: 1440px) {
-
-	.inner-wrap {
-		max-width: 1050px;
-	}
 
 	.article-body {
 		padding: 50px 100px;

@@ -9,6 +9,10 @@ var aplication_init_functions = function() {
 
     }
 
+    // Здесь будут содержатся глобальные параметры
+    // в том случае, если они необходимы
+    hiddenHistory.global_settings = {}
+
     create_background_black_tint();
 
 

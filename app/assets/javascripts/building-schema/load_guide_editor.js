@@ -3,6 +3,7 @@ Schema_content_editor = function() {
     var that = this
 
 
+
     this.ajax_content_load = function( url, params, callback ) {
 
         $.ajax({
@@ -73,7 +74,15 @@ Schema_content_editor = function() {
                             .appendTo('#schema-svg-section');
         }
 
+
         $(window).on('close_popup' , function() {
+
+            if ( hiddenHistory.global_settings.popup == true ||
+                 hiddenHistory.global_settings.lightbox == true ) {
+
+                return;
+
+            } 
 
             that.destroy();
 
@@ -93,9 +102,11 @@ Schema_content_editor = function() {
 
     }
 
-    this.ajax_update_content_area = function( params ) {
+    this.ajax_update_content_area = function( params, callback ) {
 
-        var callback = function() {
+        // стандартный набор функций, который срабатывает при 
+        // загрузке любого типа content_editor'a
+        var common_callback = function(  ) {
 
             var img = $(that.container).find('#photo-big-preview');
 
@@ -111,11 +122,17 @@ Schema_content_editor = function() {
 
                 that.load_editor( $(edit_button).data('id') )
 
-            })
+            });
+
+            if ( typeof(callback) === 'function' ) {
+
+                callback();
+
+            }
 
         };
 
-        that.ajax_content_load( this.SHOW_PATH , params, callback );
+        that.ajax_content_load( this.SHOW_PATH , params, common_callback );
 
     }
 
@@ -125,13 +142,26 @@ Schema_content_editor = function() {
 
 Schema_show_photo = function( photo_id ) {
 
+
     Schema_content_editor.call(this);
 
-    this.SHOW_PATH = hiddenHistory.schema_URL + '/show_photo_marker/'
+
+    var after_load_callback = function() {
+
+        $('#photo-big-preview').on('click' , function() {
+
+            load_slider_by_ajax( photo_id, { navigation : false, thumb_slider : false } );
+
+        });
+
+    };
+
+    this.SHOW_PATH = hiddenHistory.schema_URL + '/show_photo_marker/';
 
     this.init();
 
-    this.ajax_update_content_area( { 'photo_id' : photo_id } );
+    this.ajax_update_content_area( { 'photo_id' : photo_id }, after_load_callback );
+
 
 };
 

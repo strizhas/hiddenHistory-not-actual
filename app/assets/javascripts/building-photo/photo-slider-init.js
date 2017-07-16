@@ -25,27 +25,26 @@ function load_slider_by_ajax(target_url, options) {
 
 
     var params = $.extend({
-            thumb_slider : true     // показывать сладйер с превью фотографий
+            parsed_url_options : {}        // Набор GET параметров из URL
         }, options);
-
-    var parsed_url_options = { layout : 'false' };
 
 
     var parse_url_get_params = function( url ) {
+
+        if ( typeof(target_url) != 'string' ) {
+
+            return;
+        }
 
         url_get_options = url.replace(/.*\?/ , '').split('&');
 
         url_get_options.forEach( function(option) {
 
             option = option.split('=');
-            parsed_url_options[ option[0] ] = option[1];
+            params.parsed_url_options[ option[0] ] = option[1];
 
         })
         
-        // эту опцию мы добавляем для того, чтобы контроллер
-        // не рендерил layout. Он рендерится тоько в том случае, 
-        // если фотография открывается напрямую по ссылке
-        params = $.extend( params, parsed_url_options );
 
     };
 
@@ -53,7 +52,10 @@ function load_slider_by_ajax(target_url, options) {
 
         var background = $('#image-slider-background');
 
-        if ( background.length == 0 ) {
+
+        // Если слайдера нет или поверх него запущено окно
+        // с настройками фотографии - прерываем
+        if ( background.length == 0 || hiddenHistory.global_settings.popup == true ) {
 
             return
 
@@ -71,7 +73,9 @@ function load_slider_by_ajax(target_url, options) {
 
         $(window).off('close_popup', remove_slider );
 
-    }
+        hiddenHistory.global_settings.lightbox = false;
+
+    };
 
 
     var ajax_slider_load = function() {
@@ -80,7 +84,16 @@ function load_slider_by_ajax(target_url, options) {
 
         // Получаем id выбранной фотографии. Вырезаем путь 
         // и GET параметры
-        current_photo_id = target_url.replace(/.*\// , '').replace(/\?.*/ , '');
+
+        if ( typeof(target_url) == 'number' ) {
+
+            current_photo_id = target_url
+
+        } else {
+
+            current_photo_id = target_url.replace(/.*\// , '').replace(/\?.*/ , '');
+
+        }
 
         if ( /^\d+$/.test(current_photo_id) == false ) {
 
@@ -93,49 +106,24 @@ function load_slider_by_ajax(target_url, options) {
         // правильной выборки фотографий
         parse_url_get_params(target_url)
 
-        $.ajax({
-            url: target_url,
-            method: 'GET',
-            dataType: 'html',
-            data: parsed_url_options,
-            cache: false,
-            beforeSend: function() 
-            {
+        hiddenHistory.main_slider = new Photo_slider_main( params  );
 
-            },
-            success: function(data, textStatus, jqXHR) 
-            {
+        hiddenHistory.main_slider.initialize();
 
+        var background = $('<div id="image-slider-background"></div>');
 
-                var background = $('<div id="image-slider-background"></div>');
+        $(background).hide().css({ position: 'fixed', 
+                                    width: '100%', 
+                                    overflow: 'scroll', 
+                                    height : '100vh'});
 
-                $(background).hide().css({ position: 'fixed', 
-                                            width: '100%', 
-                                            overflow: 'scroll', 
-                                            height : '100vh'});
+        $(background).prependTo('#content-main');
 
-                $(background).prependTo('#content-main');
+        $(background).append( hiddenHistory.main_slider.inner_wrap ).fadeIn('fast');
 
-                $(background).prepend( data ).fadeIn('fast');          
+        hiddenHistory.global_settings.lightbox = true;
 
-                hiddenHistory.main_slider = new Photo_slider_main(  params  );
-
-                hiddenHistory.main_slider.initialize();
-
-                
-
-                $(window).on('close_popup', remove_slider )
-
-                
-                                
-            },
-            error: function(data) {
-
-                return false
-
-            } 
-
-        })
+        $(window).on('close_popup', remove_slider )
 
     }
 

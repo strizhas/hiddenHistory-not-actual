@@ -22,7 +22,7 @@ thumbnails_slider = function( parent, options, callback ) {
         // placed : true  - показывать только фото без кооринатами. Нужно для схем
         var request_data = $.extend({
             count : visible_photos_count * 3
-        }, options);
+        }, options.parsed_url_options );
 
 
         this.elements = {}      // объект, в котором будут хранится DOM элементы слайдера (кнопки и т.п.)

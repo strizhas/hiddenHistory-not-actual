@@ -1,0 +1,142 @@
+
+#about-top-banner {
+    min-height: 200px;
+}
+
+#about-top-banner .banner-text-section {
+    position: absolute;
+    top: 10%;
+    left: 40%;
+    max-width: 500px;
+}
+
+#about-schema-banner {
+    min-height: 400px;
+    padding-top: 5em;
+}
+
+#about-schema-banner {
+
+    img {
+        float: right;
+        margin-left: 20px;
+    }
+
+    .banner-text-section {
+        margin-top: 30px;
+        margin-left: 60px;
+        max-width: 500px;
+    }
+
+}
+
+#about-3d-banner {
+
+    .banner-text-section {
+        position: absolute;
+        top: 10%;
+        right: 10%;
+        text-align: right;
+        max-width: 400px;
+    }
+
+    p {
+        color: #fff;
+    }
+
+    .short-hr {
+        border-color: #fff;
+        float: right;
+
+    }
+}
+
+#about-help-banner {
+    padding: 5em 0;
+    text-align: center;
+}
+
+#about-help-banner > p {
+    padding-top: 0.5em;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+#about-help-banner {
+
+    .col-3-setion {
+        padding-top: 3em;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .column {
+
+        p {
+            text-align: left;
+            height: 200px;
+            padding-top: 1em;
+        }
+
+    }
+
+    .column-content {
+        max-width: 250px; 
+    }
+
+}
+
+#about-registration-banner {
+    background: url(/assets/main-background.jpg) center center;
+    height: 600px;
+    width: 100%;
+    text-align: center;
+    display: table;
+}
+
+#about-registration-banner {
+
+    .table-inner {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .green-button a {
+        display: block;
+        padding: 0.5em 1em;
+    }
+
+
+}
+
+
+
+.short-hr {
+    width: 100px;
+    border-bottom: 3px solid #383838;
+    margin: 1em 0;
+}
+
+.col-3-setion .column {
+    float: left;
+    width: 33%;
+}
+
+.col-3-setion .column-content {
+    margin: 0 auto;
+}
+
+
+
+
+@media (max-width: 1440px) {
+
+    #about-schema-banner img {
+        margin-bottom: 30px;
+    }
+
+    #about-3d-banner .banner-text-section {
+        right: 5%;
+    }
+
+}

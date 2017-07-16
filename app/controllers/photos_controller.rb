@@ -50,9 +50,6 @@ class PhotosController < ApplicationController
 			@edit = false
 		end
 
-		if params[:layout] == 'false'
-			render :partial => "photos/partials/slider", :layout => false
-		end
 	end
 
 	def create

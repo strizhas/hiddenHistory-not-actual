@@ -17,6 +17,7 @@ function building_schema_initialize() {
 
 	hiddenHistory.schema_interface.init();
 
+
 	// класс, ответственный за действия основной части схемы
 	// Перемещение, масштаб, загрузка маркеров и т.д.
 	hiddenHistory.schema = new Building_schema();

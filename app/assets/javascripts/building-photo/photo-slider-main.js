@@ -1,50 +1,70 @@
 // Объект основного слайдера
 // Возвращает только метод инициализации
-Photo_slider_main = function( options ) {
+Photo_slider_main = function(  options ) {
 
-    var params = $.extend( {  },  options)
+
+    // thumb_slider : true -  показывать сладйер с превью фотографий
+    // navigation   : true  - кнопки 'следующая фотография' и 'предыдущая'
+
+    var params = $.extend( { thumb_slider : true,  navigation : true },  options)
 
     var slider = this;
 
-    this.button_left   = $('#slider-main-button-left');
-    this.button_right  = $('#slider-main-button-right');
-    this.main_frame    = $('#slider_main_img_frame');
-    this.inner_wrap    = $('#image-slider-inner-wrap');
+    this.initialize = function() {
 
- 
-    var init = function() {
-
-        var figure = $('#main_slider_section').find('figure').eq(0);
-
-        $('#main_slider_section').css('height' , params.max_height );
-                
-        // toggling to previos slide
-        $(slider.button_left).on('click' , function() { load_image_to_main_container( '', 'prev' ) });
-
-        // toggling to next slide
-        $(slider.button_right).on('click' , function() { load_image_to_main_container( '', 'next' ) });
+        create_slider_elements();
 
         calculate_max_slider_size();
 
-        recalculate_image_size( );
-
-        bind_button_appears_on_figure_hover( figure );
+        load_first_image();
 
         bind_likes_button();
 
-        load_thumbnail_gallery();
+    };
 
-        // Вместе с параметрами могут быть переданы уже
-        // существующие на html страницы элементы fugires
-        // После передачи их в thumb slider их надо удалить,
-        // поскольку иначе они будут передаваться в параметры
-        // ajaz запросов
-        if ( 'figures' in params ) {
 
-            delete params[ 'figures' ]
+    this.destroy = function( ) {
+
+        $(this).remove();
+
+        $('#image-slider-background').remove(); 
+
+        return true;
+
+    };
+
+
+    var create_slider_elements = function() {
+
+
+        //<div id="image-slider-inner-wrap">
+        //<div id="main_slider_section">
+        //<div id="slider_main_img_frame">
+
+        
+        slider.inner_wrap    = $('<div></div>').addClass('image-slider-inner-wrap');
+        slider.section       = $('<div></div>').addClass('main_slider_section');
+        slider.main_frame    = $('<div></div>').addClass('slider_main_img_frame');
+
+
+        $(slider.inner_wrap).append(slider.section);
+        $(slider.section).append(slider.main_frame);
+
+
+        $( slider.section ).css('height' , params.max_height );
+
+        if ( params.navigation == true ) {
+
+            slider.button_left   = $('<div></div>').addClass('slider_button_left').prependTo(slider.section);
+            slider.button_right  = $('<div></div>').addClass('slider_button_right').appendTo(slider.section);
+
+            // toggling to previos slide
+            $(slider.button_left).on('click' , function() { load_image_to_main_container( '', 'prev' ) });
+
+            // toggling to next slide
+            $(slider.button_right).on('click' , function() { load_image_to_main_container( '', 'next' ) });
 
         }
-        
 
     };
 
@@ -61,7 +81,6 @@ Photo_slider_main = function( options ) {
         } else {
 
             params.max_height   = max_height;
-            params.thumb_slider = true;
 
         }
 
@@ -71,6 +90,7 @@ Photo_slider_main = function( options ) {
     };
 
     var load_thumbnail_gallery = function( ) {
+
 
         if ( params.thumb_slider == false ) {
 
@@ -98,28 +118,63 @@ Photo_slider_main = function( options ) {
 
     };
 
+    var load_first_image = function() {
+
+        $.ajax({
+
+            url: '/load_fullsize_image/' + current_photo_id,
+            method: 'POST',
+            dataType: 'html',
+            data: params.parsed_url_options,
+            cache: false,
+            beforeSend: function() 
+            {
+
+            },
+            success: function( figure, textStatus, jqXHR) 
+            {
+
+                $(slider.main_frame).append( figure );
+
+                load_thumbnail_gallery();
+
+                var figure = $(slider.main_frame).find('.slider-main-img-figure').eq(0)
+
+                bind_button_appears_on_figure_hover( figure );
+
+                recalculate_image_size( );
+
+                                
+            },
+            error: function(data) {
+
+                return false
+
+            } 
+
+        })
+
+    }
+
 
     var load_image_to_main_container = function( current_id, direction ) {
 
+                var request_params = params.parsed_url_options;
+
                 if ( current_id  == '' ) {
 
-                    var current_id = $(slider.main_frame).find('img').eq(0).attr('id').replace( /[^0-9]/g , '' )
+                    var current_id = $(slider.main_frame).find('img').eq(0).attr('id').replace( /[^0-9]/g , '' );
 
                 };  
-
-
 
                 // если задано направление, то добавляем его в объект,
                 // отправляемый в качестве params. Если не задано, то
                 // удаляем соотвествующий ключ во избежание проблем
                 if ( typeof( direction ) != 'undefined' ) {
 
-                    params[ 'direction' ] = direction
+                    request_params[ 'direction' ] = direction;
 
-                } else {
-
-                    delete params[ 'direction' ]
-                }
+                } 
 
                 if ( !current_id ) { 
 
@@ -134,7 +189,7 @@ Photo_slider_main = function( options ) {
                 method: 'POST',
                 dataType: 'html',
                 cache: true,
-                data: params, 
+                data: params.parsed_url_options, 
                 beforeSend: function() 
                 {
                     $(slider.main_frame).children().fadeOut('fast' , function() {
@@ -201,30 +256,7 @@ Photo_slider_main = function( options ) {
             };
 
 
-
-            
-
-
-            return {
-
-                initialize : function() {
-
-                    init();
-                
-                },
-
-                destroy : function( ) {
-
-                    $(this).remove();
-
-                    $('#image-slider-background').remove(); 
-
-                    return true
-
-                }
-
-
-        }
+      
 
 
 

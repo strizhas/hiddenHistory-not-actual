@@ -96,7 +96,6 @@ body {
 	padding-left: 60px;
 	text-decoration:  none;
 	font-size: 0.75em;
-	text-transform: uppercase;
 	line-height: 3em;
 }
 
@@ -321,11 +320,8 @@ p {
 	color: #fff;
 	position: relative;
 	z-index: 1;
-	background: rgb(63,63,64); /* Old browsers */
-	background: -moz-linear-gradient(top,  rgb(63,63,64) 0%, rgb(49,48,47) 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(top,  rgb(63,63,64) 0%,rgb(49,48,47) 100%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(to bottom,  rgb(63,63,64) 0%,rgb(49,48,47) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f3f40', endColorstr='#31302f',GradientType=0 ); /* IE6-9 */
+	background: #404041;
+	border-bottom: 1px solid #231f20;
 }
 
 #login-section a {
@@ -340,7 +336,9 @@ p {
 
 #top-navigation-menu {
 	height:  60px;
-	background-color: #e6e7e8;
+	background-color: #404041;
+	border-top: 1px solid #58595b;
+	border-left: 1px solid #58595b;
 	position: relative;
 	z-index: 2;
 }
@@ -388,14 +386,17 @@ p {
 
 #top-navigation-menu nav a {
 	height:  60px;
-	color: #58595b;
+	color: #d0d2d3;
 	text-transform: uppercase;
+	font-size: 0.75em;
 	text-decoration: none;
 }
 
 .page-title {
 	width: 300px;
-	background-color: #c4a17e;
+	background-color: #404041;
+	border-top: 1px solid #58595b;
+	border-bottom: 1px solid #231f20;
 }
 
 #sidebar-title {
@@ -408,7 +409,7 @@ p {
 }
 
 #sidebar-title a {
-	color: #776751;
+	color: #d0d2d3;
 	text-decoration: none;
 }
 
